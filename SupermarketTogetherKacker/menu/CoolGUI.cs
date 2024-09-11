@@ -791,7 +791,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
             
-            autoCheckout = GUI.Toggle(new Rect(120, 140, 140, 20), autoCheckout, "Auto Checkout");
+            autoCheckout = GUI.Toggle(new Rect(120, 140, 140, 20), autoCheckout, "Break Checkouts");
             
             newUsername = GUI.TextField(new Rect(120+140+10, 170, 120, 20), newUsername);
             
