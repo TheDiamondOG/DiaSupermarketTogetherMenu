@@ -141,3 +141,4 @@
 /home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.1/SupermarketTogetherKacker.csproj.CopyComplete
 /home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.1/SupermarketTogetherKacker.dll
 /home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.1/SupermarketTogetherKacker.pdb
+/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.1/SupermarketTogetherKacker.sourcelink.json
