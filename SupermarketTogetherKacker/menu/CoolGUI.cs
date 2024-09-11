@@ -242,17 +242,6 @@ namespace SupermarketTogetherKacker.menu
             }
 
             everyBoxSpam = GUI.Toggle(new Rect(120, 190, 140, 20), everyBoxSpam, "Lots of everything");
-
-            if (GUI.Button(new Rect(120, 220, 120, 20), "Everyone Theft"))
-            {
-                // Find all objects with the PlayerNetwork component
-                NPC_Info[] allNPCs = FindObjectsOfType<NPC_Info>();
-
-                foreach (NPC_Info npc in allNPCs)
-                {
-                    npc.RpcShowThief();
-                }
-            }
         }
 
         void DisplayStatsMods()
@@ -308,7 +297,7 @@ namespace SupermarketTogetherKacker.menu
                 pointsAdd = 10;
             }
             
-            if (GUI.Button(new Rect(120, 70, 120, 20), moneyAddStringDisplay+" Points (NW)"))
+            if (GUI.Button(new Rect(120, 70, 120, 20), moneyAddStringDisplay+" Points (Master)"))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
