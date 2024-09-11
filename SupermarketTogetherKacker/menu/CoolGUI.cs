@@ -1170,11 +1170,11 @@ namespace SupermarketTogetherKacker.menu
                     if (privateMethod != null)
                     {
                         // Provide arguments for the method (oldExp, newExp)
-                        object[] parameters = { "HACKED" };
+                        object[] parameters = { "DIA ON TOP" };
 
                         // Invoke the private method
                         privateMethod.Invoke(playerObjectController, parameters);
-                        playerObjectController.PlayerNameUpdate("jeff", "HACKED");
+                        playerObjectController.PlayerNameUpdate("jeff", "DIA ON TOP");
                     }
                     else
                     {
@@ -1220,9 +1220,9 @@ namespace SupermarketTogetherKacker.menu
                     }
                 }
                 
-                playerObjectController.SendChatMsg("GET HACKED");
+                playerObjectController.SendChatMsg("GET HACKED DIA MENU ON TOP");
                 gameData.CmdAlterFundsWithoutExperience(-10000000000f);
-                networkSpawner.CmdSetSupermarketText("HACKED");
+                networkSpawner.CmdSetSupermarketText("HACKEDBOZO");
                 networkSpawner.CmdSetSupermarketColor(Color.red);
                 
                 for (int i = 0; i < 10; i++)
