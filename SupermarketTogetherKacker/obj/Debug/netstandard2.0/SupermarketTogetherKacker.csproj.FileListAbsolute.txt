@@ -1,0 +1,5 @@
+/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.0/SupermarketTogetherKacker.csproj.AssemblyReference.cache
+/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.0/SupermarketTogetherKacker.GeneratedMSBuildEditorConfig.editorconfig
+/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.0/SupermarketTogetherKacker.AssemblyInfoInputs.cache
+/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.0/SupermarketTogetherKacker.AssemblyInfo.cs
+/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/Debug/netstandard2.0/SupermarketTogetherKacker.csproj.CoreCompileInputs.cache
