@@ -7,3 +7,4 @@ Anti Kick\
 Kick All\
 Corrupt Save\
 Sell Everything\
+Something that abuses the crappy rpc system
