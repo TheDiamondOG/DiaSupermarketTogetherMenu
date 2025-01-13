@@ -69,7 +69,6 @@ namespace SupermarketTogetherKacker.menu
             Extras,
             NPC,
             Debug,
-            // Add more categories here
         }
 
         public ModCategory currentCategory = ModCategory.Market;
