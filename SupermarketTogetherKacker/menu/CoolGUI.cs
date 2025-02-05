@@ -23,7 +23,7 @@ namespace SupermarketTogetherKacker.menu
     public class CoolGUI:MonoBehaviour
     {
         // GUI Crap
-        private Rect windowRect = new Rect(20, 20, 500, 450); // Initial position and size of the window
+        private Rect windowRect = new Rect(20, 20, 500, 450);
         private bool isDragging = false;
         private Vector2 dragStartPos;
         //public ItemManager itemManager;
@@ -72,7 +72,7 @@ namespace SupermarketTogetherKacker.menu
         }
 
         public ModCategory currentCategory = ModCategory.Market;
-        private Vector2 categoryScrollPos; // Scroll position for categories
+        private Vector2 categoryScrollPos;
 
         void OnGUI()
         {
