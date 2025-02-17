@@ -791,7 +791,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
             
-            autoCheckout = GUI.Toggle(new Rect(120, 140, 140, 20), autoCheckout, "Break Checkouts");
+            autoCheckout = GUI.Toggle(new Rect(120, 140, 140, 20), autoCheckout, "Auto Checkout");
             
             newUsername = GUI.TextField(new Rect(120+140+10, 170, 120, 20), newUsername);
             
@@ -834,7 +834,7 @@ namespace SupermarketTogetherKacker.menu
                     checkout.CmdRecoverStolenProduct();
                 }
             }
-            if (GUI.Button(new Rect(120, 250, 140, 20), "Speed Up Game"))
+            if (GUI.Button(new Rect(120, 250, 140, 20), "Speed Up Game (Not Tested)"))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
