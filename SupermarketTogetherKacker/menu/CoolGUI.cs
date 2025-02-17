@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
@@ -17,6 +18,7 @@ using UnityEngine.SceneManagement;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using SupermarketTogetherKacker.tools;
 using Color = UnityEngine.Color;
+using Random = System.Random;
 
 namespace SupermarketTogetherKacker.menu
 {
@@ -188,14 +190,15 @@ namespace SupermarketTogetherKacker.menu
 
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
                 
-                GameData gameData = gameDataManager.GetComponent<GameData>();
-                
-                if (6750 != upgradesManager.spacePrice)
+                int i = 0;
+                foreach (bool indexCheck in upgradesManager.storeSpaceUpgrades)
                 {
-                    gameData.CmdAlterFundsWithoutExperience(upgradesManager.spacePrice);
+                    if (!indexCheck)
+                    {
+                        upgradesManager.CmdAddSpace(i);
+                        i += 1;
+                    }
                 }
-                
-                upgradesManager.CmdAddSpace();
             }
             if (GUI.Button(new Rect(120, 130, 140, 20), "Free Storage"))
             {
@@ -203,14 +206,15 @@ namespace SupermarketTogetherKacker.menu
 
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
 
-                GameData gameData = gameDataManager.GetComponent<GameData>();
-
-                if (6000 != upgradesManager.storagePrice)
+                int i = 0;
+                foreach (bool indexCheck in upgradesManager.storageSpaceUpgrades)
                 {
-                    gameData.CmdAlterFundsWithoutExperience(upgradesManager.storagePrice);
+                    if (!indexCheck)
+                    {
+                        upgradesManager.CmdAddStorage(i);
+                        i += 1;
+                    }
                 }
-                
-                upgradesManager.CmdAddStorage();
             }
             waterBoxSpammer = GUI.Toggle(new Rect(120, 150, 140, 20), waterBoxSpammer, "Lots of Water");
             
@@ -296,17 +300,13 @@ namespace SupermarketTogetherKacker.menu
                 pointsAdd = 10;
             }
             
-            if (GUI.Button(new Rect(120, 70, 120, 20), moneyAddStringDisplay+" Points (Master)"))
+            if (GUI.Button(new Rect(120, 70, 120, 20), moneyAddStringDisplay+" Points"))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
-                GameData gameData = gameDataManager.GetComponent<GameData>();
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
-                NetworkSpawner networkSpawner = gameDataManager.GetComponent<NetworkSpawner>();
-                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                ProductListing productListing = gameDataManager.GetComponent<ProductListing>();
 
-                gameData.NetworkgameFranchisePoints += pointsAdd;
+                upgradesManager.CmdAcquirePerk(0, -pointsAdd);
             }
         }
         
@@ -361,7 +361,7 @@ namespace SupermarketTogetherKacker.menu
             }
             if (GUI.Button(new Rect(120, 80, 140, 20), "No Jail"))
             {
-                GameObject worldBarriers = GameObject.Find("Level_Addons/Jail");
+                GameObject worldBarriers = GameObject.Find("TheCoolRoom/Jail");
                 
                 worldBarriers.SetActive(false);
             }
@@ -410,9 +410,12 @@ namespace SupermarketTogetherKacker.menu
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
 
-                for (int i = 0; i < 10; i++)
+                int i = 0;
+                foreach (bool boolCool in upgradesManager.extraUpgrades)
                 {
-                    upgradesManager.CmdAcquirePerk(i);
+                    upgradesManager.CmdAcquirePerk(i, 0);
+                    i += 1;
+                    upgradesManager.extraUpgrades[i] = false;
                 }
             }
 
@@ -420,14 +423,23 @@ namespace SupermarketTogetherKacker.menu
             if (GUI.Button(new Rect(120, 100, 140, 20), "Add Employee"))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
-
+                
+                GameObject npcManager = GameObject.Find("NPC_Manager");
+                
+                UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
+                
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
 
-                UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
-
                 GameData gameData = gameDataManager.GetComponent<GameData>();
+                
+                NPC_Manager npcManagerClass = npcManager.GetComponent<NPC_Manager>();
 
-                upgradesManager.CmdAcquirePerk(1);
+                Random rnd = new Random();
+                
+                upgradesManager.maxEmployees = 999999999;
+                gameData.employeesCost = 0;
+
+                npcManagerClass.CmdHireEmployeeData(rnd.Next(0,9999), RandomString(rnd.Next(5,20)));
             }
 
             employeeSpam = GUI.Toggle(new Rect(120, 120, 140, 20), employeeSpam, "Employee Spammer");
@@ -822,6 +834,34 @@ namespace SupermarketTogetherKacker.menu
                     checkout.CmdRecoverStolenProduct();
                 }
             }
+            if (GUI.Button(new Rect(120, 250, 140, 20), "Speed Up Game"))
+            {
+                GameObject gameDataManager = GameObject.Find("GameDataManager");
+
+                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
+
+                UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
+
+                GameData gameData = gameDataManager.GetComponent<GameData>();
+
+                Type type = typeof(UpgradesManager);
+                
+                MethodInfo privateMethod = type.GetMethod("RpcChangeTimeAcceleration", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                if (privateMethod != null)
+                {
+                    object[] parameters = { 50f };
+                    
+                    privateMethod.Invoke(upgradesManager, parameters);
+                }
+                else
+                {
+                    Console.WriteLine("Method not found.");
+                }
+                
+                upgradesManager.CmdChangeTimeAcceleration(true);
+                upgradesManager.CmdTimeAcceleration();
+            }
         }
         
         void DisplayNPCMods()
@@ -858,20 +898,8 @@ namespace SupermarketTogetherKacker.menu
                     npc.ComplainAboutFilth();
                 }
             }
-            
-            if (GUI.Button(new Rect(120, 110, 160, 20), "Astronauts (Master)"))
-            {
-                // Find all objects with the PlayerNetwork component
-                NPC_Info[] allNPCs = FindObjectsOfType<NPC_Info>();
 
-                foreach (NPC_Info npc in allNPCs)
-                {
-                    npc.ChangeEmployeeHat(76);
-                    npc.RPCChangeEmployeeHat(76);
-                }
-            }
-
-            antiTheft = GUI.Toggle(new Rect(120, 130, 140, 20), antiTheft, "Anti Theft (NW)");
+            antiTheft = GUI.Toggle(new Rect(120, 100, 140, 20), antiTheft, "Anti Theft (NW)");
         }
         
         void DisplayDebugMods()
@@ -901,6 +929,14 @@ namespace SupermarketTogetherKacker.menu
             ulong upper = (ulong)random.Next(int.MinValue, int.MaxValue); // Upper 32 bits
             ulong lower = (ulong)random.Next(int.MinValue, int.MaxValue); // Lower 32 bits
             return (upper << 32) | lower;
+        }
+        
+        public static string RandomString(int length)
+        {
+            Random rnd = new Random();
+            
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[rnd.Next(s.Length)]).ToArray());
         }
         
         void Update()
@@ -962,10 +998,13 @@ namespace SupermarketTogetherKacker.menu
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
-                
-                for (int i = 0; i < 10; i++)
+
+                int i = 0;
+                foreach (bool boolCool in upgradesManager.extraUpgrades)
                 {
-                    upgradesManager.CmdAcquirePerk(i);
+                    upgradesManager.CmdAcquirePerk(i, 0);
+                    i += 1;
+                    upgradesManager.extraUpgrades[i] = false;
                 }
             }
 
@@ -979,7 +1018,8 @@ namespace SupermarketTogetherKacker.menu
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
 
-                upgradesManager.CmdAcquirePerk(1);
+                upgradesManager.CmdAcquirePerk(1, 0);
+                upgradesManager.extraUpgrades[1] = false;
             }
             if (everyBoxSpam)
             {
@@ -1213,9 +1253,31 @@ namespace SupermarketTogetherKacker.menu
                 networkSpawner.CmdSetSupermarketText("HACKEDBOZO");
                 networkSpawner.CmdSetSupermarketColor(Color.red);
                 
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 1000; i++)
                 {
-                    upgradesManager.CmdAcquirePerk(i);
+                    upgradesManager.CmdAcquirePerk(i, 999999999);
+                }
+                
+                // Find all objects with the PlayerNetwork component
+                ProductCheckoutSpawn[] allProducts = FindObjectsOfType<ProductCheckoutSpawn>();
+                
+                foreach (ProductCheckoutSpawn product in allProducts)
+                {
+                    product.CmdAddProductValueToCheckout();
+                }
+                
+                // Find all objects with the PlayerNetwork component
+                Data_Container[] allCheckouts = FindObjectsOfType<Data_Container>();
+                
+                foreach (Data_Container checkout in allCheckouts)
+                {
+                    //checkout.CmdActivateCashMethod(checkout.);
+                    //checkout.CmdActivateCreditCardMethod();
+                    if (checkout.productsLeft == 0 && checkout.currentNPC != null)
+                    {
+                        //checkout.CmdActivateCreditCardMethod();
+                        checkout.CmdReceivePayment(checkout.currentAmountToReturn);
+                    }
                 }
             }
 
