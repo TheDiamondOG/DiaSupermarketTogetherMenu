@@ -8,24 +8,31 @@
     ".NETStandard,Version=v2.1": []
   },
   "packageFolders": {
-    "/home/xander/.nuget/packages/": {}
+    "C:\\Users\\xande\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/SupermarketTogetherKacker.csproj",
+      "projectUniqueName": "C:\\Users\\xande\\RiderProjects\\DiaSupermarketTogetherMenu\\SupermarketTogetherKacker\\SupermarketTogetherKacker.csproj",
       "projectName": "SupermarketTogetherKacker",
-      "projectPath": "/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/SupermarketTogetherKacker.csproj",
-      "packagesPath": "/home/xander/.nuget/packages/",
-      "outputPath": "/home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/obj/",
+      "projectPath": "C:\\Users\\xande\\RiderProjects\\DiaSupermarketTogetherMenu\\SupermarketTogetherKacker\\SupermarketTogetherKacker.csproj",
+      "packagesPath": "C:\\Users\\xande\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\xande\\RiderProjects\\DiaSupermarketTogetherMenu\\SupermarketTogetherKacker\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/home/xander/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\xande\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -38,7 +45,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "netstandard2.1": {
@@ -59,7 +72,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.107/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -323,7 +323,7 @@
         "runtime": {
           "SimpleWebTransport.dll": {
             "assemblyVersion": "1.6.0.0",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "1.6.0.0"
           }
         }
       },
@@ -371,7 +371,7 @@
         "runtime": {
           "Unity.Burst.Unsafe.dll": {
             "assemblyVersion": "4.0.5.0",
-            "fileVersion": "4.0.0.0"
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -379,7 +379,7 @@
         "runtime": {
           "Unity.InputSystem.dll": {
             "assemblyVersion": "1.6.3.0",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "1.6.3.0"
           }
         }
       },

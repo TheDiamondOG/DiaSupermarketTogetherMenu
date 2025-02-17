@@ -1,5 +1,8 @@
 is_global = true
 build_property.RootNamespace = SupermarketTogetherKacker
-build_property.ProjectDir = /home/xander/RiderProjects/SupermarketTogetherKacker/SupermarketTogetherKacker/
+build_property.ProjectDir = C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 

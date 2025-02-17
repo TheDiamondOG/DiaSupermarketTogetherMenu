@@ -419,8 +419,8 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            perkSpam = GUI.Toggle(new Rect(120, 70, 140, 20), perkSpam, "Perk Spammer");
-            if (GUI.Button(new Rect(120, 100, 140, 20), "Add Employee"))
+            perkSpam = GUI.Toggle(new Rect(120, 70, 140, 20), perkSpam, "Perk Spammer (NW)");
+            if (GUI.Button(new Rect(120, 100, 140, 20), "Add Employee (NW)"))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
                 
@@ -442,7 +442,7 @@ namespace SupermarketTogetherKacker.menu
                 npcManagerClass.CmdHireEmployeeData(rnd.Next(0,9999), RandomString(rnd.Next(5,20)));
             }
 
-            employeeSpam = GUI.Toggle(new Rect(120, 120, 140, 20), employeeSpam, "Employee Spammer");
+            employeeSpam = GUI.Toggle(new Rect(120, 120, 140, 20), employeeSpam, "Employee Spammer (NW)");
 
             if (GUI.Button(new Rect(120, 150, 140, 20), "Push Others"))
             {
