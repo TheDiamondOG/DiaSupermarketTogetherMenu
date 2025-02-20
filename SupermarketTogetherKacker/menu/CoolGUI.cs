@@ -90,6 +90,7 @@ namespace SupermarketTogetherKacker.menu
         
         public enum ModCategory
         {
+            Home,
             Market,
             Player,
             Stats,
@@ -102,7 +103,7 @@ namespace SupermarketTogetherKacker.menu
             Debug
         }
 
-        public ModCategory currentCategory = ModCategory.Market;
+        public ModCategory currentCategory = ModCategory.Home;
 
         void OnGUI()
         {
@@ -164,6 +165,9 @@ namespace SupermarketTogetherKacker.menu
         {
             switch (currentCategory)
             {
+                case ModCategory.Home:
+                    DisplayHomePage();
+                    break;
                 case ModCategory.Market:
                     DisplayMarketMods();
                     break;
@@ -197,6 +201,25 @@ namespace SupermarketTogetherKacker.menu
             }
         }
 
+        void DisplayHomePage()
+        {
+            string text = "<size=15><b>";
+            
+            text += "<color=#00FFFF>Welcome to the Project Dia menu for Super Market Together.\n";
+            text += "This menu was made out of boredom, and because I mod too many unity games.\n";
+            text += "You can find the latest version of the menu and the source code on the github\n";
+            text += "https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu\n";
+            text += "Also to anyone that is using this on stream, hi </color><color=purple>twitch</color> <color=#00FFFF>or</color> <color=red>youtube</color>.\n";
+            text += "<color=#00FFFF>Also don't worry about getting banned since this game has no anticheat or report system.\n";
+            text += "Quick shout out to <color=yellow>bxware</color> <color=#00FFFF>for helping out with the methods.\n";
+            text += "Anyways this is the end of the yap session, have fun.\n";
+            text += "Sincerely, TheDiamondOG\n\n";
+            
+            text += "P.S. If you have any suggestions join the server: https://discord.gg/n7pbPyTKDU\n";
+            text += "</color></size></b>";
+            GUILayout.Label(text);
+        }
+        
         void DisplayMarketMods()
         {
             if (GUILayout.Button("Unlimited Customers", GUILayout.Height(30)))

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SupermarketTogetherKacker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bad43121545be3153a2b8fdb39ceab092aefe642")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f8347c41b6d8479c26647f5cebf153c6d3183208")]
 [assembly: System.Reflection.AssemblyProductAttribute("SupermarketTogetherKacker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SupermarketTogetherKacker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
