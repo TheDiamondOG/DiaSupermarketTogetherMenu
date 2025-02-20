@@ -216,6 +216,7 @@ namespace SupermarketTogetherKacker.menu
             text += "Sincerely, TheDiamondOG\n\n";
             
             text += "P.S. If you have any suggestions join the server: https://discord.gg/n7pbPyTKDU\n";
+            
             text += "</color></size></b>";
             GUILayout.Label(text);
         }
