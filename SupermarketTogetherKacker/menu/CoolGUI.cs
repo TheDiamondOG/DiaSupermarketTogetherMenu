@@ -209,7 +209,7 @@ namespace SupermarketTogetherKacker.menu
             text += "This menu was made out of boredom, and because I mod too many unity games.\n";
             text += "You can find the latest version of the menu and the source code on the github\n";
             text += "https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu\n";
-            text += "Also to anyone that is using this on stream, hi </color><color=purple>twitch</color> <color=#00FFFF>or</color> <color=red>youtube</color>.\n";
+            text += "Also to anyone that is using this on stream, hi </color><color=#ff00ffff>Twitch</color> <color=#00FFFF>or</color> <color=red>Youtube</color>.\n";
             text += "<color=#00FFFF>Also don't worry about getting banned since this game has no anticheat or report system.\n";
             text += "Quick shout out to <color=yellow>bxware</color> <color=#00FFFF>for helping out with the methods.\n";
             text += "Anyways this is the end of the yap session, have fun.\n";
