@@ -397,10 +397,6 @@
         <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.XRModule.dll</HintPath>
       </Reference>
     </ItemGroup>
-
-    <ItemGroup>
-      <None Include="menu\old_gui_code.cs.txt" />
-    </ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="Build">
 		<Copy SourceFiles="$(TargetPath)" DestinationFolder="C:\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\plugins\" />
