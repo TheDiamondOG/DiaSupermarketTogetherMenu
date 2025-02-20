@@ -1,0 +1,39 @@
+﻿If you want to do a normal button, go to the selected category then paste this into there
+
+if (GUILayout.Button("Mod Name Here", GUILayout.Height(30)))
+{
+    // Code Here
+}
+
+First put your bool with all of the other variables
+private bool toggleBool;
+
+Then put this into the selected category with replacing the mod name, the bool name, and the string name
+string toggleBoolText;
+            
+if (toggleBool)
+{
+    toggleBoolText = "<color=green>ON</color>: Mod Name Here";
+}
+else
+{
+    toggleBoolText = "<color=red>OFF</color>: Mod Name Here";
+}
+
+if (GUILayout.Button(toggleBoolText, GUILayout.Height(30)))
+{
+    if (toggleBool)
+    {
+        toggleBool = false;
+    }
+    else
+    {
+        toggleBool = true;
+    }
+}
+
+Then put this in your update function
+if (toggleBool)
+{
+    // Code Here
+}

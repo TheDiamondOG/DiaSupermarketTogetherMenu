@@ -286,3 +286,8 @@ C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacke
 C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\MonoMod.RuntimeDetour.xml
 C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\MonoMod.Utils.xml
 C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\obj\Debug\netstandard2.1\Supermar.A9BB1A49.Up2Date
+C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\CFXRRuntime.dll
+C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\FizzySteamworks.dll
+C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\MeshCombinerCore.dll
+C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\MeshCombinerDemo.dll
+C:\Users\xande\RiderProjects\DiaSupermarketTogetherMenu\SupermarketTogetherKacker\bin\Debug\netstandard2.1\Newtonsoft.Json.dll
