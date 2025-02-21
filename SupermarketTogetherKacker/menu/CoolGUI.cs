@@ -1550,13 +1550,13 @@ namespace SupermarketTogetherKacker.menu
             {
                 if (FPSBoostCrap.fpsBoost)
                 {
-                    FPSBoostCrap.fpsBoost = false;
                     FPSBoostCrap.FPSBoost();
+                    FPSBoostCrap.fpsBoost = false;
                 }
                 else
                 {
-                    FPSBoostCrap.fpsBoost = true;
                     FPSBoostCrap.FPSBoost();
+                    FPSBoostCrap.fpsBoost = true;
                 }
             }
         }
