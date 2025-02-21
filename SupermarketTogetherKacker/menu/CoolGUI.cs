@@ -74,7 +74,6 @@ namespace SupermarketTogetherKacker.menu
         private bool jumpBoost;
         private bool noJumpDelay;
         private bool messageCrasher;
-        private bool autoOptimise;
 
         private bool finishedSpeedBoost;
         private bool finishedJumpBoost;
@@ -89,14 +88,7 @@ namespace SupermarketTogetherKacker.menu
         private Vector3 lastPlayerPosition;
         private float antiCrashGameObjectTime = -1f;
         private float antiCrashGameObjectDelay = 5f;
-        
-        private HashSet<GameObject> NaNObjects = new HashSet<GameObject>();
-        
-        private Callback<LobbyMatchList_t> lobbyMatchListCallback;
-        private List<CSteamID> foundLobbies = new List<CSteamID>();
-        private float lobbyTimer = 0f;
-        private const float lobbyTimerDelay = 2f;
-        
+
         public enum ModCategory
         {
             Home,
@@ -1728,27 +1720,11 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
         }
-        
-        private void OnLobbyMatchList(LobbyMatchList_t result)
-        {
-            foundLobbies.Clear();
-            for (int i = 0; i < result.m_nLobbiesMatching; i++)
-            {
-                CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
-                foundLobbies.Add(lobbyID);
-            }
-        }
 
         private void OnDestroy()
         {
             SteamAPI.Shutdown();
         }
-        
-        void Start()
-        {
-            lobbyMatchListCallback = Callback<LobbyMatchList_t>.Create(OnLobbyMatchList);
-        }
-    
         void Update()
         {
             menuTitle = menuName + " - FPS: " + Mathf.Ceil(1f / Time.unscaledDeltaTime).ToString();
@@ -2216,48 +2192,29 @@ namespace SupermarketTogetherKacker.menu
                 // NaN Gameobject based
                 GameObject[] allObjects = FindObjectsOfType<GameObject>();
                 bool nanFound = false;
-
-                foreach (GameObject obj in allObjects)
-                {
-                    if (obj == null || !obj.activeInHierarchy)
-                        continue;
-
-                    Vector3 position = obj.transform.position;
-
-                    if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z))
-                    {
-                        if (antiCrashGameObjectTime == -1f)
-                        {
-                            antiCrashGameObjectTime = Time.time;
-                        }
-
-                        nanFound = true;
-                    }
-                }
-
+                
                 if (nanFound && Time.time - antiCrashGameObjectTime >= antiCrashGameObjectDelay)
                 {
-                    foreach (GameObject obj in allObjects)
+                    foreach (GameObject coolObject in allObjects)
                     {
-                        if (obj == null || !obj.activeInHierarchy)
-                            continue;
-
-                        Vector3 position = obj.transform.position;
-
-                        if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z))
+                        if (coolObject != null || coolObject.activeInHierarchy && coolObject.GetComponent<FirstPersonController>())
                         {
-                            Debug.LogError($"[NaN Detected] Disabling object: {obj.name}", obj);
-                            obj.SetActive(false);
+                            Vector3 position = coolObject.transform.position;
+
+                            if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z) || float.IsInfinity(position.x) || float.IsInfinity(position.y) || float.IsInfinity(position.z))
+                            {
+                                coolObject.SetActive(false);
+                            }
                         }
                     }
 
                     antiCrashGameObjectTime = -1f;
-                }
-
-                if (!nanFound)
+                } else if (!nanFound)
                 {
                     antiCrashGameObjectTime = -1f;
                 }
+
+                
                 
                 // Debris Crash Reducer
                 DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
@@ -2271,8 +2228,9 @@ namespace SupermarketTogetherKacker.menu
                 
                 if (!finishedAntiCrash)
                 {
+                    // Boost the FPS with crap graphics
                     FPSBoostCrap.FPSBoost();
-                    FPSBoostCrap.fpsBoost = true;
+                    FPSBoostCrap.fpsBoost = false;
                     
                     finishedAntiCrash = true; 
                 }
@@ -2289,8 +2247,9 @@ namespace SupermarketTogetherKacker.menu
                         chatObject.SetActive(true);
                     }
                     
+                    // Decrapify the graphics
                     FPSBoostCrap.FPSBoost();
-                    FPSBoostCrap.fpsBoost = false;
+                    FPSBoostCrap.fpsBoost = true;
                     
                     finishedAntiCrash = false;
                 }
