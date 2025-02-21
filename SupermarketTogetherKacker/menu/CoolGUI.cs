@@ -1937,8 +1937,12 @@ namespace SupermarketTogetherKacker.menu
                         npc.CmdAnimationPlay(0);
                     }
                 }
+
+                for (int i = 0; i < 15; i++)
+                {
+                    playerObjectController.SendChatMsg("GET HACKED DIA MENU ON TOP");
+                } 
                 
-                playerObjectController.SendChatMsg("GET HACKED DIA MENU ON TOP");
                 gameData.CmdAlterFundsWithoutExperience(-10000000000f);
                 networkSpawner.CmdSetSupermarketText("HACKEDBOZO");
                 networkSpawner.CmdSetSupermarketColor(Color.red);
@@ -1970,13 +1974,15 @@ namespace SupermarketTogetherKacker.menu
                     }
                 }
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
-
+                 
+                /*
                 Data_Container[] checkouts = FindObjectsOfType<Data_Container>();
 
                 foreach (Data_Container checkout in checkouts)
                 {
                     Mods.MoveObject(checkout.gameObject, SpawnPosition);
                 }
+                */
                 
                 BuildableInfo[] buildables = FindObjectsOfType<BuildableInfo>();
 
