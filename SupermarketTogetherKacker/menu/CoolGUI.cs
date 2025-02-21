@@ -2229,8 +2229,8 @@ namespace SupermarketTogetherKacker.menu
                 if (!finishedAntiCrash)
                 {
                     // Boost the FPS with crap graphics
-                    FPSBoostCrap.FPSBoost();
-                    FPSBoostCrap.fpsBoost = false;
+                    //FPSBoostCrap.FPSBoost();
+                    //FPSBoostCrap.fpsBoost = false;
                     
                     finishedAntiCrash = true; 
                 }
@@ -2248,8 +2248,8 @@ namespace SupermarketTogetherKacker.menu
                     }
                     
                     // Decrapify the graphics
-                    FPSBoostCrap.FPSBoost();
-                    FPSBoostCrap.fpsBoost = true;
+                    //FPSBoostCrap.FPSBoost();
+                    //FPSBoostCrap.fpsBoost = true;
                     
                     finishedAntiCrash = false;
                 }
