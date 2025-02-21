@@ -1437,11 +1437,11 @@ namespace SupermarketTogetherKacker.menu
 
             if (autoCheckout)
             {
-                autoCheckoutText = "<color=green>ON</color>: Auto Checkout";
+                autoCheckoutText = "<color=green>ON</color>: Break Checkout";
             }
             else
             {
-                autoCheckoutText = "<color=red>OFF</color>: Auto Checkout";
+                autoCheckoutText = "<color=red>OFF</color>: Break Checkout";
             }
 
             if (GUILayout.Button(autoCheckoutText, GUILayout.Height(30)))
