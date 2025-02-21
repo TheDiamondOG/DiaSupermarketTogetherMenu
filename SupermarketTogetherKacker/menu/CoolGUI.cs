@@ -1941,7 +1941,7 @@ namespace SupermarketTogetherKacker.menu
                 for (int i = 0; i < 15; i++)
                 {
                     playerObjectController.SendChatMsg("GET HACKED DIA MENU ON TOP");
-                } 
+                }
                 
                 gameData.CmdAlterFundsWithoutExperience(-10000000000f);
                 networkSpawner.CmdSetSupermarketText("HACKEDBOZO");
