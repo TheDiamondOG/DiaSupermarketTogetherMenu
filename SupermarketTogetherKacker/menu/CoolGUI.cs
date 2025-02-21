@@ -86,6 +86,8 @@ namespace SupermarketTogetherKacker.menu
 
         // Anti Crasher Vars
         private Vector3 lastPlayerPosition;
+        private float antiCrashGameObjectTime = -1f;
+        private float antiCrashGameObjectDelay = 5f;
         
         private HashSet<GameObject> NaNObjects = new HashSet<GameObject>();
         
@@ -2136,11 +2138,14 @@ namespace SupermarketTogetherKacker.menu
             {
                 GameObject playerObject = GameObject.Find("LocalGamePlayer");
                 BoxData[] allBoxes = FindObjectsOfType<BoxData>();
-
+                
+                // Box Based Crasher Reducer
                 foreach (BoxData box in allBoxes)
                 {
                     box.gameObject.SetActive(false);
                 }
+                
+                // Chat Based Crasher Ruducer
                 GameObject chatObject = GameObject.Find("GameCanvas/ChatContainer");
 
                 if (chatObject != null && chatObject.activeSelf)
@@ -2148,7 +2153,7 @@ namespace SupermarketTogetherKacker.menu
                     chatObject.SetActive(false);
                 }
 
-                
+                // Position Based Crashers Reduced
                 if (!float.IsNaN(playerObject.transform.position.x) && !float.IsNaN(playerObject.transform.position.y) && !float.IsNaN(playerObject.transform.position.z) && playerObject.transform.position.x < 10000f && playerObject.transform.position.y < 10000f && playerObject.transform.position.z < 10000f && !float.IsInfinity(playerObject.transform.position.x) && !float.IsInfinity(playerObject.transform.position.y) && !float.IsInfinity(playerObject.transform.position.z))
                 {
                     lastPlayerPosition = playerObject.transform.position;
@@ -2157,22 +2162,54 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(playerObject, lastPlayerPosition);
                 }
-                /*
+                
+                // NaN Gameobject based
                 GameObject[] allObjects = FindObjectsOfType<GameObject>();
+                bool nanFound = false;
 
                 foreach (GameObject obj in allObjects)
                 {
-                    if (obj != null || obj.activeInHierarchy)
+                    if (obj == null || !obj.activeInHierarchy)
+                        continue;
+
+                    Vector3 position = obj.transform.position;
+
+                    if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z))
                     {
+                        if (antiCrashGameObjectTime == -1f)
+                        {
+                            antiCrashGameObjectTime = Time.time;
+                        }
+
+                        nanFound = true;
+                    }
+                }
+
+                if (nanFound && Time.time - antiCrashGameObjectTime >= antiCrashGameObjectDelay)
+                {
+                    foreach (GameObject obj in allObjects)
+                    {
+                        if (obj == null || !obj.activeInHierarchy)
+                            continue;
+
                         Vector3 position = obj.transform.position;
 
                         if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z))
                         {
+                            Debug.LogError($"[NaN Detected] Disabling object: {obj.name}", obj);
                             obj.SetActive(false);
                         }
                     }
+
+                    antiCrashGameObjectTime = -1f;
                 }
-                */
+
+                if (!nanFound)
+                {
+                    antiCrashGameObjectTime = -1f;
+                }
+                
+                // Debris Crash Reducer
                 DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
 
                 foreach (DemolishDebrisControl debis in debrises)
@@ -2191,6 +2228,7 @@ namespace SupermarketTogetherKacker.menu
             {
                 if (finishedAntiCrash)
                 {
+                    // Turns back on the chat
                     GameObject chatObject = GameObject.Find("GameCanvas/ChatContainer");
                 
                     if (chatObject != null && !chatObject.activeSelf)
