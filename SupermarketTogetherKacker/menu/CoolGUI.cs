@@ -1971,14 +1971,25 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
-                NetworkIdentity[] allItems = FindObjectsOfType<NetworkIdentity>();
+                Data_Container[] checkouts = FindObjectsOfType<Data_Container>();
 
-                foreach (NetworkIdentity item in allItems)
+                foreach (Data_Container checkout in checkouts)
                 {
-                    if (item.GetComponent<PlayerNetwork>() == null && item.GetComponent<NPC_Manager>() == null)
-                    {
-                        Mods.MoveObject(item.gameObject, SpawnPosition);
-                    }
+                    Mods.MoveObject(checkout.gameObject, SpawnPosition);
+                }
+                
+                BuildableInfo[] buildables = FindObjectsOfType<BuildableInfo>();
+
+                foreach (BuildableInfo buildable in buildables)
+                {
+                    Mods.MoveObject(buildable.gameObject, SpawnPosition);
+                }
+
+                NPC_Info[] npcs = FindObjectsOfType<NPC_Info>();
+
+                foreach (NPC_Info npc in npcs)
+                {
+                    Mods.MoveObject(npc.gameObject, SpawnPosition);
                 }
             }
 
