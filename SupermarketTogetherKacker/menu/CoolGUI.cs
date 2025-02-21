@@ -215,7 +215,7 @@ namespace SupermarketTogetherKacker.menu
             text += "<a href='https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu'>https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu</a>\n";
             text += "Also to anyone that is using this on stream, hi </color><color=#ff00ffff>Twitch</color> <color=#00FFFF>or</color> <color=red>Youtube</color>.\n";
             text += "<color=#00FFFF>Also don't worry about getting banned since this game has no anticheat or report system.\n";
-            text += "Quick shout out to <color=yellow>bxware</color> <color=#00FFFF>for helping out with the methods.\n";
+            text += "Quick shout out to <color=yellow>4bx9/bxware</color> <color=#00FFFF>for helping out with the methods.\n";
             text += "Anyways this is the end of the yap session, have fun.\n";
             text += "Sincerely, TheDiamondOG\n\n";
             
@@ -1532,6 +1532,21 @@ namespace SupermarketTogetherKacker.menu
                 SaveBehaviour saveBehaviour = SceneManager.gameObject.GetComponent<SaveBehaviour>();
                 
                 saveBehaviour.SavePersistentValues();
+            }
+            
+            if (GUILayout.Button("FPS Boost", GUILayout.Height(30)))
+            {
+                Application.targetFrameRate = 999999999;
+                QualitySettings.vSyncCount = 0;
+                
+                QualitySettings.SetQualityLevel(0, true);
+                QualitySettings.shadows = ShadowQuality.Disable;
+                QualitySettings.globalTextureMipmapLimit = int.MaxValue;
+                QualitySettings.antiAliasing = 0;
+                ScalableBufferManager.ResizeBuffers(float.MinValue, float.MinValue);
+                QualitySettings.realtimeReflectionProbes = false;
+                QualitySettings.softParticles = false;
+                QualitySettings.shadowDistance = float.MinValue;
             }
         }
 
