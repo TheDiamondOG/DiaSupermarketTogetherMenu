@@ -112,5 +112,11 @@ namespace SupermarketTogetherKacker.menu
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[rnd.Next(s.Length)]).ToArray());
         }
+        public static uint GetFriendCode(ulong steamID64)
+        {
+            uint steamID32 = (uint)(steamID64 - 76561197960265728);
+            
+            return steamID32 % 1000000000;
+        }
     }
 }

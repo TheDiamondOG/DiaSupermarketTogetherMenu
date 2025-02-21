@@ -19,6 +19,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using SupermarketTogetherKacker.tools;
+using TeoGames.Mesh_Combiner.Scripts.Extension;
 using Color = UnityEngine.Color;
 using Random = System.Random;
 
@@ -77,11 +78,16 @@ namespace SupermarketTogetherKacker.menu
         private bool finishedSpeedBoost;
         private bool finishedJumpBoost;
         private bool finishedNoJumpDelay;
+        private bool finishedAntiCrash;
 
         private float infoPageDelayTime = 0.1f;
         private float lastInfoPageExecutionTime = -1f;
         private string infoPageText;
 
+        // Anti Crasher Vars
+        private Vector3 lastPlayerPosition;
+        
+        private HashSet<GameObject> NaNObjects = new HashSet<GameObject>();
         
         private Callback<LobbyMatchList_t> lobbyMatchListCallback;
         private List<CSteamID> foundLobbies = new List<CSteamID>();
@@ -99,7 +105,6 @@ namespace SupermarketTogetherKacker.menu
             Extras,
             NPC,
             Info,
-            Lobbies,
             Debug
         }
 
@@ -192,9 +197,6 @@ namespace SupermarketTogetherKacker.menu
                 case ModCategory.Info:
                     DisplayInfoPage();
                     break;
-                case ModCategory.Lobbies:
-                    DisplayLobbyList();
-                    break;
                 case ModCategory.Debug:
                     DisplayDebugMods();
                     break;
@@ -208,14 +210,14 @@ namespace SupermarketTogetherKacker.menu
             text += "<color=#00FFFF>Welcome to the Project Dia menu for Super Market Together.\n";
             text += "This menu was made out of boredom, and because I mod too many unity games.\n";
             text += "You can find the latest version of the menu and the source code on the github\n";
-            text += "https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu\n";
+            text += "<a href='https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu'>https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu</a>\n";
             text += "Also to anyone that is using this on stream, hi </color><color=#ff00ffff>Twitch</color> <color=#00FFFF>or</color> <color=red>Youtube</color>.\n";
             text += "<color=#00FFFF>Also don't worry about getting banned since this game has no anticheat or report system.\n";
             text += "Quick shout out to <color=yellow>bxware</color> <color=#00FFFF>for helping out with the methods.\n";
             text += "Anyways this is the end of the yap session, have fun.\n";
             text += "Sincerely, TheDiamondOG\n\n";
             
-            text += "P.S. If you have any suggestions join the server: https://discord.gg/n7pbPyTKDU\n";
+            text += "P.S. If you have any suggestions join the server: <a href='https://discord.gg/n7pbPyTKDU'>https://discord.gg/n7pbPyTKDU</a>\n";
             
             text += "</color></size></b>";
             
@@ -1218,7 +1220,40 @@ namespace SupermarketTogetherKacker.menu
                     Mods.MoveObject(npc.gameObject, SpawnPosition);
                 }
             }
+            
+            if (GUILayout.Button("Bring all NPCs", GUILayout.Height(30)))
+            {
+                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
+                Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y,
+                    localPlayer.transform.position.z + 2);
+                
+                NPC_Info[] npcs = FindObjectsOfType<NPC_Info>();
+
+                foreach (NPC_Info npc in npcs)
+                {
+                    if (npc.GetComponent<NPC_Manager>() == null)
+                    {
+                        Mods.MoveObject(npc.gameObject, SpawnPosition);
+                    }
+                }
+            }
+            
+            if (GUILayout.Button("NPCs to Nothing", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+                
+                NPC_Info[] npcs = FindObjectsOfType<NPC_Info>();
+
+                foreach (NPC_Info npc in npcs)
+                {
+                    if (npc.GetComponent<NPC_Manager>() == null)
+                    {
+                        Mods.MoveObject(npc.gameObject, SpawnPosition);
+                    }
+                }
+            }
+            
             string becomeHostText;
 
             if (becomeHost)
@@ -1248,6 +1283,106 @@ namespace SupermarketTogetherKacker.menu
                 NetworkGameBehaviors networkGameBehaviors = gameDataObject.GetComponent<NetworkGameBehaviors>();
                 
                 networkGameBehaviors.CmdServerEnableVoiceChat();
+            }
+            if (GUILayout.Button("Bring all Debris", GUILayout.Height(30)))
+            {
+                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
+
+                Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y,
+                    localPlayer.transform.position.z + 2);
+
+                DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
+
+                foreach (DemolishDebrisControl debis in debrises)
+                {
+                    Mods.MoveObject(debis.gameObject, SpawnPosition);
+                }
+            }
+            if (GUILayout.Button("Debris to Nothing", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+
+                DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
+
+                foreach (DemolishDebrisControl debis in debrises)
+                {
+                    Mods.MoveObject(debis.gameObject, SpawnPosition);
+                }
+            }
+            
+            if (GUILayout.Button("Bring all Store Items", GUILayout.Height(30)))
+            {
+                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
+
+                Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y,
+                    localPlayer.transform.position.z + 2);
+
+                Data_Container[] checkouts = FindObjectsOfType<Data_Container>();
+
+                foreach (Data_Container checkout in checkouts)
+                {
+                    Mods.MoveObject(checkout.gameObject, SpawnPosition);
+                }
+                
+                BuildableInfo[] buildables = FindObjectsOfType<BuildableInfo>();
+
+                foreach (BuildableInfo buildable in buildables)
+                {
+                    Mods.MoveObject(buildable.gameObject, SpawnPosition);
+                }
+            }
+            if (GUILayout.Button("Store Items to Nothing", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+
+                Data_Container[] checkouts = FindObjectsOfType<Data_Container>();
+
+                foreach (Data_Container checkout in checkouts)
+                {
+                    Mods.MoveObject(checkout.gameObject, SpawnPosition);
+                }
+                
+                BuildableInfo[] buildables = FindObjectsOfType<BuildableInfo>();
+
+                foreach (BuildableInfo buildable in buildables)
+                {
+                    Mods.MoveObject(buildable.gameObject, SpawnPosition);
+                }
+            }
+            
+            if (GUILayout.Button("Bring all Networked Items", GUILayout.Height(30)))
+            {
+                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
+
+                Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y,
+                    localPlayer.transform.position.z + 2);
+
+                NetworkIdentity[] allItems = FindObjectsOfType<NetworkIdentity>();
+
+                foreach (NetworkIdentity item in allItems)
+                {
+                    Mods.MoveObject(item.gameObject, SpawnPosition);
+                }
+            }
+            if (GUILayout.Button("Networked Items to Nothing (Except Players, breaks collisions)", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+
+                NetworkIdentity[] allItems = FindObjectsOfType<NetworkIdentity>();
+
+                foreach (NetworkIdentity item in allItems)
+                {
+                    if (item.GetComponent<PlayerNetwork>() == null && item.GetComponent<NPC_Manager>() == null)
+                    {
+                        Mods.MoveObject(item.gameObject, SpawnPosition);
+                    }
+                }
+            }
+            if (GUILayout.Button("Clear Trash", GUILayout.Height(30)))
+            {
+                TrashSpawn trashSpawn = FindObjectOfType<TrashSpawn>();
+                
+                trashSpawn.CmdClearTrash();
             }
         }
 
@@ -1387,6 +1522,15 @@ namespace SupermarketTogetherKacker.menu
                 Application.targetFrameRate = 999999999;
                 QualitySettings.vSyncCount = 0;
             }
+            
+            if (GUILayout.Button("Force Save", GUILayout.Height(30)))
+            {
+                GameObject SceneManager = GameObject.Find("SceneManager");
+                
+                SaveBehaviour saveBehaviour = SceneManager.gameObject.GetComponent<SaveBehaviour>();
+                
+                saveBehaviour.SavePersistentValues();
+            }
         }
 
         void DisplayNPCMods()
@@ -1455,33 +1599,39 @@ namespace SupermarketTogetherKacker.menu
 
                     foreach (PlayerNetwork player in allPlayers)
                     {
-                        PlayerObjectController playerObjectController = player.GetComponent<PlayerObjectController>();
-                        PlayerSyncCharacter playerSyncController = player.GetComponent<PlayerSyncCharacter>();
-
-                        if (!player.isLocalPlayer)
+                        if (player != null && player.gameObject != null)
                         {
-                            infoPageText += "<color=yellow>Name: " + playerObjectController.NetworkPlayerName +
-                                            "</color>\n";
-                        }
+                            PlayerObjectController playerObjectController = player.GetComponent<PlayerObjectController>();
+                            PlayerSyncCharacter playerSyncController = player.GetComponent<PlayerSyncCharacter>();
 
-                        infoPageText += "<color=yellow>Position: " + player.gameObject.transform.position +
-                                        "</color>\n";
-                        infoPageText += "<color=#00FFFF>Is Host: " + player.authority + "</color>\n";
-                        infoPageText += "<color=#00FFFF>Net ID: " + player.netId + "</color>\n";
-                        infoPageText += "<color=#00FFFF>Player ID: " + playerObjectController.PlayerIdNumber +
-                                        "</color>\n";
-                        infoPageText += "<color=#00FFFF>Steam ID: " + playerObjectController.NetworkPlayerSteamID +
-                                        "</color>\n";
-                        infoPageText += "<color=yellow>Is Crouching: " + player.isCrouching + "</color>\n";
-                        infoPageText += "<color=green>Character ID: " + player.characterID + "</color>\n";
-                        infoPageText += "<color=green>Broom ID: " + playerSyncController.broomSkin + "</color>\n";
-                        infoPageText += "<color=green>Hat ID: " + player.hatID + "</color>\n";
-                        if (player.isLocalPlayer)
+                            if (!player.isLocalPlayer)
+                            {
+                                infoPageText += "<color=yellow>Name: " + playerObjectController.NetworkPlayerName +
+                                                "</color>\n";
+                            }
+
+                            infoPageText += "<color=yellow>Position: " + player.gameObject.transform.position + "</color>\n";
+                            infoPageText += "<color=#00FFFF>Is Host: " + player.authority + "</color>\n";
+                            infoPageText += "<color=#00FFFF>Net ID: " + player.netId + "</color>\n";
+                            infoPageText += "<color=#00FFFF>Player ID: " + playerObjectController.PlayerIdNumber + "</color>\n";
+                            infoPageText += "<color=#00FFFF>Steam ID: " + playerObjectController.NetworkPlayerSteamID + "</color>\n";
+                            infoPageText += "<color=#00FFFF>Steam URL: https://steamcommunity.com/profiles/" + playerObjectController.NetworkPlayerSteamID + "</a></color>\n";
+                            infoPageText += "<color=yellow>Is Crouching: " + player.isCrouching + "</color>\n";
+                            infoPageText += "<color=green>Character ID: " + player.characterID + "</color>\n";
+                            infoPageText += "<color=green>Broom ID: " + playerSyncController.broomSkin + "</color>\n";
+                            infoPageText += "<color=green>Hat ID: " + player.hatID + "</color>\n";
+                            if (player.isLocalPlayer)
+                            {
+
+                            }
+
+                            infoPageText += "==================================\n\n";
+                        }
+                        else
                         {
-
+                            infoPageText += "Failed to get player info.\n";
+                            infoPageText += "==================================\n\n";
                         }
-
-                        infoPageText += "==================================\n\n";
                     }
 
                     infoPageText += "</size></b>";
@@ -1503,22 +1653,18 @@ namespace SupermarketTogetherKacker.menu
                     FirstPersonController firstPersonController = playerObject.GetComponent<FirstPersonController>();
 
                     infoPageText += "<color=yellow>Name: " + playerObjectController.NetworkPlayerName + "</color>\n";
-                    infoPageText += "<color=yellow>Position: " + playerNetwork.gameObject.transform.position +
-                                    "</color>\n";
+                    infoPageText += "<color=yellow>Position: " + playerNetwork.gameObject.transform.position + "</color>\n";
                     infoPageText += "<color=#00FFFF>Is Host: " + playerNetwork.isServer + "</color>\n";
                     infoPageText += "<color=#00FFFF>Net ID: " + playerNetwork.netId + "</color>\n";
                     infoPageText += "<color=#00FFFF>Player ID: " + playerObjectController.PlayerIdNumber + "</color>\n";
-                    infoPageText += "<color=#00FFFF>Steam ID: " + playerObjectController.NetworkPlayerSteamID +
-                                    "</color>\n";
+                    infoPageText += "<color=#00FFFF>Steam ID: " + playerObjectController.NetworkPlayerSteamID + "</color>\n";
                     infoPageText += "<color=yellow>Is Crouching: " + playerNetwork.isCrouching + "</color>\n";
                     infoPageText += "<color=green>Character ID: " + playerNetwork.characterID + "</color>\n";
                     infoPageText += "<color=green>Broom ID: " + playerSyncController.broomSkin + "</color>\n";
                     infoPageText += "<color=green>Hat ID: " + playerNetwork.hatID + "</color>\n";
                     infoPageText += "<color=#008080ff>Casual Speed: " + firstPersonController.MoveSpeed + "</color>\n";
-                    infoPageText += "<color=#008080ff>Sprint Speed: " + firstPersonController.SprintSpeed +
-                                    "</color>\n";
-                    infoPageText += "<color=#008080ff>Crouch Speed: " + firstPersonController.CrouchSpeed +
-                                    "</color>\n";
+                    infoPageText += "<color=#008080ff>Sprint Speed: " + firstPersonController.SprintSpeed + "</color>\n";
+                    infoPageText += "<color=#008080ff>Crouch Speed: " + firstPersonController.CrouchSpeed + "</color>\n";
                     infoPageText += "<color=#008080ff>Jump Height: " + firstPersonController.JumpHeight + "</color>\n";
                     infoPageText += "<color=#008080ff>Jump Delay: " + firstPersonController.JumpTimeout + "</color>\n";
                     infoPageText += "<color=#008080ff>Grounded: " + firstPersonController.Grounded + "</color>\n";
@@ -1534,56 +1680,7 @@ namespace SupermarketTogetherKacker.menu
             GUILayout.Label(infoPageText);
         }
 
-        void DisplayLobbyList()
-        {
-            System.Random random = new System.Random();
-            
-            string text = "<size=15><b><color=yellow>Lobby List:</color>\n";
-            
-            lobbyMatchListCallback = Callback<LobbyMatchList_t>.Create(OnLobbyMatchList);
-            
-            /*
-            lobbyTimer += Time.deltaTime;
-
-            if (lobbyTimer >= lobbyTimerDelay)
-            {
-                SteamMatchmaking.RequestLobbyList();
-                lobbyTimer = 0f;
-            }
-            */
-            
-            for (int i = 0; i < foundLobbies.Count; i++)
-            {
-                CSteamID lobbyID = foundLobbies[i];
-                string lobbyName = SteamMatchmaking.GetLobbyData(lobbyID, "name");
-                int playerCount = SteamMatchmaking.GetNumLobbyMembers(lobbyID);
-                int maxPlayers = SteamMatchmaking.GetLobbyMemberLimit(lobbyID);
-                CSteamID ownerID = SteamMatchmaking.GetLobbyOwner(lobbyID);
-                
-                text += "<color=#00FFFF>Name: "+lobbyName;
-                text += "\nLobby ID: "+lobbyID;
-                text += "\nPlayer Count: " + playerCount.ToString() + "/"+maxPlayers.ToString();
-                text += "</color>\n=============================\n";
-            }
-            
-            GUILayout.Label(text);
-            if (GUILayout.Button("Refresh Listings", GUILayout.Height(30)))
-            {
-                SteamMatchmaking.RequestLobbyList();
-            }
-            /*
-            if (GUILayout.Button("Random Lobby", GUILayout.Height(30)))
-            {
-                if (foundLobbies.Count > 0)
-                {
-                    CSteamID randomLobby = foundLobbies[random.Next(0, foundLobbies.Count)];
-                    SteamLobby.Instance.JoinLobby(randomLobby);
-                }
-            }
-            */
-        }
-
-    void DisplayDebugMods()
+        void DisplayDebugMods()
         {
             if (GUILayout.Button("Dump Prefabs", GUILayout.Height(30)))
             {
@@ -1870,6 +1967,17 @@ namespace SupermarketTogetherKacker.menu
                         checkout.CmdReceivePayment(checkout.currentAmountToReturn);
                     }
                 }
+                Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
+
+                NetworkIdentity[] allItems = FindObjectsOfType<NetworkIdentity>();
+
+                foreach (NetworkIdentity item in allItems)
+                {
+                    if (item.GetComponent<PlayerNetwork>() == null && item.GetComponent<NPC_Manager>() == null)
+                    {
+                        Mods.MoveObject(item.gameObject, SpawnPosition);
+                    }
+                }
             }
 
             if (disableOthersMovement)
@@ -2026,11 +2134,70 @@ namespace SupermarketTogetherKacker.menu
             }
             if (antiCrash)
             {
+                GameObject playerObject = GameObject.Find("LocalGamePlayer");
                 BoxData[] allBoxes = FindObjectsOfType<BoxData>();
 
                 foreach (BoxData box in allBoxes)
                 {
                     box.gameObject.SetActive(false);
+                }
+                GameObject chatObject = GameObject.Find("GameCanvas/ChatContainer");
+
+                if (chatObject != null && chatObject.activeSelf)
+                {
+                    chatObject.SetActive(false);
+                }
+
+                
+                if (!float.IsNaN(playerObject.transform.position.x) && !float.IsNaN(playerObject.transform.position.y) && !float.IsNaN(playerObject.transform.position.z) && playerObject.transform.position.x < 10000f && playerObject.transform.position.y < 10000f && playerObject.transform.position.z < 10000f && !float.IsInfinity(playerObject.transform.position.x) && !float.IsInfinity(playerObject.transform.position.y) && !float.IsInfinity(playerObject.transform.position.z))
+                {
+                    lastPlayerPosition = playerObject.transform.position;
+                }
+                else
+                {
+                    Mods.MoveObject(playerObject, lastPlayerPosition);
+                }
+                
+                GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+                foreach (GameObject obj in allObjects)
+                {
+                    if (obj != null || obj.activeInHierarchy)
+                    {
+                        Vector3 position = obj.transform.position;
+
+                        if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z))
+                        {
+                            obj.SetActive(false);
+                        }
+                    }
+                }
+                DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
+
+                foreach (DemolishDebrisControl debis in debrises)
+                {
+                    GameObject debrisObject = debis.gameObject;
+                    
+                    debrisObject.SetActive(false);
+                }
+                
+                if (!finishedAntiCrash)
+                {
+                    finishedAntiCrash = true; 
+                }
+            }
+            else
+            {
+                if (finishedAntiCrash)
+                {
+                    GameObject chatObject = GameObject.Find("GameCanvas/ChatContainer");
+                
+                    if (chatObject != null && !chatObject.activeSelf)
+                    {
+                        chatObject.SetActive(true);
+                    }
+
+                    finishedAntiCrash = false;
                 }
             }
 
