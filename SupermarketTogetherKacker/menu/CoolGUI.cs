@@ -2157,7 +2157,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(playerObject, lastPlayerPosition);
                 }
-                
+                /*
                 GameObject[] allObjects = FindObjectsOfType<GameObject>();
 
                 foreach (GameObject obj in allObjects)
@@ -2172,6 +2172,7 @@ namespace SupermarketTogetherKacker.menu
                         }
                     }
                 }
+                */
                 DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
 
                 foreach (DemolishDebrisControl debis in debrises)
