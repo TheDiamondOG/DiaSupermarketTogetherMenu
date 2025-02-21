@@ -66,6 +66,7 @@ This is a mod menu that has some op mods, and fun to use in general. From destro
 - Grab all Stolen (Grabs all of the stolen products that were dropped)
 - Anti Crash
 - Unlock FPS
+- FPS Booster
 
 ### NPC Mods
 - Spam Hit NPCs
