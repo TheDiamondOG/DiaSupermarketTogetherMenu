@@ -1,5 +1,5 @@
 # Supermarket Together Mod Menu (Project Dia)
-This is a mod menu I have been making since the game's release, there is some OP mods which is cool. Also might make a video on it so showcase soon maybe.
+This is a mod menu that has some op mods, and fun to use in general. From destroying markets to games to save this menu has what you need to dominate (In a non gay way) in lobbies. Also special thanks to bxware/4bx9 for helping with finding some of these methods.
 ## Requirements
 - Bepinex
 - Supermarket Together
@@ -10,11 +10,11 @@ This is a mod menu I have been making since the game's release, there is some OP
 - Free Expansion
 - Free Storage
 - Lots of Water (Custom Server Side Water box Spawner)
-- Spawn with ID
 - Lots of Everything (This lags the crap out of the game, but works fast)
 ### Stat Mods
 - Add Money
-- Spam Add Monet
+- Spam Add Money
+- Add Points
 ### Map Mods
 - Disable Barrier
 - Become Cool (Enables the whole DLC room)
@@ -30,6 +30,7 @@ This is a mod menu I have been making since the game's release, there is some OP
 - Push Everyone
 - Spam Push
 - Spam Message
+- Message Crasher
 - Bright Sign (Please don't look at it in the dark, I learned from experience)
 - Change Supermarket Name
 - Max Boxes (Adds the max amount of products to every ground box, only SS if you pick up the box)
@@ -38,19 +39,53 @@ This is a mod menu I have been making since the game's release, there is some OP
 - Disable Others Movement
 - Disable Movement
 - Water Everywhere
+- Instant Crasher
+- Box Crasher
+- Bring All Players
+- Bring All Boxes
+- Players to Nothing
+- Boxes To Nothing
+- Classic Box Spam
+- Destroy Floor Colliders
+- NPCs to Nothing
+- Become Host (Sucks)
+- Enable Voice Chat
+- Bring All Debris
+- Bring all Store Items
+- Store Items to Nothing
+- Bring all Networked Items
+- Networked Items to Nothing
+- Clear Trash
 ### Extra Mods
-- Price Spammer (Price Sound Spammer)
 - No Tutorial
 - Scan All
 - Auto Checkout
 - Break Checkouts
-- Change Username (Chat Only, only works on non laggy servers)
+- Change Username (Only Chat, Info Page, and Host Menu, only works on non laggy servers)
 - Cool Hecker (Runs random functions that I can't fit into a description)
 - Grab all Stolen (Grabs all of the stolen products that were dropped)
+- Anti Crash
+- Unlock FPS
 
 ### NPC Mods
-- Everyone Theft (Host Only)
+- Spam Hit NPCs
 - Hit NPC
-- Constant Complaints (Host Only)
-- Astronauts (Host Only)
-- Anti Theft (Still need to fix thief detection)
+### Info Page
+- Lobby
+  - Lobby Type
+  - Lobby ID
+  - Is Lobby Closed
+- User Based
+  - Name
+  - Position
+  - Is Host
+  - Net ID
+  - Server Player ID
+  - Steam ID
+  - Steam URL
+  - Is Crouching
+  - Character ID
+  - Broom ID
+  - Hat ID
+### Debug
+- Dump Prefabs
