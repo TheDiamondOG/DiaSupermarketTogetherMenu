@@ -74,6 +74,7 @@ namespace SupermarketTogetherKacker.menu
         private bool jumpBoost;
         private bool noJumpDelay;
         private bool messageCrasher;
+        private bool autoOptimise;
 
         private bool finishedSpeedBoost;
         private bool finishedJumpBoost;
@@ -1534,19 +1535,29 @@ namespace SupermarketTogetherKacker.menu
                 saveBehaviour.SavePersistentValues();
             }
             
-            if (GUILayout.Button("FPS Boost", GUILayout.Height(30)))
+            string fpsBoosterText;
+
+            if (FPSBoostCrap.fpsBoost)
             {
-                Application.targetFrameRate = 999999999;
-                QualitySettings.vSyncCount = 0;
-                
-                QualitySettings.SetQualityLevel(0, true);
-                QualitySettings.shadows = ShadowQuality.Disable;
-                QualitySettings.globalTextureMipmapLimit = int.MaxValue;
-                QualitySettings.antiAliasing = 0;
-                ScalableBufferManager.ResizeBuffers(float.MinValue, float.MinValue);
-                QualitySettings.realtimeReflectionProbes = false;
-                QualitySettings.softParticles = false;
-                QualitySettings.shadowDistance = float.MinValue;
+                fpsBoosterText = "<color=green>ON</color>: FPS Boost";
+            }
+            else
+            {
+                fpsBoosterText = "<color=red>OFF</color>: FPS Boost";
+            }
+
+            if (GUILayout.Button(fpsBoosterText, GUILayout.Height(30)))
+            {
+                if (FPSBoostCrap.fpsBoost)
+                {
+                    FPSBoostCrap.fpsBoost = false;
+                    FPSBoostCrap.FPSBoost();
+                }
+                else
+                {
+                    FPSBoostCrap.fpsBoost = true;
+                    FPSBoostCrap.FPSBoost();
+                }
             }
         }
 
@@ -1749,17 +1760,24 @@ namespace SupermarketTogetherKacker.menu
             }
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                if (!Cursor.visible) // If cursor is currently invisible
+                if (!Cursor.visible)
                 {
-                    Cursor.visible = true; // Make cursor visible
-                    Cursor.lockState = CursorLockMode.None; // Unlock cursor
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
                 }
-                else // If cursor is currently visible
+                else
                 {
-                    Cursor.visible = false; // Hide cursor
-                    Cursor.lockState = CursorLockMode.Locked; // Lock cursor
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
                 }
             }
+            
+            /*
+            if (Mathf.Ceil(1f / Time.unscaledDeltaTime) < 10)
+            {
+                antiCrash = true;
+            }
+            */
 
             if (waterBoxSpammer)
             {
@@ -2253,6 +2271,9 @@ namespace SupermarketTogetherKacker.menu
                 
                 if (!finishedAntiCrash)
                 {
+                    FPSBoostCrap.FPSBoost();
+                    FPSBoostCrap.fpsBoost = true;
+                    
                     finishedAntiCrash = true; 
                 }
             }
@@ -2267,7 +2288,10 @@ namespace SupermarketTogetherKacker.menu
                     {
                         chatObject.SetActive(true);
                     }
-
+                    
+                    FPSBoostCrap.FPSBoost();
+                    FPSBoostCrap.fpsBoost = false;
+                    
                     finishedAntiCrash = false;
                 }
             }
