@@ -208,7 +208,7 @@ namespace SupermarketTogetherKacker.menu
             text += "<a href='https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu'>https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu</a>\n";
             text += "Also to anyone that is using this on stream, hi </color><color=#ff00ffff>Twitch</color> <color=#00FFFF>or</color> <color=red>Youtube</color>.\n";
             text += "<color=#00FFFF>Also don't worry about getting banned since this game has no anticheat or report system.\n";
-            text += "Quick shout out to <color=yellow>4bx9/bxware</color> <color=#00FFFF>for helping out with the methods.\n";
+            text += "Quick shout out to <color=yellow>4bx9/bxware</color> <color=#00FFFF>for helping out with some of the methods.\n";
             text += "Anyways this is the end of the yap session, have fun.\n";
             text += "Sincerely, TheDiamondOG\n\n";
             
