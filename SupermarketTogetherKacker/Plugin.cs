@@ -18,20 +18,18 @@ namespace SupermarketTogetherKacker
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
-        // Menus GameObject
         private GameObject menuObject = new GameObject();
-    
-        // Run some on start crap
+        
         private void Awake()
         {
-            // Make the object immortal
+            menuObject.name = "DiaObj";
+            
             DontDestroyOnLoad(menuObject);
             
-            // Make some menu crap work
             menuObject.gameObject.AddComponent<Mods>();
             menuObject.gameObject.AddComponent<CoolGUI>();
             
-            //HarmonyPatches.ApplyHarmonyPatches();
+            HarmonyPatches.ApplyHarmonyPatches();
         }
     }
 }

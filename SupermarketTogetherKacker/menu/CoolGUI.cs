@@ -89,6 +89,8 @@ namespace SupermarketTogetherKacker.menu
         private float antiCrashGameObjectTime = -1f;
         private float antiCrashGameObjectDelay = 5f;
 
+        private float fov = 90f;
+        
         public enum ModCategory
         {
             Home,
@@ -100,17 +102,34 @@ namespace SupermarketTogetherKacker.menu
             Extras,
             NPC,
             Info,
-            Debug
+            Debug,
         }
+
+        Dictionary<ModCategory, string> ModCategoryNames = new Dictionary<ModCategory, string>
+        {
+            { ModCategory.Home, "Home" },
+            { ModCategory.Market, "Market" },
+            { ModCategory.Player, "Player" },
+            { ModCategory.Stats, "Stats" },
+            { ModCategory.Map, "Map" },
+            { ModCategory.Server, "Server" },
+            { ModCategory.Extras, "Extras" },
+            { ModCategory.NPC, "NPC" },
+            { ModCategory.Info, "Info" },
+            { ModCategory.Debug, "Debug" }
+        };
+
 
         public ModCategory currentCategory = ModCategory.Home;
 
         void OnGUI()
         {
-            GUI.backgroundColor = Color.black;
+            GUI.backgroundColor = new Color(0,0,0,255);
             GUI.contentColor = Color.white;
             GUI.color = Color.white;
-
+            
+            //GUI.skin.window.normal.background = windowTexture;
+            
             //GUI.skin.window.normal.background = Mods.MakeTex(100, 100, Color.black);
             //GUI.skin.box.normal.background = Mods.MakeTex(100, 100, Color.white);
             //GUI.skin.button.normal.background = Mods.MakeTex(1, 1, Color.HSVToRGB(330f, 15f, 5f));
@@ -140,7 +159,7 @@ namespace SupermarketTogetherKacker.menu
             GUILayout.BeginHorizontal();
             foreach (ModCategory category in Enum.GetValues(typeof(ModCategory)))
             {
-                if (GUILayout.Button(category.ToString(), GUILayout.Width(100)))
+                if (GUILayout.Button(ModCategoryNames[category], GUILayout.MinWidth(100)))
                 {
                     currentCategory = category;
                 }
@@ -221,15 +240,6 @@ namespace SupermarketTogetherKacker.menu
         
         void DisplayMarketMods()
         {
-            if (GUILayout.Button("Unlimited Customers", GUILayout.Height(30)))
-            {
-                GameObject gameDataManager = GameObject.Find("GameDataManager");
-
-                GameData gameData = gameDataManager.GetComponent<GameData>();
-
-                gameData.maxCustomersNPCs = 1000000000;
-            }
-
             if (GUILayout.Button("Open Market", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
@@ -250,17 +260,15 @@ namespace SupermarketTogetherKacker.menu
                 gameData.CmdEndDayFromButton();
             }
 
-            if (GUILayout.Button("Free Expantion", GUILayout.Height(30)))
+            if (GUILayout.Button("Free Expansion", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
-
-                int i = 0;
-                foreach (bool indexCheck in upgradesManager.storeSpaceUpgrades)
+                
+                for (int i = 0; i < 250; i++)
                 {
                     upgradesManager.CmdAddStorage(i);
-                    i += 1;
                 }
             }
 
@@ -270,11 +278,9 @@ namespace SupermarketTogetherKacker.menu
 
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
 
-                int i = 0;
-                foreach (bool indexCheck in upgradesManager.storageSpaceUpgrades)
+                for (int i = 0; i < 250; i++)
                 {
                     upgradesManager.CmdAddStorage(i);
-                    i += 1;
                 }
             }
 
@@ -743,24 +749,24 @@ namespace SupermarketTogetherKacker.menu
 
             string spamPushText;
 
-            if (spamPushOthers)
+            if (spamPush)
             {
                 spamPushText = "<color=green>ON</color>: Spam Push";
             }
             else
             {
-                spamPushOthersText = "<color=red>OFF</color>: Spam Push";
+                spamPushText = "<color=red>OFF</color>: Spam Push";
             }
 
-            if (GUILayout.Button(spamPushOthersText, GUILayout.Height(30)))
+            if (GUILayout.Button(spamPushText, GUILayout.Height(30)))
             {
-                if (spamPushOthers)
+                if (spamPush)
                 {
-                    spamPushOthers = false;
+                    spamPush = false;
                 }
                 else
                 {
-                    spamPushOthers = true;
+                    spamPush = true;
                 }
             }
 
@@ -1253,11 +1259,11 @@ namespace SupermarketTogetherKacker.menu
 
             if (becomeHost)
             {
-                becomeHostText = "<color=green>ON</color>: Become Host";
+                becomeHostText = "<color=green>ON</color>: Become Host (NW)";
             }
             else
             {
-                becomeHostText = "<color=red>OFF</color>: Become Host";
+                becomeHostText = "<color=red>OFF</color>: Become Host (NW)";
             }
 
             if (GUILayout.Button(becomeHostText, GUILayout.Height(30)))
@@ -1394,38 +1400,59 @@ namespace SupermarketTogetherKacker.menu
                 steamLobby.SetCurrentLobbyJoinable(false);
             }
 
-            if (GUILayout.Button("NaN Prices", GUILayout.Height(30)))
+            
+            if (GUILayout.Button("NaN Prices (NW)", GUILayout.Height(30)))
             {
                 GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
                 
                 foreach (GameObject product in productPrefabs)
                 {
-                    int productID = gameObject.GetComponent<Data_Product>().productID;
+                    try
+                    {
+                        int productID = gameObject.GetComponent<Data_Product>().productID;
 
-                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
+                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
+                    }
+                    catch (Exception) {}
                 }
             }
-            if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
+            if (GUILayout.Button("Max Prices (NW)", GUILayout.Height(30)))
             {
                 GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
                 
                 foreach (GameObject product in productPrefabs)
                 {
-                    int productID = gameObject.GetComponent<Data_Product>().productID;
+                    try
+                    {
+                        int productID = gameObject.GetComponent<Data_Product>().productID;
 
-                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
+                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
+                    }
+                    catch (Exception) {}
                 }
             }
-            if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
+            if (GUILayout.Button("Negative Prices (NW)", GUILayout.Height(30)))
             {
                 GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
                 
                 foreach (GameObject product in productPrefabs)
                 {
-                    int productID = gameObject.GetComponent<Data_Product>().productID;
+                    try
+                    {
+                        int productID = gameObject.GetComponent<Data_Product>().productID;
 
-                    ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
+                        ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
+                    }
+                    catch (Exception) {}
                 }
+            }
+            
+            if (GUILayout.Button("Network Cube Spawn", GUILayout.Height(30)))
+            {
+                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
+
+                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube); 
+                NetworkServer.Spawn(cube, localPlayer);
             }
         }
 
@@ -1599,6 +1626,15 @@ namespace SupermarketTogetherKacker.menu
                     FPSBoostCrap.fpsBoost = true;
                 }
             }
+
+            fov = GUILayout.HorizontalSlider(fov, 10, 120);
+            if (GUILayout.Button("FOV "+Mathf.Round(fov), GUILayout.Height(30)))
+            {
+                foreach (AuxiliarChangeFOV fover in FindObjectsOfType<AuxiliarChangeFOV>())
+                {
+                    fover.SetFOV(Mathf.Round(fov));
+                }
+            }
         }
 
         void DisplayNPCMods()
@@ -1748,7 +1784,6 @@ namespace SupermarketTogetherKacker.menu
 
             GUILayout.Label(infoPageText);
         }
-
         void DisplayDebugMods()
         {
             if (GUILayout.Button("Dump Prefabs", GUILayout.Height(30)))
@@ -2348,6 +2383,9 @@ namespace SupermarketTogetherKacker.menu
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
+                FieldInfo activeField = typeof(NetworkServer).GetField("active", BindingFlags.NonPublic | BindingFlags.Static);
+                activeField.SetValue(null, true);
+                
                 PlayerNetwork playerNetwork = localPlayer.GetComponent<PlayerNetwork>();
 
                 Traverse.Create(playerNetwork).Field("isOwned").SetValue(true);
