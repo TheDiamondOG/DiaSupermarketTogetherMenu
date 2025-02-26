@@ -89,8 +89,6 @@ namespace SupermarketTogetherKacker.menu
         private float antiCrashGameObjectTime = -1f;
         private float antiCrashGameObjectDelay = 5f;
 
-        private float fov = 90f;
-        
         public enum ModCategory
         {
             Home,
@@ -102,34 +100,17 @@ namespace SupermarketTogetherKacker.menu
             Extras,
             NPC,
             Info,
-            Debug,
+            Debug
         }
-
-        Dictionary<ModCategory, string> ModCategoryNames = new Dictionary<ModCategory, string>
-        {
-            { ModCategory.Home, "Home" },
-            { ModCategory.Market, "Market" },
-            { ModCategory.Player, "Player" },
-            { ModCategory.Stats, "Stats" },
-            { ModCategory.Map, "Map" },
-            { ModCategory.Server, "Server" },
-            { ModCategory.Extras, "Extras" },
-            { ModCategory.NPC, "NPC" },
-            { ModCategory.Info, "Info" },
-            { ModCategory.Debug, "Debug" }
-        };
-
 
         public ModCategory currentCategory = ModCategory.Home;
 
         void OnGUI()
         {
-            GUI.backgroundColor = new Color(0,0,0,255);
+            GUI.backgroundColor = Color.black;
             GUI.contentColor = Color.white;
             GUI.color = Color.white;
-            
-            //GUI.skin.window.normal.background = windowTexture;
-            
+
             //GUI.skin.window.normal.background = Mods.MakeTex(100, 100, Color.black);
             //GUI.skin.box.normal.background = Mods.MakeTex(100, 100, Color.white);
             //GUI.skin.button.normal.background = Mods.MakeTex(1, 1, Color.HSVToRGB(330f, 15f, 5f));
@@ -159,7 +140,7 @@ namespace SupermarketTogetherKacker.menu
             GUILayout.BeginHorizontal();
             foreach (ModCategory category in Enum.GetValues(typeof(ModCategory)))
             {
-                if (GUILayout.Button(ModCategoryNames[category], GUILayout.MinWidth(100)))
+                if (GUILayout.Button(category.ToString(), GUILayout.Width(100)))
                 {
                     currentCategory = category;
                 }
@@ -240,6 +221,15 @@ namespace SupermarketTogetherKacker.menu
         
         void DisplayMarketMods()
         {
+            if (GUILayout.Button("Unlimited Customers", GUILayout.Height(30)))
+            {
+                GameObject gameDataManager = GameObject.Find("GameDataManager");
+
+                GameData gameData = gameDataManager.GetComponent<GameData>();
+
+                gameData.maxCustomersNPCs = 1000000000;
+            }
+
             if (GUILayout.Button("Open Market", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
@@ -260,15 +250,17 @@ namespace SupermarketTogetherKacker.menu
                 gameData.CmdEndDayFromButton();
             }
 
-            if (GUILayout.Button("Free Expansion", GUILayout.Height(30)))
+            if (GUILayout.Button("Free Expantion", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
-                
-                for (int i = 0; i < 250; i++)
+
+                int i = 0;
+                foreach (bool indexCheck in upgradesManager.storeSpaceUpgrades)
                 {
                     upgradesManager.CmdAddStorage(i);
+                    i += 1;
                 }
             }
 
@@ -278,9 +270,11 @@ namespace SupermarketTogetherKacker.menu
 
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
 
-                for (int i = 0; i < 250; i++)
+                int i = 0;
+                foreach (bool indexCheck in upgradesManager.storageSpaceUpgrades)
                 {
                     upgradesManager.CmdAddStorage(i);
+                    i += 1;
                 }
             }
 
@@ -749,24 +743,24 @@ namespace SupermarketTogetherKacker.menu
 
             string spamPushText;
 
-            if (spamPush)
+            if (spamPushOthers)
             {
                 spamPushText = "<color=green>ON</color>: Spam Push";
             }
             else
             {
-                spamPushText = "<color=red>OFF</color>: Spam Push";
+                spamPushOthersText = "<color=red>OFF</color>: Spam Push";
             }
 
-            if (GUILayout.Button(spamPushText, GUILayout.Height(30)))
+            if (GUILayout.Button(spamPushOthersText, GUILayout.Height(30)))
             {
-                if (spamPush)
+                if (spamPushOthers)
                 {
-                    spamPush = false;
+                    spamPushOthers = false;
                 }
                 else
                 {
-                    spamPush = true;
+                    spamPushOthers = true;
                 }
             }
 
@@ -1259,11 +1253,11 @@ namespace SupermarketTogetherKacker.menu
 
             if (becomeHost)
             {
-                becomeHostText = "<color=green>ON</color>: Become Host (NW)";
+                becomeHostText = "<color=green>ON</color>: Become Host";
             }
             else
             {
-                becomeHostText = "<color=red>OFF</color>: Become Host (NW)";
+                becomeHostText = "<color=red>OFF</color>: Become Host";
             }
 
             if (GUILayout.Button(becomeHostText, GUILayout.Height(30)))
@@ -1384,75 +1378,6 @@ namespace SupermarketTogetherKacker.menu
                 TrashSpawn trashSpawn = FindObjectOfType<TrashSpawn>();
                 
                 trashSpawn.CmdClearTrash();
-            }
-            if (GUILayout.Button("Unlock Lobby", GUILayout.Height(30)))
-            {
-                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
-                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
-                
-                steamLobby.SetCurrentLobbyJoinable(true);
-            }
-            if (GUILayout.Button("Lock Lobby", GUILayout.Height(30)))
-            {
-                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
-                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
-                
-                steamLobby.SetCurrentLobbyJoinable(false);
-            }
-
-            
-            if (GUILayout.Button("NaN Prices (NW)", GUILayout.Height(30)))
-            {
-                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
-                
-                foreach (GameObject product in productPrefabs)
-                {
-                    try
-                    {
-                        int productID = gameObject.GetComponent<Data_Product>().productID;
-
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
-                    }
-                    catch (Exception) {}
-                }
-            }
-            if (GUILayout.Button("Max Prices (NW)", GUILayout.Height(30)))
-            {
-                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
-                
-                foreach (GameObject product in productPrefabs)
-                {
-                    try
-                    {
-                        int productID = gameObject.GetComponent<Data_Product>().productID;
-
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
-                    }
-                    catch (Exception) {}
-                }
-            }
-            if (GUILayout.Button("Negative Prices (NW)", GUILayout.Height(30)))
-            {
-                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
-                
-                foreach (GameObject product in productPrefabs)
-                {
-                    try
-                    {
-                        int productID = gameObject.GetComponent<Data_Product>().productID;
-
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
-                    }
-                    catch (Exception) {}
-                }
-            }
-            
-            if (GUILayout.Button("Network Cube Spawn", GUILayout.Height(30)))
-            {
-                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
-
-                GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube); 
-                NetworkServer.Spawn(cube, localPlayer);
             }
         }
 
@@ -1626,15 +1551,6 @@ namespace SupermarketTogetherKacker.menu
                     FPSBoostCrap.fpsBoost = true;
                 }
             }
-
-            fov = GUILayout.HorizontalSlider(fov, 10, 120);
-            if (GUILayout.Button("FOV "+Mathf.Round(fov), GUILayout.Height(30)))
-            {
-                foreach (AuxiliarChangeFOV fover in FindObjectsOfType<AuxiliarChangeFOV>())
-                {
-                    fover.SetFOV(Mathf.Round(fov));
-                }
-            }
         }
 
         void DisplayNPCMods()
@@ -1694,7 +1610,6 @@ namespace SupermarketTogetherKacker.menu
 
                     infoPageText += "<color=yellow>Lobby Type: Online</color>\n";
                     infoPageText += "<color=yellow>Lobby ID: " + steamLobby.CurrentLobbyIDStr + "</color>\n";
-                    //infoPageText += "<color=yellow>Lobby IP: " +  + "</color>\n";
                     infoPageText += "<color=yellow>Is Lobby Closed: " + steamLobby.isLobbyClosed + "</color>\n";
                     infoPageText += "==================================\n";
 
@@ -1784,6 +1699,7 @@ namespace SupermarketTogetherKacker.menu
 
             GUILayout.Label(infoPageText);
         }
+
         void DisplayDebugMods()
         {
             if (GUILayout.Button("Dump Prefabs", GUILayout.Height(30)))
@@ -1802,29 +1718,6 @@ namespace SupermarketTogetherKacker.menu
                         filestuff.AppendFile("prefab_dump.txt", "\nName: "+ prefab.name+"\nInstance ID: "+prefab.GetInstanceID()+"\n--------------------------------");
                     }
                 }
-            }
-            if (GUILayout.Button("Dump Lobby Data", GUILayout.Height(30)))
-            {
-                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
-                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
-
-                CSteamID lobbyCode = new CSteamID(steamLobby.CurrentLobbyID);
-                
-                string text = "      Start of dump      \n---------------------\n";
-                
-                Filestuff filestuff = new Filestuff();
-
-                for (int i = 0; i < SteamMatchmaking.GetLobbyDataCount(lobbyCode); i++)
-                {
-                    bool success = SteamMatchmaking.GetLobbyDataByIndex(lobbyCode, i, out string key, 256, out string value, 256);
-                    if (success)
-                    {
-                        text += key + ": " + value;
-                        text += "\n";
-                    }
-                }
-                
-                filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
             }
         }
 
@@ -2383,9 +2276,6 @@ namespace SupermarketTogetherKacker.menu
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
-                FieldInfo activeField = typeof(NetworkServer).GetField("active", BindingFlags.NonPublic | BindingFlags.Static);
-                activeField.SetValue(null, true);
-                
                 PlayerNetwork playerNetwork = localPlayer.GetComponent<PlayerNetwork>();
 
                 Traverse.Create(playerNetwork).Field("isOwned").SetValue(true);
