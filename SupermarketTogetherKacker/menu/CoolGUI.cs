@@ -1379,6 +1379,54 @@ namespace SupermarketTogetherKacker.menu
                 
                 trashSpawn.CmdClearTrash();
             }
+            if (GUILayout.Button("Unlock Lobby", GUILayout.Height(30)))
+            {
+                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
+                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
+                
+                steamLobby.SetCurrentLobbyJoinable(true);
+            }
+            if (GUILayout.Button("Lock Lobby", GUILayout.Height(30)))
+            {
+                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
+                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
+                
+                steamLobby.SetCurrentLobbyJoinable(false);
+            }
+
+            if (GUILayout.Button("NaN Prices", GUILayout.Height(30)))
+            {
+                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
+                
+                foreach (GameObject product in productPrefabs)
+                {
+                    int productID = gameObject.GetComponent<Data_Product>().productID;
+
+                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
+                }
+            }
+            if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
+            {
+                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
+                
+                foreach (GameObject product in productPrefabs)
+                {
+                    int productID = gameObject.GetComponent<Data_Product>().productID;
+
+                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
+                }
+            }
+            if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
+            {
+                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
+                
+                foreach (GameObject product in productPrefabs)
+                {
+                    int productID = gameObject.GetComponent<Data_Product>().productID;
+
+                    ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
+                }
+            }
         }
 
         void DisplayExtraMods()
@@ -1610,6 +1658,7 @@ namespace SupermarketTogetherKacker.menu
 
                     infoPageText += "<color=yellow>Lobby Type: Online</color>\n";
                     infoPageText += "<color=yellow>Lobby ID: " + steamLobby.CurrentLobbyIDStr + "</color>\n";
+                    //infoPageText += "<color=yellow>Lobby IP: " +  + "</color>\n";
                     infoPageText += "<color=yellow>Is Lobby Closed: " + steamLobby.isLobbyClosed + "</color>\n";
                     infoPageText += "==================================\n";
 
@@ -1718,6 +1767,29 @@ namespace SupermarketTogetherKacker.menu
                         filestuff.AppendFile("prefab_dump.txt", "\nName: "+ prefab.name+"\nInstance ID: "+prefab.GetInstanceID()+"\n--------------------------------");
                     }
                 }
+            }
+            if (GUILayout.Button("Dump Lobby Data", GUILayout.Height(30)))
+            {
+                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
+                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
+
+                CSteamID lobbyCode = new CSteamID(steamLobby.CurrentLobbyID);
+                
+                string text = "      Start of dump      \n---------------------\n";
+                
+                Filestuff filestuff = new Filestuff();
+
+                for (int i = 0; i < SteamMatchmaking.GetLobbyDataCount(lobbyCode); i++)
+                {
+                    bool success = SteamMatchmaking.GetLobbyDataByIndex(lobbyCode, i, out string key, 256, out string value, 256);
+                    if (success)
+                    {
+                        text += key + ": " + value;
+                        text += "\n";
+                    }
+                }
+                
+                filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
             }
         }
 
