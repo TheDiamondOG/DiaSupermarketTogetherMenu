@@ -743,24 +743,24 @@ namespace SupermarketTogetherKacker.menu
 
             string spamPushText;
 
-            if (spamPushOthers)
+            if (spamPush)
             {
                 spamPushText = "<color=green>ON</color>: Spam Push";
             }
             else
             {
-                spamPushOthersText = "<color=red>OFF</color>: Spam Push";
+                spamPushText = "<color=red>OFF</color>: Spam Push";
             }
 
-            if (GUILayout.Button(spamPushOthersText, GUILayout.Height(30)))
+            if (GUILayout.Button(spamPushText, GUILayout.Height(30)))
             {
-                if (spamPushOthers)
+                if (spamPush)
                 {
-                    spamPushOthers = false;
+                    spamPush = false;
                 }
                 else
                 {
-                    spamPushOthers = true;
+                    spamPush = true;
                 }
             }
 
