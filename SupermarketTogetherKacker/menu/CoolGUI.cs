@@ -77,6 +77,7 @@ namespace SupermarketTogetherKacker.menu
         private bool serverSpammer;
         private bool serverNameTakeOver;
         private bool ascendAll;
+        private bool ascendOthers;
         private bool idBasedBoxSpam;
 
         private bool finishedSpeedBoost;
@@ -107,7 +108,6 @@ namespace SupermarketTogetherKacker.menu
             Extras,
             NPC,
             Info,
-            Notifications,
             Debug,
         }
 
@@ -122,7 +122,6 @@ namespace SupermarketTogetherKacker.menu
             { ModCategory.Extras, "Extras" },
             { ModCategory.NPC, "NPC" },
             { ModCategory.Info, "Info" },
-            { ModCategory.Notifications, "Notifications" },
             { ModCategory.Debug, "Debug" }
         };
 
@@ -166,7 +165,7 @@ namespace SupermarketTogetherKacker.menu
             GUILayout.BeginHorizontal();
             foreach (ModCategory category in Enum.GetValues(typeof(ModCategory)))
             {
-                if (GUILayout.Button(ModCategoryNames[category], GUILayout.MinWidth(100)))
+                if (GUILayout.Button(ModCategoryNames[category], GUILayout.MinWidth(100), GUILayout.MaxWidth(750)))
                 {
                     currentCategory = category;
                 }
@@ -218,9 +217,6 @@ namespace SupermarketTogetherKacker.menu
                 case ModCategory.Info:
                     DisplayInfoPage();
                     break;
-                case ModCategory.Notifications:
-                    DisplayNotificationMenu();
-                    break;
                 case ModCategory.Debug:
                     DisplayDebugMods();
                     break;
@@ -256,7 +252,16 @@ namespace SupermarketTogetherKacker.menu
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
 
-                gameData.CmdOpenSupermarket();
+                if (!gameData.isSupermarketOpen)
+                {
+                    gameData.CmdOpenSupermarket();
+                
+                    Notify.Send("Opened Supermarket", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    Notify.Send("Supermarket has already been opened", Notify.NotificationType.Error);
+                }
             }
 
             if (GUILayout.Button("Close Market", GUILayout.Height(30)))
@@ -264,13 +269,19 @@ namespace SupermarketTogetherKacker.menu
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
-
-                gameData.NetworktimeOfDay = 23f;
-                gameData.SaveOBJ.GetComponent<PlayMakerFSM>().SendEvent("Send_Data");
-                gameData.CmdEndDayFromButton();
+                
+                if (gameData.NetworktimeOfDay >= 23f)
+                {
+                    gameData.CmdEndDayFromButton();
+                    Notify.Send("Closed the Supermarket", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    Notify.Send("Not time to close yet", Notify.NotificationType.Error);
+                }
             }
 
-            if (GUILayout.Button("Free Expansion", GUILayout.Height(30)))
+            if (GUILayout.Button("Free Expansion (NW)", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -282,7 +293,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Free Storage", GUILayout.Height(30)))
+            if (GUILayout.Button("Free Storage (NW)", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -310,10 +321,12 @@ namespace SupermarketTogetherKacker.menu
                 if (waterBoxSpammer)
                 {
                     waterBoxSpammer = false;
+                    Notify.Send("Water Box Spammer Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     waterBoxSpammer = true;
+                    Notify.Send("Water Box Spammer Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -333,10 +346,17 @@ namespace SupermarketTogetherKacker.menu
                 if (everyBoxSpam)
                 {
                     everyBoxSpam = false;
+                    Notify.Send("Lots of Everything Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     everyBoxSpam = true;
+                    Notify.Send("Lots of Everything Enabled", Notify.NotificationType.Success);
+                    if (!antiCrash)
+                    {
+                        antiCrash = true;
+                        Notify.Send("Anti Crash Enabled", Notify.NotificationType.Success);
+                    }
                 }
             }
         }
@@ -359,10 +379,12 @@ namespace SupermarketTogetherKacker.menu
                 if (speedBoost)
                 {
                     speedBoost = false;
+                    Notify.Send("Speedboost Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     speedBoost = true;
+                    Notify.Send("Speedboost Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -382,10 +404,12 @@ namespace SupermarketTogetherKacker.menu
                 if (airJump)
                 {
                     airJump = false;
+                    Notify.Send("Air Jump Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     airJump = true;
+                    Notify.Send("Air Jump Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -405,10 +429,12 @@ namespace SupermarketTogetherKacker.menu
                 if (jumpBoost)
                 {
                     jumpBoost = false;
+                    Notify.Send("Jump Boost Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     jumpBoost = true;
+                    Notify.Send("Jump Boost Enabled");
                 }
             }
 
@@ -428,10 +454,12 @@ namespace SupermarketTogetherKacker.menu
                 if (noJumpDelay)
                 {
                     noJumpDelay = false;
+                    Notify.Send("No Jump Delay Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     noJumpDelay = true;
+                    Notify.Send("No Jump Delay Enabled");
                 }
             }
             fov = GUILayout.HorizontalSlider(fov, 10, 120);
@@ -441,6 +469,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     fover.SetFOV(Mathf.Round(fov));
                 }
+                Notify.Send("FOV Set to "+Mathf.Round(fov), Notify.NotificationType.Success);
             }
         }
 
@@ -475,6 +504,15 @@ namespace SupermarketTogetherKacker.menu
                 GameData gameData = gameDataManager.GetComponent<GameData>();
 
                 gameData.CmdAlterFundsWithoutExperience(moneyAdd);
+                if (moneyAdd > 0)
+                {
+                    Notify.Send("Giving "+moneyAdd+"$", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    Notify.Send("Removing "+-1*moneyAdd+"$", Notify.NotificationType.Success);
+                }
+                
             }
 
             string moneySpamText;
@@ -493,10 +531,19 @@ namespace SupermarketTogetherKacker.menu
                 if (moneySpam)
                 {
                     moneySpam = false;
+                    Notify.Send("Money Spam Disabled");
                 }
                 else
                 {
                     moneySpam = true;
+                    if (moneyAdd > 0)
+                    {
+                        Notify.Send("Spam giving "+moneyAdd+"$", Notify.NotificationType.Success);
+                    }
+                    else
+                    {
+                        Notify.Send("Spam removing "+-1*moneyAdd+"$", Notify.NotificationType.Success);
+                    }
                 }
             }
 
@@ -525,6 +572,8 @@ namespace SupermarketTogetherKacker.menu
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
 
                 upgradesManager.CmdAcquirePerk(0, -pointsAdd);
+                
+                Notify.Send("Giving "+Math.Abs(pointsAdd)+" points", Notify.NotificationType.Success);
             }
 
         }
@@ -535,7 +584,20 @@ namespace SupermarketTogetherKacker.menu
             {
                 GameObject worldBarriers = GameObject.Find("Level_Exterior/Colliders");
 
-                worldBarriers.SetActive(false);
+                if (worldBarriers != null && worldBarriers.activeSelf)
+                {
+                    worldBarriers.SetActive(false);
+                    Notify.Send("World Borders Disabled", Notify.NotificationType.Success);
+                }
+                else if (worldBarriers == null)
+                {
+                    Notify.Send("World Borders Don't Exist", Notify.NotificationType.Error);
+                }
+                else if (!worldBarriers.activeSelf)
+                {
+                    Notify.Send("World Borders already got disabled", Notify.NotificationType.Error);
+                }
+                
             }
 
             if (GUILayout.Button("Become Cool", GUILayout.Height(30)))
@@ -579,21 +641,42 @@ namespace SupermarketTogetherKacker.menu
                 }
 
                 worldBarriers.SetActive(false);
+                Notify.Send("You are now cool", Notify.NotificationType.Success);
             }
 
             if (GUILayout.Button("No Jail", GUILayout.Height(30)))
             {
                 GameObject worldBarriers = GameObject.Find("TheCoolRoom/Jail");
 
-                worldBarriers.SetActive(false);
+                if (worldBarriers != null && worldBarriers.activeSelf)
+                {
+                    worldBarriers.SetActive(false);
+                    Notify.Send("Jail Disabled", Notify.NotificationType.Success);
+                }
+                else if (worldBarriers == null)
+                {
+                    Notify.Send("The Jail Doesn't Exist", Notify.NotificationType.Error);
+                }
+                else if (!worldBarriers.activeSelf)
+                {
+                    Notify.Send("The Jail already got disabled", Notify.NotificationType.Error);
+                }
             }
+            
         }
 
         void DisplayServerMods()
         {
             productIDString = GUILayout.TextField(productIDString, GUILayout.Height(30));
+
+            try
+            {
+                productID = int.Parse(productIDString);
+            }
+            catch (Exception)
+            {
                 
-            productID = int.Parse(productIDString);
+            }
             
             if (GUILayout.Button("Spawn by ID", GUILayout.Height(30)))
             {
@@ -613,6 +696,8 @@ namespace SupermarketTogetherKacker.menu
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
                 managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
+                
+                Notify.Send("Spawned box with id "+productID, Notify.NotificationType.Success);
             }
             string idBasedBoxSpamText;
 
@@ -630,10 +715,12 @@ namespace SupermarketTogetherKacker.menu
                 if (idBasedBoxSpam)
                 {
                     idBasedBoxSpam = false;
+                    Notify.Send("ID Box Spammer Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     idBasedBoxSpam = true;
+                    Notify.Send("ID Box Spammer Enabled", Notify.NotificationType.Success);
                 }
             }
             if (GUILayout.Button("Add Random Perks", GUILayout.Height(30)))
@@ -653,6 +740,7 @@ namespace SupermarketTogetherKacker.menu
                     i += 1;
                     upgradesManager.extraUpgrades[i] = false;
                 }
+                Notify.Send("Added Random Perks", Notify.NotificationType.Success);
             }
 
             string perkSpamText;
@@ -671,10 +759,12 @@ namespace SupermarketTogetherKacker.menu
                 if (perkSpam)
                 {
                     perkSpam = false;
+                    Notify.Send("Perk Spam Enabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     perkSpam = true;
+                    Notify.Send("Perk Spam Disabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -703,6 +793,8 @@ namespace SupermarketTogetherKacker.menu
                 gameData.employeesCost = 0;
 
                 //employeesData.HireEmployee(rnd.Next(0,upgradesManager.maxEmployees), RandomString(rnd.Next(5,20)));
+                
+                Notify.Send("Added an Employee", Notify.NotificationType.Success);
             }
 
             string employeeSpamText;
@@ -721,10 +813,12 @@ namespace SupermarketTogetherKacker.menu
                 if (employeeSpam)
                 {
                     employeeSpam = false;
+                    Notify.Send("Employee Spam Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     employeeSpam = true;
+                    Notify.Send("Employee Spam Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -741,6 +835,7 @@ namespace SupermarketTogetherKacker.menu
                         Mods.PushPlayer(player, pushDirection);
                     }
                 }
+                Notify.Send("Pushed Other Players", Notify.NotificationType.Success);
             }
 
             string spamPushOthersText;
@@ -759,10 +854,12 @@ namespace SupermarketTogetherKacker.menu
                 if (spamPushOthers)
                 {
                     spamPushOthers = false;
+                    Notify.Send("Push Spam Others Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     spamPushOthers = true;
+                    Notify.Send("Push Spam Others Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -777,6 +874,7 @@ namespace SupermarketTogetherKacker.menu
 
                     Mods.PushPlayer(player, pushDirection);
                 }
+                Notify.Send("Push Everyone", Notify.NotificationType.Success);
             }
 
             string spamPushText;
@@ -795,10 +893,12 @@ namespace SupermarketTogetherKacker.menu
                 if (spamPush)
                 {
                     spamPush = false;
+                    Notify.Send("Push Spam Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     spamPush = true;
+                    Notify.Send("Push Spam Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -820,10 +920,12 @@ namespace SupermarketTogetherKacker.menu
                 if (messageSpam)
                 {
                     messageSpam = false;
+                    Notify.Send("Message Spammer Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     messageSpam = true;
+                    Notify.Send("Message Spammer Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -843,10 +945,17 @@ namespace SupermarketTogetherKacker.menu
                 if (messageCrasher)
                 {
                     messageCrasher = false;
+                    Notify.Send("Message Crasher Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     messageCrasher = true;
+                    Notify.Send("Message Crasher Enabled", Notify.NotificationType.Success);
+                    if (!antiCrash)
+                    {
+                        antiCrash = true;
+                        Notify.Send("Anti Crash Enabled", Notify.NotificationType.Success);
+                    }
                 }
             }
 
@@ -864,13 +973,16 @@ namespace SupermarketTogetherKacker.menu
                 {
                     lastColor = networkSpawner.SuperMarketColor;
                     test = new Color(255, 255, 255, 255);
+                    Notify.Send("Here comes the sun", Notify.NotificationType.Success);
                 }
                 else
                 {
                     test = lastColor;
+                    Notify.Send("nvm it's gone now", Notify.NotificationType.Success);
                 }
 
                 networkSpawner.CmdSetSupermarketColor(test);
+                
             }
 
             newSuperMarketName = GUILayout.TextField(newSuperMarketName, GUILayout.Height(30));
@@ -881,189 +993,87 @@ namespace SupermarketTogetherKacker.menu
                 NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
 
                 networkSpawner.CmdSetSupermarketText(newSuperMarketName);
+                Notify.Send("Supermarket name is now "+newSuperMarketName, Notify.NotificationType.Success);
             }
 
             if (GUILayout.Button("Max Boxes", GUILayout.Height(30)))
             {
-                // Find the GameObject
-                GameObject gameDataObject = GameObject.Find("GameDataManager");
-
-                if (gameDataObject == null)
-                {
-                    Debug.LogError("GameDataManager not found!");
-                    return;
-                }
-
-                NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
-
-                if (networkSpawner == null)
-                {
-                    Debug.LogError("NetworkSpawner component not found!");
-                    return;
-                }
-
                 BoxData[] allBoxes = FindObjectsOfType<BoxData>();
 
                 foreach (BoxData box in allBoxes)
                 {
-                    // Set public property
                     box.numberOfProducts = 999999999;
 
-                    // Get the type of the BoxData class
                     Type type = typeof(BoxData);
-
-                    // Use reflection to get the private method
+                    
                     MethodInfo privateMethod =
                         type.GetMethod("SetBoxData", BindingFlags.NonPublic | BindingFlags.Instance);
 
-                    if (privateMethod != null)
+                    ParameterInfo[] parameters = privateMethod.GetParameters();
+
+                    try
                     {
-                        try
-                        {
-                            // Check if the method requires parameters
-                            ParameterInfo[] parameters = privateMethod.GetParameters();
-                            if (parameters.Length == 0)
-                            {
-                                // Invoke the private method without parameters
-                                privateMethod.Invoke(box, null);
-                            }
-                            else
-                            {
-                                Debug.LogWarning("The method requires parameters. Unable to invoke.");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.LogError($"Exception occurred while invoking the method: {ex.Message}");
-                        }
+                        privateMethod.Invoke(box, null);
+                        Notify.Send("Set all boxes to 999999999", Notify.NotificationType.Success);
                     }
-                    else
+                    catch (Exception)
                     {
-                        Debug.LogWarning("Method 'SetBoxData' not found.");
+                        Notify.Send("Failed to set the boxes to 999999999", Notify.NotificationType.Error);   
                     }
+                    
                 }
             }
 
             if (GUILayout.Button("Water Infection", GUILayout.Height(30)))
             {
-                // Find the GameObject
-                GameObject gameDataObject = GameObject.Find("GameDataManager");
-
-                if (gameDataObject == null)
-                {
-                    Debug.LogError("GameDataManager not found!");
-                    return;
-                }
-
-                NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
-
-                if (networkSpawner == null)
-                {
-                    Debug.LogError("NetworkSpawner component not found!");
-                    return;
-                }
-
                 BoxData[] allBoxes = FindObjectsOfType<BoxData>();
 
                 foreach (BoxData box in allBoxes)
                 {
-                    // Set public property
                     box.numberOfProducts = 999999999;
                     box.productID = 1;
 
-                    // Get the type of the BoxData class
                     Type type = typeof(BoxData);
-
-                    // Use reflection to get the private method
+                    
                     MethodInfo privateMethod =
                         type.GetMethod("SetBoxData", BindingFlags.NonPublic | BindingFlags.Instance);
+                    
+                    try
+                    {
+                        privateMethod.Invoke(box, null);
+                        Notify.Send("Set all boxes to water", Notify.NotificationType.Success);
+                    }
+                    catch (Exception)
+                    {
+                        Notify.Send("Failed to set the boxes to water", Notify.NotificationType.Error);   
+                    }
 
-                    if (privateMethod != null)
-                    {
-                        try
-                        {
-                            // Check if the method requires parameters
-                            ParameterInfo[] parameters = privateMethod.GetParameters();
-                            if (parameters.Length == 0)
-                            {
-                                // Invoke the private method without parameters
-                                privateMethod.Invoke(box, null);
-                            }
-                            else
-                            {
-                                Debug.LogWarning("The method requires parameters. Unable to invoke.");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.LogError($"Exception occurred while invoking the method: {ex.Message}");
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Method 'SetBoxData' not found.");
-                    }
                 }
             }
 
             if (GUILayout.Button("No Product", GUILayout.Height(30)))
             {
-                // Find the GameObject
-                GameObject gameDataObject = GameObject.Find("GameDataManager");
-
-                if (gameDataObject == null)
-                {
-                    Debug.LogError("GameDataManager not found!");
-                    return;
-                }
-
-                NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
-
-                if (networkSpawner == null)
-                {
-                    Debug.LogError("NetworkSpawner component not found!");
-                    return;
-                }
-
                 BoxData[] allBoxes = FindObjectsOfType<BoxData>();
 
                 foreach (BoxData box in allBoxes)
                 {
-                    // Set public property
                     box.numberOfProducts = 0;
 
-                    // Get the type of the BoxData class
                     Type type = typeof(BoxData);
-
-                    // Use reflection to get the private method
+                    
                     MethodInfo privateMethod =
                         type.GetMethod("SetBoxData", BindingFlags.NonPublic | BindingFlags.Instance);
+                    
+                    try
+                    {
+                        privateMethod.Invoke(box, null);
+                        Notify.Send("Set all boxes to 0", Notify.NotificationType.Success);
+                    }
+                    catch (Exception)
+                    {
+                        Notify.Send("Failed to set the boxes to 0", Notify.NotificationType.Error);   
+                    }
 
-                    if (privateMethod != null)
-                    {
-                        try
-                        {
-                            // Check if the method requires parameters
-                            ParameterInfo[] parameters = privateMethod.GetParameters();
-                            if (parameters.Length == 0)
-                            {
-                                // Invoke the private method without parameters
-                                privateMethod.Invoke(box, null);
-                            }
-                            else
-                            {
-                                Debug.LogWarning("The method requires parameters. Unable to invoke.");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.LogError($"Exception occurred while invoking the method: {ex.Message}");
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Method 'SetBoxData' not found.");
-                    }
                 }
             }
 
@@ -1083,10 +1093,13 @@ namespace SupermarketTogetherKacker.menu
                 if (disableMovement)
                 {
                     disableMovement = false;
+                    
+                    Notify.Send("Disable Movement Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     disableMovement = true;
+                    Notify.Send("Disable Movement Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1107,10 +1120,12 @@ namespace SupermarketTogetherKacker.menu
                 if (disableOthersMovement)
                 {
                     disableOthersMovement = false;
+                    Notify.Send("Disable Others Movement Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     disableOthersMovement = true;
+                    Notify.Send("Disable Others Movement Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1130,10 +1145,12 @@ namespace SupermarketTogetherKacker.menu
                 if (randomBoxSpam)
                 {
                     randomBoxSpam = false;
+                    Notify.Send("Water Everywhere Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     randomBoxSpam = true;
+                    Notify.Send("Water Everywhere Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1153,10 +1170,17 @@ namespace SupermarketTogetherKacker.menu
                 if (instantCrasher)
                 {
                     instantCrasher = false;
+                    Notify.Send("Instant Crasher Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     instantCrasher = true;
+                    Notify.Send("Instant Crasher Enabled", Notify.NotificationType.Success);
+                    if (!antiCrash)
+                    {
+                        antiCrash = true;
+                        Notify.Send("Anti Crash Enabled", Notify.NotificationType.Success);
+                    }
                 }
             }
 
@@ -1176,10 +1200,17 @@ namespace SupermarketTogetherKacker.menu
                 if (boxLagger)
                 {
                     boxLagger = false;
+                    Notify.Send("Box Crasher Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     boxLagger = true;
+                    Notify.Send("Box Crasher Enabled", Notify.NotificationType.Success);
+                    if (!antiCrash)
+                    {
+                        antiCrash = true;
+                        Notify.Send("Anti Crash Enabled", Notify.NotificationType.Success);
+                    }
                 }
             }
 
@@ -1199,6 +1230,7 @@ namespace SupermarketTogetherKacker.menu
                         Mods.MoveObject(playerNetwork.gameObject, SpawnPosition);
                     }
                 }
+                Notify.Send("Brought all player", Notify.NotificationType.Success);
             }
 
             if (GUILayout.Button("Bring All Boxes", GUILayout.Height(30)))
@@ -1214,9 +1246,10 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(box.gameObject, SpawnPosition);
                 }
+                Notify.Send("Brought all boxes", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Players To Nothing", GUILayout.Height(30)))
+            if (GUILayout.Button("Screen Freezer", GUILayout.Height(30)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1229,6 +1262,7 @@ namespace SupermarketTogetherKacker.menu
                         Mods.MoveObject(playerNetwork.gameObject, SpawnPosition);
                     }
                 }
+                Notify.Send("Froze everyone's screens", Notify.NotificationType.Success);
             }
 
             if (GUILayout.Button("Boxes To Nothing", GUILayout.Height(30)))
@@ -1241,6 +1275,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(box.gameObject, SpawnPosition);
                 }
+                Notify.Send("Brought all boxes to nothing", Notify.NotificationType.Success);
             }
 
             string classicBoxSpamText;
@@ -1259,10 +1294,12 @@ namespace SupermarketTogetherKacker.menu
                 if (classicBoxSpam)
                 {
                     classicBoxSpam = false;
+                    Notify.Send("Classic Box Spam Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     classicBoxSpam = true;
+                    Notify.Send("Classic Box Spam Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1276,6 +1313,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(npc.gameObject, SpawnPosition);
                 }
+                Notify.Send("Destroyed Floor Colliders", Notify.NotificationType.Success);
             }
             
             if (GUILayout.Button("Bring all NPCs", GUILayout.Height(30)))
@@ -1294,6 +1332,7 @@ namespace SupermarketTogetherKacker.menu
                         Mods.MoveObject(npc.gameObject, SpawnPosition);
                     }
                 }
+                Notify.Send("Brought all NPCs", Notify.NotificationType.Success);
             }
             
             if (GUILayout.Button("NPCs to Nothing", GUILayout.Height(30)))
@@ -1309,6 +1348,7 @@ namespace SupermarketTogetherKacker.menu
                         Mods.MoveObject(npc.gameObject, SpawnPosition);
                     }
                 }
+                Notify.Send("Brought all NPCs to nothing", Notify.NotificationType.Success);
             }
             
             string becomeHostText;
@@ -1327,19 +1367,22 @@ namespace SupermarketTogetherKacker.menu
                 if (becomeHost)
                 {
                     becomeHost = false;
+                    Notify.Send("Become Host Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     becomeHost = true;
+                    Notify.Send("Become Host Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Enable Voice Chat", GUILayout.Height(30)))
+            if (GUILayout.Button("Enable Voicechat", GUILayout.Height(30)))
             {
                 GameObject gameDataObject = GameObject.Find("GameDataManager");
                 
                 NetworkGameBehaviors networkGameBehaviors = gameDataObject.GetComponent<NetworkGameBehaviors>();
                 
                 networkGameBehaviors.CmdServerEnableVoiceChat();
+                Notify.Send("Voice Chat Enabled", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Bring all Debris", GUILayout.Height(30)))
             {
@@ -1354,6 +1397,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(debis.gameObject, SpawnPosition);
                 }
+                Notify.Send("Brought all Debris", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Debris to Nothing", GUILayout.Height(30)))
             {
@@ -1365,6 +1409,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(debis.gameObject, SpawnPosition);
                 }
+                Notify.Send("Brought all Debris to Nothing", Notify.NotificationType.Success);
             }
             
             if (GUILayout.Button("Bring all Store Items", GUILayout.Height(30)))
@@ -1387,6 +1432,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(buildable.gameObject, SpawnPosition);
                 }
+                Notify.Send("Brought all Store Items", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Store Items to Nothing", GUILayout.Height(30)))
             {
@@ -1405,6 +1451,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(buildable.gameObject, SpawnPosition);
                 }
+                Notify.Send("Brought all Store Items to Nothing", Notify.NotificationType.Success);
             }
             
             if (GUILayout.Button("Bring all Networked Items", GUILayout.Height(30)))
@@ -1420,6 +1467,8 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(item.gameObject, SpawnPosition);
                 }
+                
+                Notify.Send("Brought all Networked Items", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Networked Items to Nothing (Except Players, breaks collisions)", GUILayout.Height(30)))
             {
@@ -1434,12 +1483,14 @@ namespace SupermarketTogetherKacker.menu
                         Mods.MoveObject(item.gameObject, SpawnPosition);
                     }
                 }
+                Notify.Send("Brought all Networked Items to Nothing", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Clear Trash", GUILayout.Height(30)))
             {
                 TrashSpawn trashSpawn = FindObjectOfType<TrashSpawn>();
                 
                 trashSpawn.CmdClearTrash();
+                Notify.Send("Cleared Trash", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Unlock Lobby", GUILayout.Height(30)))
             {
@@ -1447,6 +1498,7 @@ namespace SupermarketTogetherKacker.menu
                 SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
                 
                 steamLobby.SetCurrentLobbyJoinable(true);
+                Notify.Send("Unlocked Lobby", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Lock Lobby", GUILayout.Height(30)))
             {
@@ -1454,6 +1506,7 @@ namespace SupermarketTogetherKacker.menu
                 SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
                 
                 steamLobby.SetCurrentLobbyJoinable(false);
+                Notify.Send("Locked Lobby", Notify.NotificationType.Success);
             }
 
             
@@ -1463,6 +1516,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
                 }
+                Notify.Send("Set all prices to NaN", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
             {
@@ -1470,6 +1524,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
                 }
+                Notify.Send("Maxed out all prices", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
             {
@@ -1477,6 +1532,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
                 }
+                Notify.Send("Negative Prices", Notify.NotificationType.Success);
             }
             
             if (GUILayout.Button("Network Cube Spawn", GUILayout.Height(30)))
@@ -1485,6 +1541,8 @@ namespace SupermarketTogetherKacker.menu
 
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube); 
                 NetworkServer.Spawn(cube, localPlayer);
+                
+                Notify.Send("Spawned Networked Cube", Notify.NotificationType.Success);
             }
             
             string ascendAllText;
@@ -1503,10 +1561,37 @@ namespace SupermarketTogetherKacker.menu
                 if (ascendAll)
                 {
                     ascendAll = false;
+                    Notify.Send("Ascend All Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     ascendAll = true;
+                    Notify.Send("Ascend All Enabled", Notify.NotificationType.Success);
+                }
+            }
+            
+            string ascendOthersText;
+
+            if (ascendOthers)
+            {
+                ascendOthersText = "<color=green>ON</color>: Ascend Others";
+            }
+            else
+            {
+                ascendOthersText = "<color=red>OFF</color>: Ascend Others";
+            }
+
+            if (GUILayout.Button(ascendOthersText, GUILayout.Height(30)))
+            {
+                if (ascendOthers)
+                {
+                    ascendOthers = false;
+                    Notify.Send("Ascend Others Disabled", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    ascendOthers = true;
+                    Notify.Send("Ascend Others Enabled", Notify.NotificationType.Success);
                 }
             }
         }
@@ -1518,22 +1603,23 @@ namespace SupermarketTogetherKacker.menu
                 GameObject tutorialObject = GameObject.Find("GameCanvas/Tutorials");
 
                 tutorialObject.SetActive(false);
+                
+                Notify.Send("Hid Tutorial", Notify.NotificationType.Success);
             }
 
             if (GUILayout.Button("Scan All", GUILayout.Height(30)))
             {
-                // Find all objects with the PlayerNetwork component
                 ProductCheckoutSpawn[] allProducts = FindObjectsOfType<ProductCheckoutSpawn>();
 
                 foreach (ProductCheckoutSpawn product in allProducts)
                 {
                     product.CmdAddProductValueToCheckout();
                 }
+                Notify.Send("Scanned All Products", Notify.NotificationType.Success);
             }
 
             if (GUILayout.Button("Auto Checkout", GUILayout.Height(30)))
             {
-                // Find all objects with the PlayerNetwork component
                 ProductCheckoutSpawn[] allProducts = FindObjectsOfType<ProductCheckoutSpawn>();
 
                 foreach (ProductCheckoutSpawn product in allProducts)
@@ -1541,7 +1627,6 @@ namespace SupermarketTogetherKacker.menu
                     product.CmdAddProductValueToCheckout();
                 }
 
-                // Find all objects with the PlayerNetwork component
                 Data_Container[] allCheckouts = FindObjectsOfType<Data_Container>();
 
                 foreach (Data_Container checkout in allCheckouts)
@@ -1554,6 +1639,7 @@ namespace SupermarketTogetherKacker.menu
                         checkout.CmdReceivePayment(checkout.currentAmountToReturn);
                     }
                 }
+                Notify.Send("Auto Checked Out", Notify.NotificationType.Success);
             }
 
             string autoCheckoutText;
@@ -1572,10 +1658,12 @@ namespace SupermarketTogetherKacker.menu
                 if (autoCheckout)
                 {
                     autoCheckout = false;
+                    Notify.Send("Break Checkout Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     autoCheckout = true;
+                    Notify.Send("Break Checkout Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1584,6 +1672,7 @@ namespace SupermarketTogetherKacker.menu
             if (GUILayout.Button("Set Name", GUILayout.Height(30)))
             {
                 Mods.SetPlayerName(newUsername);
+                Notify.Send("Player name set to "+newUsername, Notify.NotificationType.Success);
             }
 
             string coolHeckerText;
@@ -1602,10 +1691,12 @@ namespace SupermarketTogetherKacker.menu
                 if (coolHeckerButton)
                 {
                     coolHeckerButton = false;
+                    Notify.Send("Cool Hecker Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     coolHeckerButton = true;
+                    Notify.Send("Cool Hecker Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1617,6 +1708,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     checkout.CmdRecoverStolenProduct();
                 }
+                Notify.Send("Grabbed all Stolen Productws", Notify.NotificationType.Success);
             }
 
             string antiCrashText;
@@ -1635,10 +1727,12 @@ namespace SupermarketTogetherKacker.menu
                 if (antiCrash)
                 {
                     antiCrash = false;
+                    Notify.Send("Anticrash Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     antiCrash = true;
+                    Notify.Send("Anticrash Enabled", Notify.NotificationType.Success);
                 }
             }
 
@@ -1646,6 +1740,7 @@ namespace SupermarketTogetherKacker.menu
             {
                 Application.targetFrameRate = 999999999;
                 QualitySettings.vSyncCount = 0;
+                Notify.Send("Unlocked FPS", Notify.NotificationType.Success);
             }
             
             if (GUILayout.Button("Force Save", GUILayout.Height(30)))
@@ -1655,6 +1750,8 @@ namespace SupermarketTogetherKacker.menu
                 SaveBehaviour saveBehaviour = SceneManager.gameObject.GetComponent<SaveBehaviour>();
                 
                 saveBehaviour.SavePersistentValues();
+                
+                Notify.Send("Forced Save", Notify.NotificationType.Success);
             }
             
             string fpsBoosterText;
@@ -1674,11 +1771,42 @@ namespace SupermarketTogetherKacker.menu
                 {
                     FPSBoostCrap.FPSBoost();
                     FPSBoostCrap.fpsBoost = false;
+                    Notify.Send("FPS Boost Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     FPSBoostCrap.FPSBoost();
                     FPSBoostCrap.fpsBoost = true;
+                    Notify.Send("FPS Boost Enabled", Notify.NotificationType.Success);
+                }
+            }
+            if (GUILayout.Button("Clear Notifications", GUILayout.Height(30)))
+            {
+                Notify.ClearNotifications();
+            }
+
+            string toggleNotificationsText;
+            
+            if (Notify.enabled)
+            {
+                toggleNotificationsText = "<color=green>ON</color>: Notifications";
+            }
+            else
+            {
+                toggleNotificationsText = "<color=red>OFF</color>: Notifications";
+            }
+
+            if (GUILayout.Button(toggleNotificationsText, GUILayout.Height(30)))
+            {
+                if (Notify.enabled)
+                {
+                    Notify.enabled = false;
+                    Notify.ClearNotifications();
+                }
+                else
+                {
+                    Notify.enabled = true;
+                    Notify.Send("Notifications Enabled", Notify.NotificationType.Success);
                 }
             }
         }
@@ -1701,22 +1829,24 @@ namespace SupermarketTogetherKacker.menu
                 if (spamHitNPCs)
                 {
                     spamHitNPCs = false;
+                    Notify.Send("Spam Hit NPCs Disabled", Notify.NotificationType.Success);
                 }
                 else
                 {
                     spamHitNPCs = true;
+                    Notify.Send("Spam Hit NPCs Enabled", Notify.NotificationType.Success);
                 }
             }
 
             if (GUILayout.Button("Hit NPCs", GUILayout.Height(30)))
             {
-                // Find all objects with the PlayerNetwork component
                 NPC_Info[] allNPCs = FindObjectsOfType<NPC_Info>();
 
                 foreach (NPC_Info npc in allNPCs)
                 {
                     npc.CmdAnimationPlay(0);
                 }
+                Notify.Send("Hit All NPCs", Notify.NotificationType.Success);
             }
         }
 
@@ -1831,49 +1961,8 @@ namespace SupermarketTogetherKacker.menu
             GUILayout.Label(infoPageText);
         }
         
-        void DisplayNotificationMenu()
-        {
-            if (GUILayout.Button("Test Notification Info", GUILayout.Height(30)))
-            {
-                Notify.Send("Test Info", Notify.NotificationType.Info);
-            }
-            if (GUILayout.Button("Test Notification Warning", GUILayout.Height(30)))
-            {
-                Notify.Send("Test Warning", Notify.NotificationType.Warning);
-            }
-            if (GUILayout.Button("Test Notification Error", GUILayout.Height(30)))
-            {
-                Notify.Send("Test Error", Notify.NotificationType.Error);
-            }
-            if (GUILayout.Button("Test Notification Success", GUILayout.Height(30)))
-            {
-                Notify.Send("Test Success", Notify.NotificationType.Success);
-            }
-            if (GUILayout.Button("Clear Notifications", GUILayout.Height(30)))
-            {
-                Notify.ClearNotifications();
-            }
-        }
-        
         void DisplayDebugMods()
         {
-            if (GUILayout.Button("Dump Prefabs", GUILayout.Height(30)))
-            {
-                Filestuff filestuff = new Filestuff();
-                
-                // Load all prefabs in the Resources folder
-                var prefabs = Resources.LoadAll<GameObject>("");
-                
-                filestuff.WriteToFile("prefab_dump.txt", "      Start of dump      \n---------------------");
-                
-                foreach (var prefab in prefabs)
-                {
-                    if (prefab != null)
-                    {
-                        filestuff.AppendFile("prefab_dump.txt", "\nName: "+ prefab.name+"\nInstance ID: "+prefab.GetInstanceID()+"\n--------------------------------");
-                    }
-                }
-            }
             if (GUILayout.Button("Dump Lobby Data", GUILayout.Height(30)))
             {
                 GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
@@ -1896,6 +1985,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 
                 filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
+                Notify.Send("Dumped Lobby Data", Notify.NotificationType.Success);
             }
             if (GUILayout.Button("Dump Product IDs", GUILayout.Height(30)))
             {
@@ -1920,6 +2010,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 
                 filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
+                Notify.Send("Dumped Product IDs", Notify.NotificationType.Success);
             }
         }
 
@@ -2571,6 +2662,17 @@ namespace SupermarketTogetherKacker.menu
                 foreach (PlayerNetwork player in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
                 {
                     Mods.MoveObject(player.gameObject, new Vector3(player.gameObject.transform.position.x, player.gameObject.transform.position.y+5f, player.gameObject.transform.position.z));
+                }
+            }
+            
+            if (ascendOthers)
+            {
+                foreach (PlayerNetwork player in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
+                {
+                    if (!player.isLocalPlayer)
+                    {
+                        Mods.MoveObject(player.gameObject, new Vector3(player.gameObject.transform.position.x, player.gameObject.transform.position.y+5f, player.gameObject.transform.position.z));
+                    }
                 }
             }
 
