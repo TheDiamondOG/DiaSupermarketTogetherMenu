@@ -1514,7 +1514,15 @@ namespace SupermarketTogetherKacker.menu
             {
                 for (int i = 0; i < 500; i++)
                 {
-                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
+                    try
+                    {
+                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                    
                 }
                 Notify.Send("Set all prices to NaN", Notify.NotificationType.Success);
             }
@@ -1522,7 +1530,15 @@ namespace SupermarketTogetherKacker.menu
             {
                 for (int i = 0; i < 500; i++)
                 {
-                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
+                    try
+                    {
+                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                    
                 }
                 Notify.Send("Maxed out all prices", Notify.NotificationType.Success);
             }
@@ -1530,7 +1546,15 @@ namespace SupermarketTogetherKacker.menu
             {
                 for (int i = 0; i < 500; i++)
                 {
-                    ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
+                    try
+                    {
+                        ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
+                    
                 }
                 Notify.Send("Negative Prices", Notify.NotificationType.Success);
             }
@@ -1593,6 +1617,21 @@ namespace SupermarketTogetherKacker.menu
                     ascendOthers = true;
                     Notify.Send("Ascend Others Enabled", Notify.NotificationType.Success);
                 }
+            }
+            if (GUILayout.Button("Give Most Perms", GUILayout.Height(30)))
+            {
+                GameObject localPlayerObject = GameObject.Find("LocalGamePlayer");
+
+                PlayerPermissions playerPermissions = localPlayerObject.GetComponent<PlayerPermissions>();
+
+                playerPermissions.RequestGP();
+                playerPermissions.RequestMP();
+                playerPermissions.RequestSP();
+                playerPermissions.RequestTP();
+                playerPermissions.RequestRP();
+                playerPermissions.RequestCP();
+                
+                Notify.Send("Gave most perms", Notify.NotificationType.Success);
             }
         }
 
