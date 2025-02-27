@@ -5,6 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Folder Include="Patches\" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Reference Include="0Harmony">
         <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\0Harmony.dll</HintPath>
       </Reference>
