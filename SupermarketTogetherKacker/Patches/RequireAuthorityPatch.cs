@@ -13,4 +13,4 @@ namespace SupermarketTogetherKacker.Patches
             return true;
         }
     }
-}
+ }

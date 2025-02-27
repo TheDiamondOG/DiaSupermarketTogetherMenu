@@ -5,5 +5,5 @@ namespace SupermarketTogetherKacker.menu
     public class CoolLogging
     {
         
-    }
+    } 
 }

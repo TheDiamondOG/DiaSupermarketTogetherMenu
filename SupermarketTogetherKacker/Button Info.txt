@@ -36,4 +36,4 @@ Then put this in your update function
 if (toggleBool)
 {
     // Code Here
-}
+} 

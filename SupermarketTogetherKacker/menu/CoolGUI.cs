@@ -1634,7 +1634,7 @@ namespace SupermarketTogetherKacker.menu
                 
                 Notify.Send("Gave most perms", Notify.NotificationType.Success);
             }
-        }
+        } 
 
         void DisplayExtraMods()
         {

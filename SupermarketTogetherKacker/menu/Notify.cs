@@ -73,7 +73,7 @@ namespace SupermarketTogetherKacker.menu
             {
                 notifications.Add(new Notification(message, type, Time.time + duration));
             }
-        }
+        } 
 
         public static void ClearNotifications()
         {

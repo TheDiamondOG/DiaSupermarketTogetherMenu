@@ -14,7 +14,7 @@ namespace SupermarketTogetherKacker.menu
         private static float originalRenderScaleX;
         private static float originalRenderScaleY;
 
-        public static bool fpsBoost;
+        public static bool fpsBoost; 
         
         public static void FPSBoost()
         {

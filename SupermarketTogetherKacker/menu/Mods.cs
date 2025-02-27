@@ -82,7 +82,7 @@ namespace SupermarketTogetherKacker.menu
                     Console.WriteLine("Method not found.");
                 }
             }
-        }
+        } 
         
         ulong GenerateRandomUlong()
         {
