@@ -6,391 +6,391 @@
 
     <ItemGroup>
       <Reference Include="0Harmony">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/0Harmony.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="Assembly-CSharp">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Assembly-CSharp.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Assembly-CSharp.dll</HintPath>
       </Reference>
       <Reference Include="BepInEx">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/BepInEx.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\BepInEx.dll</HintPath>
       </Reference>
       <Reference Include="BepInEx.Harmony">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/BepInEx.Harmony.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\BepInEx.Harmony.dll</HintPath>
       </Reference>
       <Reference Include="BepInEx.Preloader">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/BepInEx.Preloader.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\BepInEx.Preloader.dll</HintPath>
       </Reference>
       <Reference Include="BouncyCastle.Cryptography">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/BouncyCastle.Cryptography.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\BouncyCastle.Cryptography.dll</HintPath>
       </Reference>
       <Reference Include="CFXRRuntime">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/CFXRRuntime.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\CFXRRuntime.dll</HintPath>
       </Reference>
       <Reference Include="Cinemachine">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Cinemachine.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Cinemachine.dll</HintPath>
       </Reference>
       <Reference Include="com.rlabrecque.steamworks.net">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/com.rlabrecque.steamworks.net.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
       </Reference>
       <Reference Include="ConditionalExpression">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/ConditionalExpression.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\ConditionalExpression.dll</HintPath>
       </Reference>
       <Reference Include="DissonanceVoip">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/DissonanceVoip.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\DissonanceVoip.dll</HintPath>
       </Reference>
       <Reference Include="FizzySteamworks">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/FizzySteamworks.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\FizzySteamworks.dll</HintPath>
       </Reference>
       <Reference Include="HarmonyXInterop">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/HarmonyXInterop.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\HarmonyXInterop.dll</HintPath>
       </Reference>
       <Reference Include="kcp2k">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/kcp2k.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\kcp2k.dll</HintPath>
       </Reference>
       <Reference Include="MeshCombinerCore">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/MeshCombinerCore.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\MeshCombinerCore.dll</HintPath>
       </Reference>
       <Reference Include="MeshCombinerDemo">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/MeshCombinerDemo.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\MeshCombinerDemo.dll</HintPath>
       </Reference>
       <Reference Include="Mirror">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Mirror.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Mirror.dll</HintPath>
       </Reference>
       <Reference Include="Mirror.Authenticators">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Mirror.Authenticators.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Mirror.Authenticators.dll</HintPath>
       </Reference>
       <Reference Include="Mirror.Components">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Mirror.Components.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Mirror.Components.dll</HintPath>
       </Reference>
       <Reference Include="Mirror.Examples">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Mirror.Examples.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Mirror.Examples.dll</HintPath>
       </Reference>
       <Reference Include="Mirror.Transports">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Mirror.Transports.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Mirror.Transports.dll</HintPath>
       </Reference>
       <Reference Include="Mono.Cecil">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/Mono.Cecil.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\Mono.Cecil.dll</HintPath>
       </Reference>
       <Reference Include="Mono.Cecil.Mdb">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/Mono.Cecil.Mdb.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\Mono.Cecil.Mdb.dll</HintPath>
       </Reference>
       <Reference Include="Mono.Cecil.Pdb">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/Mono.Cecil.Pdb.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\Mono.Cecil.Pdb.dll</HintPath>
       </Reference>
       <Reference Include="Mono.Cecil.Rocks">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/Mono.Cecil.Rocks.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\Mono.Cecil.Rocks.dll</HintPath>
       </Reference>
       <Reference Include="MonoMod.RuntimeDetour">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/MonoMod.RuntimeDetour.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
       </Reference>
       <Reference Include="MonoMod.Utils">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/BepInEx/core/MonoMod.Utils.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\BepInEx\core\MonoMod.Utils.dll</HintPath>
       </Reference>
       <Reference Include="Newtonsoft.Json">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Newtonsoft.Json.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Newtonsoft.Json.dll</HintPath>
       </Reference>
       <Reference Include="PlayMaker">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/PlayMaker.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\PlayMaker.dll</HintPath>
       </Reference>
       <Reference Include="Rewired_Core">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Rewired_Core.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Rewired_Core.dll</HintPath>
       </Reference>
       <Reference Include="Rewired_Windows">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Rewired_Windows.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Rewired_Windows.dll</HintPath>
       </Reference>
       <Reference Include="SimpleWebTransport">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/SimpleWebTransport.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\SimpleWebTransport.dll</HintPath>
       </Reference>
       <Reference Include="UModelerCommon">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UModelerCommon.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UModelerCommon.dll</HintPath>
       </Reference>
       <Reference Include="Unity.AI.Navigation">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.AI.Navigation.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.AI.Navigation.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Animation.Rigging">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Animation.Rigging.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Animation.Rigging.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Animation.Rigging.DocCodeExamples">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Animation.Rigging.DocCodeExamples.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Animation.Rigging.DocCodeExamples.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Burst">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Burst.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Burst.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Burst.Unsafe">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Burst.Unsafe.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Burst.Unsafe.dll</HintPath>
       </Reference>
       <Reference Include="Unity.InputSystem">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.InputSystem.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.InputSystem.dll</HintPath>
       </Reference>
       <Reference Include="Unity.InputSystem.ForUI">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.InputSystem.ForUI.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.InputSystem.ForUI.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Mathematics">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Mathematics.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Mathematics.dll</HintPath>
       </Reference>
       <Reference Include="Unity.MemoryProfiler">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.MemoryProfiler.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.MemoryProfiler.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Profiling.Core">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Profiling.Core.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Profiling.Core.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipelines.Core.Runtime">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipelines.Universal.2D.Runtime">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipelines.Universal.2D.Runtime.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
       </Reference>
       <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
       </Reference>
       <Reference Include="Unity.StarterAssets">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.StarterAssets.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.StarterAssets.dll</HintPath>
       </Reference>
       <Reference Include="Unity.TextMeshPro">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.TextMeshPro.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.TextMeshPro.dll</HintPath>
       </Reference>
       <Reference Include="Unity.Timeline">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.Timeline.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.Timeline.dll</HintPath>
       </Reference>
       <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
       </Reference>
       <Reference Include="Unity.VisualScripting.Core">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.VisualScripting.Core.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.VisualScripting.Core.dll</HintPath>
       </Reference>
       <Reference Include="Unity.VisualScripting.Flow">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.VisualScripting.Flow.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.VisualScripting.Flow.dll</HintPath>
       </Reference>
       <Reference Include="Unity.VisualScripting.State">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/Unity.VisualScripting.State.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\Unity.VisualScripting.State.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.AccessibilityModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.AccessibilityModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.AccessibilityModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.AIModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.AIModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.AIModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.AndroidJNIModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.AndroidJNIModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.AndroidJNIModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.AnimationModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.AnimationModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ARModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ARModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ARModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.AssetBundleModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.AssetBundleModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.AudioModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.AudioModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ClothModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ClothModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ClusterInputModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ClusterInputModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ClusterInputModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ClusterRendererModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ClusterRendererModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ClusterRendererModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CommandStateObserverModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.CommandStateObserverModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.CommandStateObserverModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ContentLoadModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ContentLoadModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ContentLoadModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.CoreModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CrashReportingModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.CrashReportingModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.CrashReportingModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.DirectorModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.DirectorModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.DirectorModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.DSPGraphModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.DSPGraphModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.DSPGraphModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.GameCenterModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.GameCenterModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.GameCenterModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.GIModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.GIModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.GIModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.GraphToolsFoundationModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.GraphToolsFoundationModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.GraphToolsFoundationModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.GridModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.GridModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.GridModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.HotReloadModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.HotReloadModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.HotReloadModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ImageConversionModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ImageConversionModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.IMGUIModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.IMGUIModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.InputLegacyModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.InputLegacyModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.InputModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.InputModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.InputModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.JSONSerializeModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.JSONSerializeModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.LocalizationModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.LocalizationModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.MarshallingModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.MarshallingModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.MarshallingModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.NVIDIAModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.NVIDIAModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.NVIDIAModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ParticleSystemModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ParticleSystemModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.PerformanceReportingModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.PerformanceReportingModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.PerformanceReportingModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.Physics2DModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.Physics2DModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.PhysicsModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.PhysicsModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ProfilerModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ProfilerModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ProfilerModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.PropertiesModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.PropertiesModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.PropertiesModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.ScreenCaptureModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.ScreenCaptureModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.ScreenCaptureModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.SharedInternalsModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.SharedInternalsModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.SharedInternalsModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.SpriteMaskModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.SpriteMaskModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.SpriteMaskModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.SpriteShapeModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.SpriteShapeModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.SpriteShapeModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.StreamingModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.StreamingModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.StreamingModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.SubstanceModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.SubstanceModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.SubstanceModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.SubsystemsModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.SubsystemsModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.SubsystemsModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TerrainModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TerrainModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TerrainPhysicsModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TerrainPhysicsModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TerrainPhysicsModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TextCoreFontEngineModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TextCoreTextEngineModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TextRenderingModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TextRenderingModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TilemapModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TilemapModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TilemapModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.TLSModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.TLSModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.TLSModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UI">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UI.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UI.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UIElementsModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UIElementsModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UIModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UIModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UIModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UmbraModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UmbraModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UmbraModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityAnalyticsModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityAnalyticsModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityAnalyticsModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityConnectModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityConnectModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityConnectModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityCurlModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityCurlModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityCurlModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityTestProtocolModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityTestProtocolModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityTestProtocolModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityWebRequestModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityWebRequestModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.VehiclesModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.VehiclesModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.VehiclesModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.VFXModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.VFXModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.VFXModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.VideoModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.VideoModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.VirtualTexturingModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.VirtualTexturingModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.VirtualTexturingModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.VRModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.VRModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.VRModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.WindModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.WindModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.WindModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.XRModule">
-        <HintPath>/home/dia/.local/share/Steam/steamapps/common/Supermarket Together/Supermarket Together_Data/Managed/UnityEngine.XRModule.dll</HintPath>
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Supermarket Together\Supermarket Together_Data\Managed\UnityEngine.XRModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 	
