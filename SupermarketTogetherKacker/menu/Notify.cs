@@ -8,7 +8,7 @@ namespace SupermarketTogetherKacker.menu
         private static List<Notification> notifications = new List<Notification>();
         private const float notifyWidth = 400f;
         private const float notifyHeight = 100f;
-        private const int notifyRoundness = 10;
+        public const int notifyRoundness = 10;
         private const float padding = 10f;
         private const int titleSize = 16;
         private const int statusSize = 12;
@@ -92,7 +92,7 @@ namespace SupermarketTogetherKacker.menu
             };
         }
 
-        private Texture2D MakeTexture(int width, int height, Color color)
+        public Texture2D MakeTexture(int width, int height, Color color)
         {
             Texture2D texture = new Texture2D(width, height);
             Color[] pixels = new Color[width * height];
@@ -103,7 +103,7 @@ namespace SupermarketTogetherKacker.menu
             return texture;
         }
 
-        private Texture2D MakeRoundedTexture(float radius, Color color)
+        public static Texture2D MakeRoundedTexture(float radius, Color color)
         {
             int width = Mathf.RoundToInt(radius * 2);
             int height = Mathf.RoundToInt(radius * 2);

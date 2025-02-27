@@ -134,7 +134,8 @@ namespace SupermarketTogetherKacker.menu
             GUI.contentColor = Color.white;
             GUI.color = Color.white;
             
-            //GUI.skin.window.normal.background = windowTexture;
+            //GUI.skin.window.normal.background = Notify.MakeRoundedTexture(Notify.notifyRoundness, Color.black);
+            //GUI.skin.box.normal.background = Notify.MakeRoundedTexture(Notify.notifyRoundness, Color.black);
             
             //GUI.skin.window.normal.background = Mods.MakeTex(100, 100, Color.black);
             //GUI.skin.box.normal.background = Mods.MakeTex(100, 100, Color.white);
@@ -1512,11 +1513,11 @@ namespace SupermarketTogetherKacker.menu
             
             if (GUILayout.Button("NaN Prices", GUILayout.Height(30)))
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 250; i++)
                 {
                     try
                     {
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
+                        ProductListing.Instance.CmdUpdateProductPrice(i, float.NaN);
                     }
                     catch (Exception)
                     {
@@ -1528,11 +1529,11 @@ namespace SupermarketTogetherKacker.menu
             }
             if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 250; i++)
                 {
                     try
                     {
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
+                        ProductListing.Instance.CmdUpdateProductPrice(i, float.MaxValue);
                     }
                     catch (Exception)
                     {
@@ -1544,11 +1545,11 @@ namespace SupermarketTogetherKacker.menu
             }
             if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
             {
-                for (int i = 0; i < 500; i++)
+                for (int i = 0; i < 250; i++)
                 {
                     try
                     {
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
+                        ProductListing.Instance.CmdUpdateProductPrice(i, -9999999999999f);
                     }
                     catch (Exception)
                     {
