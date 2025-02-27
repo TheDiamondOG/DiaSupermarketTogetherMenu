@@ -74,6 +74,10 @@ namespace SupermarketTogetherKacker.menu
         private bool jumpBoost;
         private bool noJumpDelay;
         private bool messageCrasher;
+        private bool serverSpammer;
+        private bool serverNameTakeOver;
+        private bool ascendAll;
+        private bool idBasedBoxSpam;
 
         private bool finishedSpeedBoost;
         private bool finishedJumpBoost;
@@ -90,6 +94,7 @@ namespace SupermarketTogetherKacker.menu
         private float antiCrashGameObjectDelay = 5f;
 
         private float fov = 90f;
+        private string lobbyName = "PROJECT DIA ON TOP";
         
         public enum ModCategory
         {
@@ -102,6 +107,7 @@ namespace SupermarketTogetherKacker.menu
             Extras,
             NPC,
             Info,
+            Notifications,
             Debug,
         }
 
@@ -116,6 +122,7 @@ namespace SupermarketTogetherKacker.menu
             { ModCategory.Extras, "Extras" },
             { ModCategory.NPC, "NPC" },
             { ModCategory.Info, "Info" },
+            { ModCategory.Notifications, "Notifications" },
             { ModCategory.Debug, "Debug" }
         };
 
@@ -210,6 +217,9 @@ namespace SupermarketTogetherKacker.menu
                     break;
                 case ModCategory.Info:
                     DisplayInfoPage();
+                    break;
+                case ModCategory.Notifications:
+                    DisplayNotificationMenu();
                     break;
                 case ModCategory.Debug:
                     DisplayDebugMods();
@@ -424,6 +434,14 @@ namespace SupermarketTogetherKacker.menu
                     noJumpDelay = true;
                 }
             }
+            fov = GUILayout.HorizontalSlider(fov, 10, 120);
+            if (GUILayout.Button("FOV "+Mathf.Round(fov), GUILayout.Height(30)))
+            {
+                foreach (AuxiliarChangeFOV fover in FindObjectsOfType<AuxiliarChangeFOV>())
+                {
+                    fover.SetFOV(Mathf.Round(fov));
+                }
+            }
         }
 
         void DisplayStatsMods()
@@ -573,37 +591,51 @@ namespace SupermarketTogetherKacker.menu
 
         void DisplayServerMods()
         {
-            if (GUILayout.Button("Max Level", GUILayout.Height(30)))
+            productIDString = GUILayout.TextField(productIDString, GUILayout.Height(30));
+                
+            productID = int.Parse(productIDString);
+            
+            if (GUILayout.Button("Spawn by ID", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
 
-                UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
+                /*
+                managerBlackboard.AddShoppingListProduct(1, 0.0000000000000000000001f);
+                managerBlackboard.BuyCargo();
+                */
 
-                GameData gameData = gameDataManager.GetComponent<GameData>();
+                GameObject playerObject = GameObject.Find("LocalGamePlayer");
 
-                // Get the type of the GameData class
-                Type type = typeof(GameData);
+                Vector3 playerPosition = playerObject.transform.position;
 
-                // Use reflection to get the private method
-                MethodInfo privateMethod = type.GetMethod("CalculateFranchiseLevel",
-                    BindingFlags.NonPublic | BindingFlags.Instance);
+                Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
-                if (privateMethod != null)
+                managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
+            }
+            string idBasedBoxSpamText;
+
+            if (idBasedBoxSpam)
+            {
+                idBasedBoxSpamText = "<color=green>ON</color>: Spawn by ID Spam";
+            }
+            else
+            {
+                idBasedBoxSpamText = "<color=red>OFF</color>: Spawn by ID Spam";
+            }
+
+            if (GUILayout.Button(idBasedBoxSpamText, GUILayout.Height(30)))
+            {
+                if (idBasedBoxSpam)
                 {
-                    // Provide arguments for the method (oldExp, newExp)
-                    object[] parameters = { 0, 999999999 };
-
-                    // Invoke the private method
-                    privateMethod.Invoke(gameData, parameters);
+                    idBasedBoxSpam = false;
                 }
                 else
                 {
-                    Console.WriteLine("Method not found.");
+                    idBasedBoxSpam = true;
                 }
             }
-
             if (GUILayout.Button("Add Random Perks", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
@@ -1035,6 +1067,30 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
+            string disableMovementText;
+
+            if (disableMovement)
+            {
+                disableMovementText = "<color=green>ON</color>: Disable Movement";
+            }
+            else
+            {
+                disableMovementText = "<color=red>OFF</color>: Disable Movement";
+            }
+
+            if (GUILayout.Button(disableMovementText, GUILayout.Height(30)))
+            {
+                if (disableMovement)
+                {
+                    disableMovement = false;
+                }
+                else
+                {
+                    disableMovement = true;
+                }
+            }
+
+            
             string disableOthersMovementText;
 
             if (disableOthersMovement)
@@ -1401,49 +1457,25 @@ namespace SupermarketTogetherKacker.menu
             }
 
             
-            if (GUILayout.Button("NaN Prices (NW)", GUILayout.Height(30)))
+            if (GUILayout.Button("NaN Prices", GUILayout.Height(30)))
             {
-                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
-                
-                foreach (GameObject product in productPrefabs)
+                for (int i = 0; i < 500; i++)
                 {
-                    try
-                    {
-                        int productID = gameObject.GetComponent<Data_Product>().productID;
-
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
-                    }
-                    catch (Exception) {}
+                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.NaN);
                 }
             }
-            if (GUILayout.Button("Max Prices (NW)", GUILayout.Height(30)))
+            if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
             {
-                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
-                
-                foreach (GameObject product in productPrefabs)
+                for (int i = 0; i < 500; i++)
                 {
-                    try
-                    {
-                        int productID = gameObject.GetComponent<Data_Product>().productID;
-
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
-                    }
-                    catch (Exception) {}
+                    ProductListing.Instance.CmdUpdateProductPrice(productID, float.MaxValue);
                 }
             }
-            if (GUILayout.Button("Negative Prices (NW)", GUILayout.Height(30)))
+            if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
             {
-                GameObject[] productPrefabs = ProductListing.Instance.productPrefabs;
-                
-                foreach (GameObject product in productPrefabs)
+                for (int i = 0; i < 500; i++)
                 {
-                    try
-                    {
-                        int productID = gameObject.GetComponent<Data_Product>().productID;
-
-                        ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
-                    }
-                    catch (Exception) {}
+                    ProductListing.Instance.CmdUpdateProductPrice(productID, -9999999999999f);
                 }
             }
             
@@ -1453,6 +1485,29 @@ namespace SupermarketTogetherKacker.menu
 
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube); 
                 NetworkServer.Spawn(cube, localPlayer);
+            }
+            
+            string ascendAllText;
+
+            if (ascendAll)
+            {
+                ascendAllText = "<color=green>ON</color>: Ascend All";
+            }
+            else
+            {
+                ascendAllText = "<color=red>OFF</color>: Ascend All";
+            }
+
+            if (GUILayout.Button(ascendAllText, GUILayout.Height(30)))
+            {
+                if (ascendAll)
+                {
+                    ascendAll = false;
+                }
+                else
+                {
+                    ascendAll = true;
+                }
             }
         }
 
@@ -1626,15 +1681,6 @@ namespace SupermarketTogetherKacker.menu
                     FPSBoostCrap.fpsBoost = true;
                 }
             }
-
-            fov = GUILayout.HorizontalSlider(fov, 10, 120);
-            if (GUILayout.Button("FOV "+Mathf.Round(fov), GUILayout.Height(30)))
-            {
-                foreach (AuxiliarChangeFOV fover in FindObjectsOfType<AuxiliarChangeFOV>())
-                {
-                    fover.SetFOV(Mathf.Round(fov));
-                }
-            }
         }
 
         void DisplayNPCMods()
@@ -1784,6 +1830,31 @@ namespace SupermarketTogetherKacker.menu
 
             GUILayout.Label(infoPageText);
         }
+        
+        void DisplayNotificationMenu()
+        {
+            if (GUILayout.Button("Test Notification Info", GUILayout.Height(30)))
+            {
+                Notify.Send("Test Info", Notify.NotificationType.Info);
+            }
+            if (GUILayout.Button("Test Notification Warning", GUILayout.Height(30)))
+            {
+                Notify.Send("Test Warning", Notify.NotificationType.Warning);
+            }
+            if (GUILayout.Button("Test Notification Error", GUILayout.Height(30)))
+            {
+                Notify.Send("Test Error", Notify.NotificationType.Error);
+            }
+            if (GUILayout.Button("Test Notification Success", GUILayout.Height(30)))
+            {
+                Notify.Send("Test Success", Notify.NotificationType.Success);
+            }
+            if (GUILayout.Button("Clear Notifications", GUILayout.Height(30)))
+            {
+                Notify.ClearNotifications();
+            }
+        }
+        
         void DisplayDebugMods()
         {
             if (GUILayout.Button("Dump Prefabs", GUILayout.Height(30)))
@@ -1826,21 +1897,47 @@ namespace SupermarketTogetherKacker.menu
                 
                 filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
             }
+            if (GUILayout.Button("Dump Product IDs", GUILayout.Height(30)))
+            {
+                
+                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
+                SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
+
+                CSteamID lobbyCode = new CSteamID(steamLobby.CurrentLobbyID);
+                
+                string text = "      Start of dump      \n---------------------\n";
+                
+                Filestuff filestuff = new Filestuff();
+
+                for (int i = 0; i < SteamMatchmaking.GetLobbyDataCount(lobbyCode); i++)
+                {
+                    bool success = SteamMatchmaking.GetLobbyDataByIndex(lobbyCode, i, out string key, 256, out string value, 256);
+                    if (success)
+                    {
+                        text += key + ": " + value;
+                        text += "\n";
+                    }
+                }
+                
+                filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
+            }
         }
 
         private void OnDestroy()
         {
             SteamAPI.Shutdown();
         }
+
         void Update()
         {
             menuTitle = menuName + " - FPS: " + Mathf.Ceil(1f / Time.unscaledDeltaTime).ToString();
-            
+
             // Keybinds
             if (Input.GetKeyDown(KeyCode.F1))
             {
                 showGUI = !showGUI;
             }
+
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 if (!Cursor.visible)
@@ -1854,7 +1951,7 @@ namespace SupermarketTogetherKacker.menu
                     Cursor.lockState = CursorLockMode.Locked;
                 }
             }
-            
+
             /*
             if (Mathf.Ceil(1f / Time.unscaledDeltaTime) < 10)
             {
@@ -1867,7 +1964,7 @@ namespace SupermarketTogetherKacker.menu
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                
+
                 /*
                 managerBlackboard.AddShoppingListProduct(1, 0.0000000000000000000001f);
                 managerBlackboard.BuyCargo();
@@ -1878,8 +1975,11 @@ namespace SupermarketTogetherKacker.menu
                 Vector3 playerPosition = playerObject.transform.position;
 
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
-                
-                managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
+
+                for (int i = 0; i < 3; i++)
+                {
+                    managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
+                }
             }
 
             if (perkSpam)
@@ -1914,12 +2014,13 @@ namespace SupermarketTogetherKacker.menu
                 upgradesManager.CmdAcquirePerk(1, 0);
                 upgradesManager.extraUpgrades[1] = false;
             }
+
             if (everyBoxSpam)
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                
+
                 /*
                 managerBlackboard.AddShoppingListProduct(1, 0.0000000000000000000001f);
                 managerBlackboard.BuyCargo();
@@ -1930,7 +2031,7 @@ namespace SupermarketTogetherKacker.menu
                 Vector3 playerPosition = playerObject.transform.position;
 
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
-                
+
                 for (int i = 0; i < 250; i++)
                     if (everyBoxSpam)
                     {
@@ -1951,11 +2052,12 @@ namespace SupermarketTogetherKacker.menu
                     if (!player.isLocalPlayer)
                     {
                         Vector3 pushDirection = new Vector3(100, 100, 100);
-                    
+
                         Mods.PushPlayer(player, pushDirection);
                     }
                 }
             }
+
             if (spamPush)
             {
                 PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
@@ -1963,7 +2065,7 @@ namespace SupermarketTogetherKacker.menu
                 foreach (PlayerNetwork player in allPlayers)
                 {
                     Vector3 pushDirection = new Vector3(100, 100, 100);
-                    
+
                     Mods.PushPlayer(player, pushDirection);
                 }
             }
@@ -1973,7 +2075,7 @@ namespace SupermarketTogetherKacker.menu
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
-                
+
                 gameData.CmdAlterFundsWithoutExperience(moneyAdd);
             }
 
@@ -1994,15 +2096,15 @@ namespace SupermarketTogetherKacker.menu
             {
                 // Find all objects with the PlayerNetwork component
                 ProductCheckoutSpawn[] allProducts = FindObjectsOfType<ProductCheckoutSpawn>();
-                
+
                 foreach (ProductCheckoutSpawn product in allProducts)
                 {
                     product.CmdAddProductValueToCheckout();
                 }
-                
+
                 // Find all objects with the PlayerNetwork component
                 Data_Container[] allCheckouts = FindObjectsOfType<Data_Container>();
-                
+
                 foreach (Data_Container checkout in allCheckouts)
                 {
                     //checkout.CmdActivateCashMethod(checkout.);
@@ -2019,11 +2121,11 @@ namespace SupermarketTogetherKacker.menu
             {
                 // Find the GameObject
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
-                
+
                 PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
-                
+
                 PlayerObjectController playerObjectController = localPlayer.GetComponent<PlayerObjectController>();
-                
+
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
@@ -2032,19 +2134,19 @@ namespace SupermarketTogetherKacker.menu
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
 
                 Mods.SetPlayerName("HACKED");
-                
+
                 foreach (PlayerNetwork player in allPlayers)
                 {
                     Vector3 playerPosition = player.gameObject.transform.position;
 
                     Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
-                
+
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
-                    
+
                     Vector3 pushDirection = new Vector3(0, 0, 0);
 
                     Mods.PushPlayer(player, pushDirection);
-                    
+
                     // Find all objects with the PlayerNetwork component
                     NPC_Info[] allNPCs = FindObjectsOfType<NPC_Info>();
 
@@ -2058,27 +2160,27 @@ namespace SupermarketTogetherKacker.menu
                 {
                     playerObjectController.SendChatMsg("GET HACKED DIA MENU ON TOP");
                 }
-                
+
                 gameData.CmdAlterFundsWithoutExperience(-10000000000f);
                 networkSpawner.CmdSetSupermarketText("HACKEDBOZO");
                 networkSpawner.CmdSetSupermarketColor(Color.red);
-                
+
                 for (int i = 0; i < 1000; i++)
                 {
                     upgradesManager.CmdAcquirePerk(i, 999999999);
                 }
-                
+
                 // Find all objects with the PlayerNetwork component
                 ProductCheckoutSpawn[] allProducts = FindObjectsOfType<ProductCheckoutSpawn>();
-                
+
                 foreach (ProductCheckoutSpawn product in allProducts)
                 {
                     product.CmdAddProductValueToCheckout();
                 }
-                
+
                 // Find all objects with the PlayerNetwork component
                 Data_Container[] allCheckouts = FindObjectsOfType<Data_Container>();
-                
+
                 foreach (Data_Container checkout in allCheckouts)
                 {
                     //checkout.CmdActivateCashMethod(checkout.);
@@ -2089,8 +2191,9 @@ namespace SupermarketTogetherKacker.menu
                         checkout.CmdReceivePayment(checkout.currentAmountToReturn);
                     }
                 }
+
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
-                 
+
                 /*
                 Data_Container[] checkouts = FindObjectsOfType<Data_Container>();
 
@@ -2099,7 +2202,7 @@ namespace SupermarketTogetherKacker.menu
                     Mods.MoveObject(checkout.gameObject, SpawnPosition);
                 }
                 */
-                
+
                 BuildableInfo[] buildables = FindObjectsOfType<BuildableInfo>();
 
                 foreach (BuildableInfo buildable in buildables)
@@ -2117,19 +2220,7 @@ namespace SupermarketTogetherKacker.menu
 
             if (disableOthersMovement)
             {
-                // Find the GameObject
-                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
-                
                 PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
-                
-                PlayerObjectController playerObjectController = localPlayer.GetComponent<PlayerObjectController>();
-                
-                GameObject gameDataManager = GameObject.Find("GameDataManager");
-                
-                GameData gameData = gameDataManager.GetComponent<GameData>();
-                NetworkSpawner networkSpawner = gameDataManager.GetComponent<NetworkSpawner>();
-                UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
-                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
                 
                 foreach (PlayerNetwork player in allPlayers)
                 {
@@ -2143,20 +2234,8 @@ namespace SupermarketTogetherKacker.menu
             }
             if (disableMovement)
             {
-                // Find the GameObject
-                GameObject localPlayer = GameObject.Find("LocalGamePlayer");
-                
                 PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
-                
-                PlayerObjectController playerObjectController = localPlayer.GetComponent<PlayerObjectController>();
-                
-                GameObject gameDataManager = GameObject.Find("GameDataManager");
 
-                GameData gameData = gameDataManager.GetComponent<GameData>();
-                NetworkSpawner networkSpawner = gameDataManager.GetComponent<NetworkSpawner>();
-                UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
-                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                
                 foreach (PlayerNetwork player in allPlayers)
                 {
                     Vector3 pushDirection = new Vector3(0, 0, 0);
@@ -2164,28 +2243,29 @@ namespace SupermarketTogetherKacker.menu
                     Mods.PushPlayer(player, pushDirection);
                 }
             }
+
             if (randomBoxSpam)
             {
                 // Find the GameObject
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
-                
+
                 PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
-                
+
                 PlayerObjectController playerObjectController = localPlayer.GetComponent<PlayerObjectController>();
-                
+
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 GameData gameData = gameDataManager.GetComponent<GameData>();
                 NetworkSpawner networkSpawner = gameDataManager.GetComponent<NetworkSpawner>();
                 UpgradesManager upgradesManager = gameDataManager.GetComponent<UpgradesManager>();
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                
+
                 foreach (PlayerNetwork player in allPlayers)
                 {
                     Vector3 playerPosition = player.gameObject.transform.position;
 
                     Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
-                
+
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
                 }
             }
@@ -2199,14 +2279,15 @@ namespace SupermarketTogetherKacker.menu
                 foreach (NPC_Info npc in allNPCs)
                 {
                     AntiTheftBehaviour antiTheftBehaviour = new AntiTheftBehaviour();
-                    
+
                     antiTheftBehaviour.CheckThief(npc.gameObject);
-                    
+
                     if (npc.isAThief || npc.thiefFleeing || npc.productsIDCarrying.Count > 0)
                     {
                         npc.CmdAnimationPlay(0);
                     }
                 }
+
                 foreach (StolenProductSpawn checkout in allCheckouts)
                 {
                     checkout.CmdRecoverStolenProduct();
@@ -2223,24 +2304,25 @@ namespace SupermarketTogetherKacker.menu
                     npc.CmdAnimationPlay(0);
                 }
             }
+
             if (instantCrasher)
             {
                 PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                
+
                 /*
                 managerBlackboard.AddShoppingListProduct(1, 0.0000000000000000000001f);
                 managerBlackboard.BuyCargo();
                 */
-                
+
                 foreach (PlayerNetwork player in allPlayers)
                 {
                     Vector3 playerPosition = player.gameObject.transform.position;
 
                     Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
-                    
+
                     for (int i = 0; i < 175; i++)
                         if (instantCrasher)
                         {
@@ -2252,6 +2334,7 @@ namespace SupermarketTogetherKacker.menu
                         }
                 }
             }
+
             if (boxLagger) // shout out to 4bx9 for setting up the method
             {
                 GameObject g = GameObject.Find("GameDataManager");
@@ -2267,17 +2350,18 @@ namespace SupermarketTogetherKacker.menu
                     m.CmdSpawnBoxFromPlayer(pp, i, int.MaxValue, float.NaN);
                 }
             }
+
             if (antiCrash)
             {
                 GameObject playerObject = GameObject.Find("LocalGamePlayer");
                 BoxData[] allBoxes = FindObjectsOfType<BoxData>();
-                
+
                 // Box Based Crasher Reducer
                 foreach (BoxData box in allBoxes)
                 {
                     box.gameObject.SetActive(false);
                 }
-                
+
                 // Chat Based Crasher Ruducer
                 GameObject chatObject = GameObject.Find("GameCanvas/ChatContainer");
 
@@ -2287,7 +2371,13 @@ namespace SupermarketTogetherKacker.menu
                 }
 
                 // Position Based Crashers Reduced
-                if (!float.IsNaN(playerObject.transform.position.x) && !float.IsNaN(playerObject.transform.position.y) && !float.IsNaN(playerObject.transform.position.z) && playerObject.transform.position.x < 10000f && playerObject.transform.position.y < 10000f && playerObject.transform.position.z < 10000f && !float.IsInfinity(playerObject.transform.position.x) && !float.IsInfinity(playerObject.transform.position.y) && !float.IsInfinity(playerObject.transform.position.z))
+                if (!float.IsNaN(playerObject.transform.position.x) &&
+                    !float.IsNaN(playerObject.transform.position.y) &&
+                    !float.IsNaN(playerObject.transform.position.z) && playerObject.transform.position.x < 10000f &&
+                    playerObject.transform.position.y < 10000f && playerObject.transform.position.z < 10000f &&
+                    !float.IsInfinity(playerObject.transform.position.x) &&
+                    !float.IsInfinity(playerObject.transform.position.y) &&
+                    !float.IsInfinity(playerObject.transform.position.z))
                 {
                     lastPlayerPosition = playerObject.transform.position;
                 }
@@ -2295,20 +2385,23 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Mods.MoveObject(playerObject, lastPlayerPosition);
                 }
-                
+
                 // NaN Gameobject based
                 GameObject[] allObjects = FindObjectsOfType<GameObject>();
                 bool nanFound = false;
-                
+
                 if (nanFound && Time.time - antiCrashGameObjectTime >= antiCrashGameObjectDelay)
                 {
                     foreach (GameObject coolObject in allObjects)
                     {
-                        if (coolObject != null || coolObject.activeInHierarchy && coolObject.GetComponent<FirstPersonController>())
+                        if (coolObject != null || coolObject.activeInHierarchy &&
+                            coolObject.GetComponent<FirstPersonController>())
                         {
                             Vector3 position = coolObject.transform.position;
 
-                            if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z) || float.IsInfinity(position.x) || float.IsInfinity(position.y) || float.IsInfinity(position.z))
+                            if (float.IsNaN(position.x) || float.IsNaN(position.y) || float.IsNaN(position.z) ||
+                                float.IsInfinity(position.x) || float.IsInfinity(position.y) ||
+                                float.IsInfinity(position.z))
                             {
                                 coolObject.SetActive(false);
                             }
@@ -2316,30 +2409,31 @@ namespace SupermarketTogetherKacker.menu
                     }
 
                     antiCrashGameObjectTime = -1f;
-                } else if (!nanFound)
+                }
+                else if (!nanFound)
                 {
                     antiCrashGameObjectTime = -1f;
                 }
 
-                
-                
+
+
                 // Debris Crash Reducer
                 DemolishDebrisControl[] debrises = FindObjectsOfType<DemolishDebrisControl>();
 
                 foreach (DemolishDebrisControl debis in debrises)
                 {
                     GameObject debrisObject = debis.gameObject;
-                    
+
                     debrisObject.SetActive(false);
                 }
-                
+
                 if (!finishedAntiCrash)
                 {
                     // Boost the FPS with crap graphics
                     //FPSBoostCrap.FPSBoost();
                     //FPSBoostCrap.fpsBoost = false;
-                    
-                    finishedAntiCrash = true; 
+
+                    finishedAntiCrash = true;
                 }
             }
             else
@@ -2348,16 +2442,16 @@ namespace SupermarketTogetherKacker.menu
                 {
                     // Turns back on the chat
                     GameObject chatObject = GameObject.Find("GameCanvas/ChatContainer");
-                
+
                     if (chatObject != null && !chatObject.activeSelf)
                     {
                         chatObject.SetActive(true);
                     }
-                    
+
                     // Decrapify the graphics
                     //FPSBoostCrap.FPSBoost();
                     //FPSBoostCrap.fpsBoost = true;
-                    
+
                     finishedAntiCrash = false;
                 }
             }
@@ -2366,7 +2460,7 @@ namespace SupermarketTogetherKacker.menu
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
-                
+
                 managerBlackboard.AddShoppingListProduct(1, 0.0000000000000000000001f);
                 managerBlackboard.BuyCargo();
             }
@@ -2383,15 +2477,16 @@ namespace SupermarketTogetherKacker.menu
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
-                FieldInfo activeField = typeof(NetworkServer).GetField("active", BindingFlags.NonPublic | BindingFlags.Static);
+                FieldInfo activeField =
+                    typeof(NetworkServer).GetField("active", BindingFlags.NonPublic | BindingFlags.Static);
                 activeField.SetValue(null, true);
-                
+
                 PlayerNetwork playerNetwork = localPlayer.GetComponent<PlayerNetwork>();
 
                 Traverse.Create(playerNetwork).Field("isOwned").SetValue(true);
                 Traverse.Create(playerNetwork).Field("isServer").SetValue(true);
                 Traverse.Create(playerNetwork).Field("authority").SetValue(true);
-                
+
                 PlayerPermissions playerPermissions = localPlayer.GetComponent<PlayerPermissions>();
 
                 Traverse.Create(playerPermissions).Field("isOwned").SetValue(true);
@@ -2417,7 +2512,7 @@ namespace SupermarketTogetherKacker.menu
                     FirstPersonController.Instance.MoveSpeed = 5f;
                     FirstPersonController.Instance.SprintSpeed = 10f;
                     FirstPersonController.Instance.CrouchSpeed = 4f;
-                    
+
                     finishedSpeedBoost = false;
                 }
             }
@@ -2427,7 +2522,7 @@ namespace SupermarketTogetherKacker.menu
                 if (!finishedJumpBoost)
                 {
                     FirstPersonController.Instance.JumpHeight = 5f;
-                    
+
                     finishedJumpBoost = true;
                 }
             }
@@ -2436,7 +2531,7 @@ namespace SupermarketTogetherKacker.menu
                 if (finishedJumpBoost)
                 {
                     FirstPersonController.Instance.JumpHeight = 1.2f;
-                    
+
                     finishedJumpBoost = false;
                 }
             }
@@ -2446,7 +2541,7 @@ namespace SupermarketTogetherKacker.menu
                 if (!finishedNoJumpDelay)
                 {
                     FirstPersonController.Instance.JumpTimeout = 0f;
-                    
+
                     finishedNoJumpDelay = true;
                 }
             }
@@ -2457,7 +2552,7 @@ namespace SupermarketTogetherKacker.menu
                     FirstPersonController.Instance.JumpTimeout = 0.1f;
                 }
             }
-            
+
             if (messageCrasher)
             {
                 // Find the GameObject
@@ -2468,6 +2563,32 @@ namespace SupermarketTogetherKacker.menu
                 for (int i = 0; i < 500; i++)
                 {
                     playerObjectController.SendChatMsg(messageString);
+                }
+            }
+
+            if (ascendAll)
+            {
+                foreach (PlayerNetwork player in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
+                {
+                    Mods.MoveObject(player.gameObject, new Vector3(player.gameObject.transform.position.x, player.gameObject.transform.position.y+5f, player.gameObject.transform.position.z));
+                }
+            }
+
+            if (idBasedBoxSpam)
+            {
+                GameObject gameDataManager = GameObject.Find("GameDataManager");
+
+                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
+
+                GameObject playerObject = GameObject.Find("LocalGamePlayer");
+
+                Vector3 playerPosition = playerObject.transform.position;
+
+                Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
+
+                for (int i = 0; i < 3; i++)
+                {
+                    managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
                 }
             }
         }

@@ -28,6 +28,8 @@ namespace SupermarketTogetherKacker
             
             menuObject.gameObject.AddComponent<Mods>();
             menuObject.gameObject.AddComponent<CoolGUI>();
+            menuObject.gameObject.AddComponent<CoolSteamServers>();
+            menuObject.gameObject.AddComponent<Notify>();
             
             HarmonyPatches.ApplyHarmonyPatches();
         }
