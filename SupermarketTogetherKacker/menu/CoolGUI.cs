@@ -592,8 +592,15 @@ namespace SupermarketTogetherKacker.menu
         void DisplayServerMods()
         {
             productIDString = GUILayout.TextField(productIDString, GUILayout.Height(30));
-                
-            productID = int.Parse(productIDString);
+
+            try
+            {
+                productID = int.Parse(productIDString);
+            }
+            catch (Exception)
+            {
+                productID = 0;
+            }
             
             if (GUILayout.Button("Spawn by ID", GUILayout.Height(30)))
             {
