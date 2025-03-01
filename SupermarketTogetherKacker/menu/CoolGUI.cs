@@ -1653,6 +1653,21 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Ascend Others Enabled", Notify.NotificationType.Success);
                 }
             }
+            if (GUILayout.Button("Give Most Perms", GUILayout.Height(30)))
+            {
+                GameObject localPlayerObject = GameObject.Find("LocalGamePlayer");
+                
+                PlayerPermissions playerPermissions = localPlayerObject.GetComponent<PlayerPermissions>();
+                
+                playerPermissions.RequestGP();
+                playerPermissions.RequestMP();
+                playerPermissions.RequestSP();
+                playerPermissions.RequestTP();
+                playerPermissions.RequestRP();
+                playerPermissions.RequestCP();
+                
+                Notify.Send("Gave most perms", Notify.NotificationType.Success);
+            }
         } 
 
         void DisplayExtraMods()
