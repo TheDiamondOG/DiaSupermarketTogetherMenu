@@ -79,6 +79,7 @@ namespace SupermarketTogetherKacker.menu
         private bool ascendAll;
         private bool ascendOthers;
         private bool idBasedBoxSpam;
+        private bool idBasedBoxSpamEverywhere;
 
         private bool finishedSpeedBoost;
         private bool finishedJumpBoost;
@@ -642,6 +643,13 @@ namespace SupermarketTogetherKacker.menu
                 }
 
                 worldBarriers.SetActive(false);
+                
+                Builder_Main builderMain = GameObject.Find("GameCanvas").GetComponent<Builder_Main>();
+                
+                builderMain.playerIsCool = true;
+                
+                Traverse.Create(builderMain).Field("isCool").SetValue(true);
+                
                 Notify.Send("You are now cool", Notify.NotificationType.Success);
             }
 
@@ -724,6 +732,32 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("ID Box Spammer Enabled", Notify.NotificationType.Success);
                 }
             }
+            
+            string idBasedBoxSpamEverywhereText;
+
+            if (idBasedBoxSpamEverywhere)
+            {
+                idBasedBoxSpamEverywhereText = "<color=green>ON</color>: Spawn by ID Spam Everywhere";
+            }
+            else
+            {
+                idBasedBoxSpamEverywhereText = "<color=red>OFF</color>: Spawn by ID Spam Everywhere";
+            }
+
+            if (GUILayout.Button(idBasedBoxSpamEverywhereText, GUILayout.Height(30)))
+            {
+                if (idBasedBoxSpamEverywhere)
+                {
+                    idBasedBoxSpamEverywhere = false;
+                    Notify.Send("ID Box Everywhere Spammer Disabled", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    idBasedBoxSpamEverywhere = true;
+                    Notify.Send("ID Box Everywhere Spammer Enabled", Notify.NotificationType.Success);
+                }
+            }
+            
             if (GUILayout.Button("Add Random Perks", GUILayout.Height(30)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
@@ -1618,21 +1652,6 @@ namespace SupermarketTogetherKacker.menu
                     ascendOthers = true;
                     Notify.Send("Ascend Others Enabled", Notify.NotificationType.Success);
                 }
-            }
-            if (GUILayout.Button("Give Most Perms", GUILayout.Height(30)))
-            {
-                GameObject localPlayerObject = GameObject.Find("LocalGamePlayer");
-
-                PlayerPermissions playerPermissions = localPlayerObject.GetComponent<PlayerPermissions>();
-
-                playerPermissions.RequestGP();
-                playerPermissions.RequestMP();
-                playerPermissions.RequestSP();
-                playerPermissions.RequestTP();
-                playerPermissions.RequestRP();
-                playerPermissions.RequestCP();
-                
-                Notify.Send("Gave most perms", Notify.NotificationType.Success);
             }
         } 
 
@@ -2731,6 +2750,23 @@ namespace SupermarketTogetherKacker.menu
                 for (int i = 0; i < 3; i++)
                 {
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
+                }
+            }
+
+            if (idBasedBoxSpamEverywhere)
+            {
+                GameObject gameDataManager = GameObject.Find("GameDataManager");
+
+                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
+
+                for (int i = 0; i < 3; i++)
+                {
+                    foreach (PlayerNetwork player in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
+                    {
+                        Vector3 spawnPosition = new Vector3(player.transform.position.x + 2f, player.transform.position.y, player.transform.position.z);
+                        
+                        managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
+                    }
                 }
             }
         }
