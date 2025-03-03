@@ -38,7 +38,10 @@ namespace SupermarketTogetherKacker.menu
                     slideInX = Mathf.Lerp(10, -notifyWidth, Mathf.Clamp01((Time.time - notification.EndTime) / slideSpeed));
                 }
 
-                if (slideInX > 10) slideInX = 10;
+                if (slideInX > 10)
+                {
+                    slideInX = 10;
+                }
 
                 Rect notifyErection = new Rect(slideInX, startY - (i * (notifyHeight + padding)), notifyWidth, notifyHeight);
 
