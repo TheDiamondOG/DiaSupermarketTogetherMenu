@@ -99,5 +99,31 @@ namespace SupermarketTogetherKacker.menu
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[rnd.Next(s.Length)]).ToArray());
         }
+
+        public static bool InLobby()
+        {
+            if (GameObject.Find("OnlineNetworkManager") != null || GameObject.Find("LocalNetworkManager") != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static GameObject GetPlayerObject()
+        {
+            GameObject playerObject = GameObject.Find("LocalGamePlayer");
+
+            if (playerObject == null)
+            {
+                FirstPersonTransform playerTransform = FindAnyObjectByType<FirstPersonTransform>();
+                
+                playerObject = playerTransform.gameObject;
+            }
+            
+            return playerObject;
+        }
     }
 }

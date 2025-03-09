@@ -97,6 +97,8 @@ namespace SupermarketTogetherKacker.menu
 
         private float fov = 90f;
         private string lobbyName = "PROJECT DIA ON TOP";
+
+        private PlayerNetwork selectedPlayer = null;
         
         public enum ModCategory
         {
@@ -108,6 +110,7 @@ namespace SupermarketTogetherKacker.menu
             Server,
             Extras,
             NPC,
+            PlayerSpecific,
             Info,
             Debug,
         }
@@ -122,6 +125,7 @@ namespace SupermarketTogetherKacker.menu
             { ModCategory.Server, "Server" },
             { ModCategory.Extras, "Extras" },
             { ModCategory.NPC, "NPC" },
+            { ModCategory.PlayerSpecific, "Player Specific" },
             { ModCategory.Info, "Info" },
             { ModCategory.Debug, "Debug" }
         };
@@ -215,6 +219,9 @@ namespace SupermarketTogetherKacker.menu
                     break;
                 case ModCategory.NPC:
                     DisplayNPCMods();
+                    break;
+                case ModCategory.PlayerSpecific:
+                    DisplayPlayerSpecificMods();
                     break;
                 case ModCategory.Info:
                     DisplayInfoPage();
@@ -1924,6 +1931,54 @@ namespace SupermarketTogetherKacker.menu
             }
         }
 
+        void DisplayPlayerSpecificMods()
+        {
+            if (Mods.InLobby())
+            {
+                try
+                {
+                    if (selectedPlayer == null)
+                    {
+                        foreach (PlayerNetwork player in FindObjectsOfType<PlayerNetwork>())
+                        {
+                            PlayerObjectController playerObjectController = player.GetComponent<PlayerObjectController>();
+
+                            if (GUILayout.Button(playerObjectController.NetworkPlayerName, GUILayout.Height(30)))
+                            {
+                                selectedPlayer = player;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        GameObject playerObject = selectedPlayer.gameObject;
+                        PlayerObjectController playerObjectController = selectedPlayer.GetComponent<PlayerObjectController>();
+                        PlayerSyncCharacter playerSyncController = selectedPlayer.GetComponent<PlayerSyncCharacter>();
+                        
+                        GameObject localPlayer = Mods.GetPlayerObject();
+                        
+                        if (GUILayout.Button("Bring Player", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y, localPlayer.transform.position.z+2);      
+                            
+                            Mods.MoveObject(playerObject, SpawnPosition);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    GUILayout.Label(e.Message);
+                }
+            }
+            else
+            {
+                if (selectedPlayer != null)
+                {
+                    selectedPlayer = null;
+                }
+            }
+        }
+
         void DisplayInfoPage()
         {
             // Check if the delay has passed
@@ -1933,21 +1988,8 @@ namespace SupermarketTogetherKacker.menu
 
                 infoPageText = "";
 
-                GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
-                GameObject localNetworkManager = GameObject.Find("LocalNetworkManager");
-
-                if (onlineNetworkManager != null)
+                if (Mods.InLobby())
                 {
-                    infoPageText = "<size=15><b><color=#00FFFF>Lobby Info</color>\n\n";
-
-                    SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
-
-                    infoPageText += "<color=yellow>Lobby Type: Online</color>\n";
-                    infoPageText += "<color=yellow>Lobby ID: " + steamLobby.CurrentLobbyIDStr + "</color>\n";
-                    //infoPageText += "<color=yellow>Lobby IP: " +  + "</color>\n";
-                    infoPageText += "<color=yellow>Is Lobby Closed: " + steamLobby.isLobbyClosed + "</color>\n";
-                    infoPageText += "==================================\n";
-
                     infoPageText += "\n<color=#00FFFF>Player Info</color>\n\n";
 
                     PlayerNetwork[] allPlayers = FindObjectsOfType<PlayerNetwork>();
@@ -1966,6 +2008,7 @@ namespace SupermarketTogetherKacker.menu
                             }
 
                             infoPageText += "<color=yellow>Position: " + player.gameObject.transform.position + "</color>\n";
+                            infoPageText += "<color=yellow>Velocity: " + playerSyncController.playerVelocity + "</color>\n";
                             infoPageText += "<color=#00FFFF>Is Host: " + player.authority + "</color>\n";
                             infoPageText += "<color=#00FFFF>Net ID: " + player.netId + "</color>\n";
                             infoPageText += "<color=#00FFFF>Player ID: " + playerObjectController.PlayerIdNumber + "</color>\n";
@@ -1989,41 +2032,6 @@ namespace SupermarketTogetherKacker.menu
                         }
                     }
 
-                    infoPageText += "</size></b>";
-                }
-                else if (localNetworkManager != null)
-                {
-                    infoPageText = "<size=15><b><color=#00FFFF>Lobby Info</color>\n\n";
-
-                    infoPageText += "<color=yellow>Lobby Type: Local</color>\n";
-                    infoPageText += "==================================\n";
-
-                    infoPageText += "\n<color=#00FFFF>Player Info</color>\n\n";
-
-                    GameObject playerObject = GameObject.Find("LocalGamePlayer");
-
-                    PlayerNetwork playerNetwork = playerObject.GetComponent<PlayerNetwork>();
-                    PlayerObjectController playerObjectController = playerObject.GetComponent<PlayerObjectController>();
-                    PlayerSyncCharacter playerSyncController = playerObject.GetComponent<PlayerSyncCharacter>();
-                    FirstPersonController firstPersonController = playerObject.GetComponent<FirstPersonController>();
-
-                    infoPageText += "<color=yellow>Name: " + playerObjectController.NetworkPlayerName + "</color>\n";
-                    infoPageText += "<color=yellow>Position: " + playerNetwork.gameObject.transform.position + "</color>\n";
-                    infoPageText += "<color=#00FFFF>Is Host: " + playerNetwork.isServer + "</color>\n";
-                    infoPageText += "<color=#00FFFF>Net ID: " + playerNetwork.netId + "</color>\n";
-                    infoPageText += "<color=#00FFFF>Player ID: " + playerObjectController.PlayerIdNumber + "</color>\n";
-                    infoPageText += "<color=#00FFFF>Steam ID: " + playerObjectController.NetworkPlayerSteamID + "</color>\n";
-                    infoPageText += "<color=yellow>Is Crouching: " + playerNetwork.isCrouching + "</color>\n";
-                    infoPageText += "<color=green>Character ID: " + playerNetwork.characterID + "</color>\n";
-                    infoPageText += "<color=green>Broom ID: " + playerSyncController.broomSkin + "</color>\n";
-                    infoPageText += "<color=green>Hat ID: " + playerNetwork.hatID + "</color>\n";
-                    infoPageText += "<color=#008080ff>Casual Speed: " + firstPersonController.MoveSpeed + "</color>\n";
-                    infoPageText += "<color=#008080ff>Sprint Speed: " + firstPersonController.SprintSpeed + "</color>\n";
-                    infoPageText += "<color=#008080ff>Crouch Speed: " + firstPersonController.CrouchSpeed + "</color>\n";
-                    infoPageText += "<color=#008080ff>Jump Height: " + firstPersonController.JumpHeight + "</color>\n";
-                    infoPageText += "<color=#008080ff>Jump Delay: " + firstPersonController.JumpTimeout + "</color>\n";
-                    infoPageText += "<color=#008080ff>Grounded: " + firstPersonController.Grounded + "</color>\n";
-                    infoPageText += "==================================\n\n";
                     infoPageText += "</size></b>";
                 }
                 else
