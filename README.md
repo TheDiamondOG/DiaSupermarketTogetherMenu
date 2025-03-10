@@ -1,5 +1,5 @@
 # Supermarket Together Mod Menu (Project Dia)
-This is a mod menu that has some op mods, and fun to use in general. From destroying markets to games to save this menu has what you need to dominate (In a non gay way) in lobbies. Also special thanks to bxware/4bx9 for helping with finding some of these methods./
+This is a mod menu that has some op mods, and fun to use in general. From destroying markets to games to save this menu has what you need to dominate (In a non gay way) in lobbies. Also special thanks to bxware/4bx9 for helping with finding some of these methods.\
 Discord Server: https://discord.gg/zSkfrUuJAV
 ## Requirements
 - Bepinex
