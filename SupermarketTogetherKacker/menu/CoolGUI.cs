@@ -99,6 +99,7 @@ namespace SupermarketTogetherKacker.menu
         private string lobbyName = "PROJECT DIA ON TOP";
 
         private PlayerNetwork selectedPlayer = null;
+        private bool ascentTarget;
         
         public enum ModCategory
         {
@@ -1943,25 +1944,75 @@ namespace SupermarketTogetherKacker.menu
                         {
                             PlayerObjectController playerObjectController = player.GetComponent<PlayerObjectController>();
 
-                            if (GUILayout.Button(playerObjectController.NetworkPlayerName, GUILayout.Height(30)))
+                            if (!playerObjectController.isLocalPlayer)
                             {
-                                selectedPlayer = player;
+                                if (GUILayout.Button(playerObjectController.NetworkPlayerName, GUILayout.Height(30)))
+                                {
+                                    selectedPlayer = player;
+                                    Notify.Send("Targeting "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
+                                }
                             }
                         }
                     }
                     else
                     {
+                        if (selectedPlayer.gameObject == null)
+                        {
+                            selectedPlayer = null;
+                        }
+                        
+                        GameObject localPlayer = Mods.GetPlayerObject();
+                        
                         GameObject playerObject = selectedPlayer.gameObject;
                         PlayerObjectController playerObjectController = selectedPlayer.GetComponent<PlayerObjectController>();
                         PlayerSyncCharacter playerSyncController = selectedPlayer.GetComponent<PlayerSyncCharacter>();
-                        
-                        GameObject localPlayer = Mods.GetPlayerObject();
+
+                        if (GUILayout.Button("Go Back", GUILayout.Height(30)))
+                        {
+                            selectedPlayer = null;
+                        }
                         
                         if (GUILayout.Button("Bring Player", GUILayout.Height(30)))
                         {
                             Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y, localPlayer.transform.position.z+2);      
                             
                             Mods.MoveObject(playerObject, SpawnPosition);
+                            
+                            Notify.Send("Brought "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
+                        }
+                        
+                        if (GUILayout.Button("Freeze Camera", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);      
+                            
+                            Mods.MoveObject(playerObject, SpawnPosition);
+                            
+                            Notify.Send("Froze "+playerObjectController.NetworkPlayerName+"'s camera", Notify.NotificationType.Success);
+                        }
+                        
+                        string ascendTargetText;
+
+                        if (ascentTarget)
+                        {
+                            ascendTargetText = "<color=green>ON</color>: Ascend Player";
+                        }
+                        else
+                        {
+                            ascendTargetText = "<color=red>OFF</color>: Ascend Player";
+                        }
+
+                        if (GUILayout.Button(ascendTargetText, GUILayout.Height(30)))
+                        {
+                            if (ascentTarget)
+                            {
+                                ascentTarget = false;
+                                Notify.Send("Ascend Player Disabled", Notify.NotificationType.Success);
+                            }
+                            else
+                            {
+                                ascentTarget = true;
+                                Notify.Send("Ascend Player Enabled", Notify.NotificationType.Success);
+                            }
                         }
                     }
                 }
@@ -1974,8 +2025,11 @@ namespace SupermarketTogetherKacker.menu
             {
                 if (selectedPlayer != null)
                 {
+                    ascentTarget = false;
                     selectedPlayer = null;
                 }
+                
+                GUILayout.Label("<size=50><b><color=yellow>You are not connected to a server</color><b></size>\n");
             }
         }
 
@@ -2791,6 +2845,11 @@ namespace SupermarketTogetherKacker.menu
                         managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
                     }
                 }
+            }
+
+            if (ascentTarget)
+            {
+                Mods.MoveObject(selectedPlayer.gameObject, new Vector3(selectedPlayer.gameObject.transform.position.x, selectedPlayer.gameObject.transform.position.y+5f, selectedPlayer.gameObject.transform.position.z));
             }
         }
     }
