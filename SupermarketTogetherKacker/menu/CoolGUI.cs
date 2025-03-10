@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Xml.Linq;
 using Mirror;
 using Mirror.Examples.Chat;
@@ -101,6 +102,7 @@ namespace SupermarketTogetherKacker.menu
 
         private PlayerNetwork selectedPlayer = null;
         private bool ascentTarget;
+        private bool waterSpammerPlayerSelected;
         
         public enum ModCategory
         {
@@ -1332,6 +1334,20 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Fixed everyone's cameras", Notify.NotificationType.Success);
                 
             }
+            
+            if (GUILayout.Button("Bring All Players Out of Map", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(33, 0,
+                    135);
+
+                PlayerNetwork[] playerNetworks = FindObjectsOfType<PlayerNetwork>();
+
+                foreach (PlayerNetwork playerNetwork in playerNetworks)
+                {
+                    Mods.MoveObject(playerNetwork.gameObject, SpawnPosition);
+                }
+                Notify.Send("Brought all player out of the map", Notify.NotificationType.Success);
+            }
 
             if (GUILayout.Button("Bring All Boxes", GUILayout.Height(30)))
             {
@@ -2053,6 +2069,15 @@ namespace SupermarketTogetherKacker.menu
                             Mods.MoveObject(playerObject, SpawnPosition);
                             
                             Notify.Send("Brought "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
+                        } 
+                        
+                        if (GUILayout.Button("Bring Player Out of Map", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(33, 0, 135);      
+                            
+                            Mods.MoveObject(playerObject, SpawnPosition);
+                            
+                            Notify.Send("Brought "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
                         }
                         
                         if (GUILayout.Button("Break Camera", GUILayout.Height(30)))
@@ -2124,6 +2149,31 @@ namespace SupermarketTogetherKacker.menu
                                 Notify.Send("Ascend Player Enabled", Notify.NotificationType.Success);
                             }
                         }
+                        
+                        string waterSpammerText;
+
+                        if (waterSpammerPlayerSelected)
+                        {
+                            waterSpammerText = "<color=green>ON</color>: Water Spammer";
+                        }
+                        else
+                        {
+                            waterSpammerText = "<color=red>OFF</color>: Water Spammer";
+                        }
+
+                        if (GUILayout.Button(waterSpammerText, GUILayout.Height(30)))
+                        {
+                            if (waterSpammerPlayerSelected)
+                            {
+                                waterSpammerPlayerSelected = false;
+                                Notify.Send("Water Spammer Disabled", Notify.NotificationType.Success);
+                            }
+                            else
+                            {
+                                waterSpammerPlayerSelected = true;
+                                Notify.Send("Water Spammer Enabled", Notify.NotificationType.Success);
+                            }
+                        }
                     }
                 }
                 catch (Exception e)
@@ -2133,11 +2183,9 @@ namespace SupermarketTogetherKacker.menu
             }
             else
             {
-                if (selectedPlayer != null)
-                {
-                    ascentTarget = false;
-                    selectedPlayer = null;
-                }
+                ascentTarget = false;
+                waterSpammerPlayerSelected = false;
+                selectedPlayer = null;
                 
                 GUILayout.Label("<size=50><b><color=yellow>You are not connected to a server</color><b></size>\n");
             }
@@ -2313,7 +2361,7 @@ namespace SupermarketTogetherKacker.menu
 
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
                 }
@@ -2599,11 +2647,14 @@ namespace SupermarketTogetherKacker.menu
 
                 foreach (PlayerNetwork player in allPlayers)
                 {
-                    Vector3 playerPosition = player.gameObject.transform.position;
-
-                    Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
-
-                    managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Vector3 playerPosition = player.gameObject.transform.position;
+                        
+                        Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
+                        
+                        managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
+                    }
                 }
             }
 
@@ -2934,7 +2985,7 @@ namespace SupermarketTogetherKacker.menu
 
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
                 }
@@ -2946,7 +2997,7 @@ namespace SupermarketTogetherKacker.menu
 
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     foreach (PlayerNetwork player in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
                     {
@@ -2960,6 +3011,22 @@ namespace SupermarketTogetherKacker.menu
             if (ascentTarget)
             {
                 Mods.MoveObject(selectedPlayer.gameObject, new Vector3(selectedPlayer.gameObject.transform.position.x, selectedPlayer.gameObject.transform.position.y+5f, selectedPlayer.gameObject.transform.position.z));
+            }
+
+            if (waterSpammerPlayerSelected)
+            {
+                GameObject gameDataManager = GameObject.Find("GameDataManager");
+                
+                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
+
+                Vector3 playerPosition = selectedPlayer.gameObject.transform.position;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
+
+                    managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
+                }
             }
         }
     }
