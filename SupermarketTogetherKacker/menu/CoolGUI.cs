@@ -20,6 +20,7 @@ using UnityEngine.SceneManagement;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 using SupermarketTogetherKacker.tools;
 using TeoGames.Mesh_Combiner.Scripts.Extension;
+using Unity.VisualScripting;
 using Color = UnityEngine.Color;
 using Random = System.Random;
 
@@ -1275,6 +1276,62 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Brought all player", Notify.NotificationType.Success);
             }
+            
+            if (GUILayout.Button("Break + Freeze All Cameras", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(10000000000000000, 10000000000000000, 10000000000000000);      
+                            
+                
+                foreach (PlayerNetwork playerNetwork in FindObjectsOfType<PlayerNetwork>())
+                {
+                    if (!playerNetwork.isLocalPlayer)
+                    {
+                        Mods.MoveObject(playerNetwork.gameObject, SpawnPosition);
+                    }
+                }
+
+                Notify.Send("Broke and froze everyone's camera", Notify.NotificationType.Success);
+            }
+            
+            if (GUILayout.Button("Break All Cameras", GUILayout.Height(30)))
+            {
+                Vector3 SpawnPosition = new Vector3(100000000000, 100000000000, 100000000000);      
+                            
+                
+                foreach (PlayerNetwork playerNetwork in FindObjectsOfType<PlayerNetwork>())
+                {
+                    if (!playerNetwork.isLocalPlayer)
+                    {
+                        Mods.MoveObject(playerNetwork.gameObject, SpawnPosition);
+                    }
+                }
+
+                Notify.Send("Broke everyone's camera", Notify.NotificationType.Success);
+            }
+
+            if (GUILayout.Button("Fix All Cameras (Not for normal freezer)", GUILayout.Height(30)))
+            {
+                foreach (PlayerNetwork playerNetwork in FindObjectsOfType<PlayerNetwork>())
+                {
+                    Vector3 SpawnPosition = new Vector3(0, 0, 0);
+
+                    GameObject playerObject = playerNetwork.gameObject;
+                    
+                    if (float.IsNaN(playerObject.transform.position.x) ||
+                        float.IsNaN(playerObject.transform.position.y) ||
+                        float.IsNaN(playerObject.transform.position.z))
+                    {
+                        
+                    }
+                    else
+                    {
+                        Mods.MoveObject(playerObject, SpawnPosition);
+                    }
+                }
+                
+                Notify.Send("Fixed everyone's cameras", Notify.NotificationType.Success);
+                
+            }
 
             if (GUILayout.Button("Bring All Boxes", GUILayout.Height(30)))
             {
@@ -1952,6 +2009,14 @@ namespace SupermarketTogetherKacker.menu
                                     Notify.Send("Targeting "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
                                 }
                             }
+                            else
+                            {
+                                if (GUILayout.Button("Your Self", GUILayout.Height(30)))
+                                {
+                                    selectedPlayer = player;
+                                    Notify.Send("Targeting your self", Notify.NotificationType.Success);
+                                }
+                            }
                         }
                     }
                     else
@@ -1972,6 +2037,15 @@ namespace SupermarketTogetherKacker.menu
                             selectedPlayer = null;
                         }
                         
+                        if (GUILayout.Button("TP to Player", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(playerObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z+2);      
+                            
+                            Mods.MoveObject(localPlayer, SpawnPosition);
+                            
+                            Notify.Send("TPed to "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
+                        }
+                        
                         if (GUILayout.Button("Bring Player", GUILayout.Height(30)))
                         {
                             Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y, localPlayer.transform.position.z+2);      
@@ -1979,6 +2053,42 @@ namespace SupermarketTogetherKacker.menu
                             Mods.MoveObject(playerObject, SpawnPosition);
                             
                             Notify.Send("Brought "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
+                        }
+                        
+                        if (GUILayout.Button("Break Camera", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(100000000000, 100000000000, 100000000000);      
+                            
+                            Mods.MoveObject(playerObject, SpawnPosition);
+                            
+                            Notify.Send("Broke "+playerObjectController.NetworkPlayerName+" camera", Notify.NotificationType.Success);
+                        }
+                        
+                        if (GUILayout.Button("Break + Freeze Camera", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(10000000000000000, 10000000000000000, 10000000000000000);      
+                            
+                            Mods.MoveObject(playerObject, SpawnPosition);
+                            
+                            Notify.Send("Broke + froze "+playerObjectController.NetworkPlayerName+" camera", Notify.NotificationType.Success);
+                        }
+                        
+                        if (GUILayout.Button("Camera Fixer (Broken for normal freezer)", GUILayout.Height(30)))
+                        {
+                            Vector3 SpawnPosition = new Vector3(0, 0, 0);
+
+                            if (float.IsNaN(playerObject.transform.position.x) ||
+                                float.IsNaN(playerObject.transform.position.y) ||
+                                float.IsNaN(playerObject.transform.position.z))
+                            {
+                                Notify.Send(playerObjectController.NetworkPlayerName+"'s camera is stuck broken", Notify.NotificationType.Error);
+                            }
+                            else
+                            {
+                                Mods.MoveObject(playerObject, SpawnPosition);
+                            
+                                Notify.Send("Fixed "+playerObjectController.NetworkPlayerName+"'s camera", Notify.NotificationType.Success);
+                            }
                         }
                         
                         if (GUILayout.Button("Freeze Camera", GUILayout.Height(30)))
