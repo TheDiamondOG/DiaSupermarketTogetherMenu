@@ -1828,23 +1828,7 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Checkout Spaz Enabled", Notify.NotificationType.Success);
                 }
             }
-            
             if (GUILayout.Button("Force Close Lobby", GUILayout.Height(30)))
-            {
-                foreach (Data_Container dataContainer in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
-                {
-                    try
-                    {
-                        if (dataContainer.gameObject.name.ToLower().Contains("checkout") && !dataContainer.gameObject.name.ToLower().Contains("selfcheckout") )
-                        {
-                            dataContainer.CmdContainerClear(0);
-                        }
-                    } catch (Exception) {}
-                }
-                
-                Notify.Send("Force Closed Lobby", Notify.NotificationType.Success);
-            }
-            if (GUILayout.Button("Force Close Lobby V2", GUILayout.Height(30)))
             {
                 foreach (Data_Container dataContainer in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
                 {
