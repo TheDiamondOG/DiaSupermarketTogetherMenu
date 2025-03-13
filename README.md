@@ -4,6 +4,15 @@ Discord Server: https://discord.gg/zSkfrUuJAV
 ## Requirements
 - Bepinex
 - Supermarket Together
+# Installation
+Requirements:
+BepInEx: https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.2/BepInEx_win_x64_5.4.23.2.zip
+
+1. Download BepInEx.
+2. Drag the files in BepInEx zip into the game folder.
+3. Make a folder called "plugins" in the BepInEx folder in the game folder.
+4. Put the mod menu DLL into the plugins folder.
+5. Run the game and the mod menu should be in there.
 ## Features
 ### Market Mods
 - Open Market
