@@ -95,7 +95,7 @@ namespace SupermarketTogetherKacker.menu
             };
         }
 
-        public Texture2D MakeTexture(int width, int height, Color color)
+        public static Texture2D MakeTexture(int width, int height, Color color)
         {
             Texture2D texture = new Texture2D(width, height);
             Color[] pixels = new Color[width * height];

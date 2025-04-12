@@ -2,6 +2,7 @@
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
 using Mirror;
 using StarterAssets;
@@ -22,6 +23,7 @@ namespace SupermarketTogetherKacker.menu
         private Vector2 categoryScrollPos;
         private string menuName = "Dia Mods by TheDiamondOG";
         private string menuTitle;
+        private bool menuUpToDate;
 
         // All the mods
         private bool showGUI = true;
@@ -69,6 +71,8 @@ namespace SupermarketTogetherKacker.menu
         private bool theHoldingOthers;
         private bool checkoutSpaz;
         private bool freeDestruction;
+        private bool nothingSpammer;
+        private bool priceSpaz;
 
         private bool finishedSpeedBoost;
         private bool finishedJumpBoost;
@@ -126,6 +130,11 @@ namespace SupermarketTogetherKacker.menu
 
         public ModCategory currentCategory = ModCategory.Home;
 
+        void Awake()
+        {
+            menuUpToDate = Mods.CheckForUpdates();
+        }
+        
         void OnGUI()
         {
             GUI.backgroundColor = new Color(0,0,0,255);
@@ -137,10 +146,10 @@ namespace SupermarketTogetherKacker.menu
             
             //GUI.skin.window.normal.background = Mods.MakeTex(100, 100, Color.black);
             //GUI.skin.box.normal.background = Mods.MakeTex(100, 100, Color.white);
-            //GUI.skin.button.normal.background = Mods.MakeTex(1, 1, Color.HSVToRGB(330f, 15f, 5f));
-            //GUI.skin.button.hover.background = Mods.MakeTex(1, 1, Color.HSVToRGB(200f, 10f, 5f));
-            //GUI.skin.horizontalScrollbar.normal.background = Mods.MakeTex(1, 1, Color.HSVToRGB(330f, 0f, 0f));
-            //GUI.skin.verticalScrollbar.normal.background = Mods.MakeTex(1, 1, Color.HSVToRGB(330f, 0f, 0f));
+            //GUI.skin.button.normal.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(330f, 15f, 5f));
+            //GUI.skin.button.hover.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(200f, 10f, 5f));
+            //GUI.skin.horizontalScrollbar.normal.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(330f, 0f, 0f));
+            //GUI.skin.verticalScrollbar.normal.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(330f, 0f, 0f));
             //GUI.skin.window.border = new RectOffset(5, 5, 5, 5);
             //GUI.skin.window.padding = new RectOffset(10, 10, 10, 10);
             //GUI.skin.window.alignment = TextAnchor.MiddleCenter;
@@ -227,8 +236,20 @@ namespace SupermarketTogetherKacker.menu
 
         void DisplayHomePage()
         {
-            string text = "<size=15><b>";
+            if (!menuUpToDate)
+            {
+                GUILayout.Label("<size=25><color=red>MENU IS OUT OF DATE PLEASE UPDATE IT</color></size>");
+                if (GUILayout.Button("Github Download", GUILayout.Height(30)))
+                {
+                    Application.OpenURL("https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu");
+                }
+                if (GUILayout.Button("Nexus Mods Download", GUILayout.Height(30)))
+                {
+                    Application.OpenURL("https://www.nexusmods.com/supermarkettogether/mods/39");
+                }
+            }
             
+            string text = "<size=15><b>";
             text += "<color=#00FFFF>Welcome to the Project Dia menu for Super Market Together.\n";
             text += "This menu was made out of boredom, and because I mod too many unity games.\n";
             text += "You can find the latest version of the menu and the source code on the github\n";
@@ -1616,7 +1637,7 @@ namespace SupermarketTogetherKacker.menu
             
             if (GUILayout.Button("NaN Prices", GUILayout.Height(30)))
             {
-                for (int i = 0; i < 250; i++)
+                for (int i = 0; i < 290; i++)
                 {
                     try
                     {
@@ -1632,7 +1653,7 @@ namespace SupermarketTogetherKacker.menu
             }
             if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
             {
-                for (int i = 0; i < 250; i++)
+                for (int i = 0; i < 290; i++)
                 {
                     try
                     {
@@ -1648,7 +1669,7 @@ namespace SupermarketTogetherKacker.menu
             }
             if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
             {
-                for (int i = 0; i < 250; i++)
+                for (int i = 0; i < 290; i++)
                 {
                     try
                     {
@@ -1661,6 +1682,31 @@ namespace SupermarketTogetherKacker.menu
                     
                 }
                 Notify.Send("Negative Prices", Notify.NotificationType.Success);
+            }
+            
+            string priceSpazText;
+
+            if (priceSpaz)
+            {
+                priceSpazText = "<color=green>ON</color>: Price Spaz";
+            }
+            else
+            {
+                priceSpazText = "<color=red>OFF</color>: Price Spaz";
+            }
+
+            if (GUILayout.Button(priceSpazText, GUILayout.Height(30)))
+            {
+                if (priceSpaz)
+                {
+                    priceSpaz = false;
+                    Notify.Send("Price Spaz Disabled", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    priceSpaz = true;
+                    Notify.Send("Price Spaz Enabled", Notify.NotificationType.Success);
+                }
             }
             
             if (GUILayout.Button("Network Cube Spawn", GUILayout.Height(30)))
@@ -1868,6 +1914,122 @@ namespace SupermarketTogetherKacker.menu
                     freeDestruction = true;
                     Notify.Send("Free Destruction Enabled", Notify.NotificationType.Success);
                 }
+            }
+            if (GUILayout.Button("Force Close Lobby", GUILayout.Height(30)))
+            {
+                foreach (Data_Container dataContainer in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
+                {
+                    try
+                    {
+                        if (dataContainer.gameObject.name.ToLower().Contains("checkout") && !dataContainer.gameObject.name.ToLower().Contains("selfcheckout") )
+                        {
+                            dataContainer.DebugAdd(0,0,0);
+                            dataContainer.DebugAdd(0,0,0);
+                        }
+                    } catch (Exception) {}
+                }
+                
+                Notify.Send("Force closed lobby servers", Notify.NotificationType.Success);
+            }
+            string nothingSpammerText;
+
+            if (nothingSpammer)
+            {
+                nothingSpammerText = "<color=green>ON</color>: Nothing Spam";
+            }
+            else
+            {
+                nothingSpammerText = "<color=red>OFF</color>: Nothing Spam";
+            }
+
+            if (GUILayout.Button(nothingSpammerText, GUILayout.Height(30)))
+            {
+                if (nothingSpammer)
+                {
+                    nothingSpammer = false;
+                    Notify.Send("Nothing Spam Disabled", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    nothingSpammer = true;
+                    Notify.Send("Nothing Spam Enabled", Notify.NotificationType.Success);
+                }
+            }
+            if (GUILayout.Button("Delete All Boxes", GUILayout.Height(30)))
+            {
+                foreach (BoxData box in FindObjectsByType<BoxData>(FindObjectsSortMode.None))
+                {
+                    Mods.DeleteObject(box.gameObject);
+                }
+                Notify.Send("Destroyed All Boxes", Notify.NotificationType.Success);
+            }
+            if (GUILayout.Button("Delete All Players", GUILayout.Height(30)))
+            {
+                foreach (PlayerNetwork player in Mods.GetAllPlayers())
+                {
+                    Mods.DeleteObject(player.gameObject);
+                }
+                Notify.Send("Destroyed All Players", Notify.NotificationType.Success);
+            }
+            if (GUILayout.Button("Delete All Networked Items", GUILayout.Height(30)))
+            {
+                foreach (NetworkIdentity item in FindObjectsByType<NetworkIdentity>(FindObjectsSortMode.None))
+                {
+                    Mods.DeleteObject(item.gameObject);
+                }
+                Notify.Send("Destroyed All Networked Items", Notify.NotificationType.Success);
+            }
+            if (GUILayout.Button("Delete All Store Items", GUILayout.Height(30)))
+            {
+                foreach (BoxData item in FindObjectsByType<BoxData>(FindObjectsSortMode.None))
+                {
+                    Mods.DeleteObject(item.gameObject);
+                }
+                
+                foreach (Data_Container item in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
+                {
+                    Mods.DeleteObject(item.gameObject);
+                }
+                
+                foreach (Data_Product item in FindObjectsByType<Data_Product>(FindObjectsSortMode.None))
+                {
+                    Mods.DeleteObject(item.gameObject);
+                }
+                Notify.Send("Destroyed All Store Items", Notify.NotificationType.Success);
+            }
+            if (GUILayout.Button("Delete All Networked Items", GUILayout.Height(30)))
+            {
+                foreach (NetworkIdentity item in FindObjectsByType<NetworkIdentity>(FindObjectsSortMode.None))
+                {
+                    Mods.DeleteObject(item.gameObject);
+                }
+                Notify.Send("Destroyed All Networked Items", Notify.NotificationType.Success);
+            }
+            if (GUILayout.Button("Delete UI", GUILayout.Height(30)))
+            {
+                Mods.DeleteObject(GameObject.Find("GameCanvas"));
+                Notify.Send("Destroyed UI", Notify.NotificationType.Success);
+            }
+            
+            if (GUILayout.Button("Delete Main Components", GUILayout.Height(30)))
+            {
+                Mods.DeleteObject(GameObject.Find("NPC_Manager"));
+                Mods.DeleteObject(GameObject.Find("SceneManager"));
+                Mods.DeleteObject(GameObject.Find("Seasonal_MisterGrusch"));
+                Mods.DeleteObject(GameObject.Find("ProductCheckoutSpawn"));
+                Mods.DeleteObject(GameObject.Find("TrashSpawn"));
+                Mods.DeleteObject(GameObject.Find("HalloweenGhost"));
+                Mods.DeleteObject(GameObject.Find("GachaponCapsule_0"));
+                Mods.DeleteObject(GameObject.Find("GachaponCapsule_0"));
+                Mods.DeleteObject(GameObject.Find("A_NPC_Agent"));
+                Mods.DeleteObject(GameObject.Find("Seasonal_MisterGift"));
+                Mods.DeleteObject(GameObject.Find("Easter_Prefab"));
+                Mods.DeleteObject(GameObject.Find("StolenProductSpawn"));
+                Mods.DeleteObject(GameObject.Find("GameCanvas"));
+                Mods.DeleteObject(GameObject.Find("TheCoolRoom/Props/Slate_t3iq3t (2)/CoolRoomCanvas/TheCoolRoom/DrawContainer"));
+                
+                Mods.DeleteObject(GameObject.Find("GameDataManager"));
+                Notify.Send("Destroyed UI", Notify.NotificationType.Success);
             }
         }
 
@@ -2177,9 +2339,9 @@ namespace SupermarketTogetherKacker.menu
                             selectedPlayer = null;
                         }
                         
-                        if (GUILayout.Button("Open Steam Profile", GUILayout.Height(30)))
+                        if (GUILayout.Button("Open Steam Profile Info", GUILayout.Height(30)))
                         {
-                            Application.OpenURL("https://steamcommunity.com/profiles/" + selectedPlayer.GetComponent<PlayerObjectController>().NetworkPlayerSteamID);
+                            Application.OpenURL("https://steamdb.info/calculator/" + selectedPlayer.GetComponent<PlayerObjectController>().NetworkPlayerSteamID);
                         }
                         
                         if (GUILayout.Button("TP to Player", GUILayout.Height(30)))
@@ -2252,6 +2414,11 @@ namespace SupermarketTogetherKacker.menu
                             Mods.MoveObject(playerObject, SpawnPosition);
                             
                             Notify.Send("Froze "+playerObjectController.NetworkPlayerName+"'s camera", Notify.NotificationType.Success);
+                        }
+                        
+                        if (GUILayout.Button("Destroy Player", GUILayout.Height(30)))
+                        {
+                            Mods.DestroyObject(selectedPlayer.gameObject);
                         }
                         
                         string ascendTargetText;
@@ -2582,7 +2749,7 @@ namespace SupermarketTogetherKacker.menu
 
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, 1, 999999999, 1f);
                 }
@@ -2692,7 +2859,7 @@ namespace SupermarketTogetherKacker.menu
 
                 PlayerObjectController playerObjectController = localPlayer.GetComponent<PlayerObjectController>();
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     playerObjectController.SendChatMsg(messageString);
                 }
@@ -2875,7 +3042,7 @@ namespace SupermarketTogetherKacker.menu
 
                 foreach (PlayerNetwork player in allPlayers)
                 {
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 15; i++)
                     {
                         Vector3 playerPosition = player.gameObject.transform.position;
 
@@ -3214,7 +3381,7 @@ namespace SupermarketTogetherKacker.menu
 
                 Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     managerBlackboard.CmdSpawnBoxFromPlayer(spawnPosition, productID, 999999999, 1f);
                 }
@@ -3226,7 +3393,7 @@ namespace SupermarketTogetherKacker.menu
 
                 ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     foreach (PlayerNetwork player in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
                     {
@@ -3254,7 +3421,7 @@ namespace SupermarketTogetherKacker.menu
 
                 Vector3 playerPosition = selectedPlayer.gameObject.transform.position;
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 15; i++)
                 {
                     Vector3 spawnPosition = new Vector3(playerPosition.x + 2f, playerPosition.y, playerPosition.z);
 
@@ -3323,6 +3490,33 @@ namespace SupermarketTogetherKacker.menu
                 for (int i = 0; i < demolishableManager.demolishableValues.Length; i++)
                 {
                     demolishableManager.demolishingCosts[i] = 0f;
+                }
+            }
+            
+            if (nothingSpammer)
+            {
+                GameObject gameDataManager = GameObject.Find("GameDataManager");
+
+                ManagerBlackboard managerBlackboard = gameDataManager.GetComponent<ManagerBlackboard>();
+
+                for (int i = 0; i < 15; i++)
+                {
+                    managerBlackboard.CmdSpawnBoxEmpty();
+                }
+            }
+
+            if (priceSpaz)
+            {
+                for (int i = 0; i < 290; i++)
+                {
+                    try
+                    {
+                        ProductListing.Instance.CmdUpdateProductPrice(i, (float)(new Random().NextDouble() * (0f - 100000000000000f) + 0f));
+                    }
+                    catch (Exception)
+                    {
+                        
+                    }
                 }
             }
         }

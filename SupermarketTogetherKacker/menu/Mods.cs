@@ -1,6 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using HarmonyLib;
 using HutongGames.PlayMaker.Actions;
@@ -9,12 +10,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UIElements;
 using System.Reflection;
+using System.Threading.Tasks;
+using SupermarketTogetherKacker.tools;
+using UnityEngine.Networking;
 using Random = System.Random;
 
 namespace SupermarketTogetherKacker.menu
 {
     internal class Mods : MonoBehaviour
     {
+        public static bool finishedUpdateCheck = false;
+        public static bool upToDate = false;
+        
         public static void MoveObject(GameObject gameObject, Vector3 position)
         {
             GameObject gameDataObject = GameObject.Find("GameDataManager");
@@ -37,6 +44,30 @@ namespace SupermarketTogetherKacker.menu
             {
                 Console.WriteLine("Method not found.");
             }
+        }
+        
+        public static void DeleteObject(GameObject gameObject, bool safeDelete = true)
+        {
+            GameObject gameDataObject = GameObject.Find("GameDataManager");
+  
+            NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
+
+            if (safeDelete)
+            {
+                if (!gameObject.name.Contains("GameDataManager"))
+                {
+                    networkSpawner.CmdDestroyBox(gameObject);
+                }
+            }
+            else
+            {
+                networkSpawner.CmdDestroyBox(gameObject);
+            }
+        }
+
+        public static PlayerNetwork[] GetAllPlayers()
+        {
+            return FindObjectsOfType<PlayerNetwork>();
         }
 
         public static void PushPlayer(PlayerNetwork player, Vector3 direction)
@@ -124,6 +155,27 @@ namespace SupermarketTogetherKacker.menu
             }
             
             return playerObject;
+        }
+        
+        public static bool CheckForUpdates()
+        {
+            try
+            {
+                using UnityWebRequest webRequest = UnityWebRequest.Get("https://raw.githubusercontent.com/TheDiamondOG/DiaSupermarketTogetherMenu/refs/heads/master/SupermarketTogetherKacker/version.txt");
+
+                if (PluginInfo.Version == webRequest.downloadHandler.text)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return true;
+            }
         }
     }
 }

@@ -7,6 +7,6 @@
     {
         public const string GUID = "com.thediamondog.supermarkettogether.diamarketmods";
         public const string Name = "DiaMarketMods";
-        public const string Version = "2.0.0";
+        public const string Version = "2.3.3";
     }
 }

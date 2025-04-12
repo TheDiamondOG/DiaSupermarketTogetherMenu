@@ -44,5 +44,11 @@ namespace SupermarketTogetherKacker.tools
             }
             
         }
+        
+        public String ReadFile(string filename)
+        {
+            string fileName = "diamenu/" + filename;
+            return File.ReadAllText(fileName);
+        }
     }
 }
