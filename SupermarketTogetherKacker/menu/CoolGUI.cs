@@ -21,9 +21,9 @@ namespace SupermarketTogetherKacker.menu
         private Rect windowRect = new Rect(20, 20, 600, 500);
         private Vector2 modScrollPos;
         private Vector2 categoryScrollPos;
-        private string menuName = "Dia Mods by TheDiamondOG";
+        private string menuName = "Dia Mods";
         private string menuTitle;
-        private bool menuUpToDate;
+        private GUIStyle buttonStyle;
 
         // All the mods
         private bool showGUI = true;
@@ -129,69 +129,76 @@ namespace SupermarketTogetherKacker.menu
 
 
         public ModCategory currentCategory = ModCategory.Home;
-
-        void Awake()
-        {
-            menuUpToDate = Mods.CheckForUpdates();
-        }
         
         void OnGUI()
         {
-            GUI.backgroundColor = new Color(0,0,0,255);
+            GUI.backgroundColor = Color.black;
             GUI.contentColor = Color.white;
             GUI.color = Color.white;
-            
-            //GUI.skin.window.normal.background = Notify.MakeRoundedTexture(Notify.notifyRoundness, Color.black);
-            //GUI.skin.box.normal.background = Notify.MakeRoundedTexture(Notify.notifyRoundness, Color.black);
-            
-            //GUI.skin.window.normal.background = Mods.MakeTex(100, 100, Color.black);
-            //GUI.skin.box.normal.background = Mods.MakeTex(100, 100, Color.white);
-            //GUI.skin.button.normal.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(330f, 15f, 5f));
-            //GUI.skin.button.hover.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(200f, 10f, 5f));
-            //GUI.skin.horizontalScrollbar.normal.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(330f, 0f, 0f));
-            //GUI.skin.verticalScrollbar.normal.background = Notify.MakeTexture(1, 1, Color.HSVToRGB(330f, 0f, 0f));
-            //GUI.skin.window.border = new RectOffset(5, 5, 5, 5);
-            //GUI.skin.window.padding = new RectOffset(10, 10, 10, 10);
-            //GUI.skin.window.alignment = TextAnchor.MiddleCenter;
 
             if (showGUI)
             {
                 GUI.BringWindowToFront(0);
                 GUI.FocusWindow(0);
-                windowRect = GUI.Window(0, windowRect, WindowFunction, menuTitle);
+                windowRect = GUI.Window(0, windowRect, WindowFunction, GUIContent.none);
             }
         }
 
+
         void WindowFunction(int windowID)
         {
+            GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
+            boxStyle.normal.background = Mods.MakeTex(1, 1, Color.black);
+            GUI.Box(new Rect(0, 0, windowRect.width, 20), GUIContent.none, boxStyle);
+
             GUI.DragWindow(new Rect(0, 0, windowRect.width, 20));
+            
+            GUIStyle titleStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 24,
+                alignment = TextAnchor.UpperCenter,
+                normal = { textColor = Color.white }
+            };
 
-            GUILayout.BeginVertical();
+            buttonStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontSize = 14,
+                alignment = TextAnchor.MiddleCenter,
+                border = new RectOffset(12, 12, 12, 12),
+                normal = { textColor = Color.white, background = Mods.MakeTex(2, 2, new Color(0.4f, 0.4f, 0.4f, 1f)) },
+                hover = { background = Mods.MakeTex(2, 2, new Color(0.5f, 0.5f, 0.5f, 1f)) },
+                active = { background = Mods.MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1f)) }
+            };
 
-            // Horizontal scrolling for categories
-            categoryScrollPos = GUILayout.BeginScrollView(categoryScrollPos, GUILayout.Height(50));
             GUILayout.BeginHorizontal();
+            
+            categoryScrollPos = GUILayout.BeginScrollView(categoryScrollPos, GUILayout.Width(150));
+            GUILayout.BeginVertical();
             foreach (ModCategory category in Enum.GetValues(typeof(ModCategory)))
             {
-                if (GUILayout.Button(ModCategoryNames[category], GUILayout.MinWidth(100), GUILayout.MaxWidth(750)))
+                if (GUILayout.Button(ModCategoryNames[category], buttonStyle, GUILayout.Height(25)))
                 {
                     currentCategory = category;
                 }
             }
-
-            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
             GUILayout.EndScrollView();
 
             GUILayout.Space(10);
+            
+            GUILayout.BeginVertical();
 
-            // Vertical scrolling for mods
-            modScrollPos = GUILayout.BeginScrollView(modScrollPos, GUILayout.Height(400));
+            GUILayout.Label(menuName, titleStyle);
+            GUILayout.Space(10);
+
+            modScrollPos = GUILayout.BeginScrollView(modScrollPos);
             GUILayout.BeginVertical();
             DisplayMods();
             GUILayout.EndVertical();
             GUILayout.EndScrollView();
 
             GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
         }
 
         void DisplayMods()
@@ -236,19 +243,6 @@ namespace SupermarketTogetherKacker.menu
 
         void DisplayHomePage()
         {
-            if (!menuUpToDate)
-            {
-                GUILayout.Label("<size=25><color=red>MENU IS OUT OF DATE PLEASE UPDATE IT</color></size>");
-                if (GUILayout.Button("Github Download", GUILayout.Height(30)))
-                {
-                    Application.OpenURL("https://github.com/TheDiamondOG/DiaSupermarketTogetherMenu");
-                }
-                if (GUILayout.Button("Nexus Mods Download", GUILayout.Height(30)))
-                {
-                    Application.OpenURL("https://www.nexusmods.com/supermarkettogether/mods/39");
-                }
-            }
-            
             string text = "<size=15><b>";
             text += "<color=#00FFFF>Welcome to the Project Dia menu for Super Market Together.\n";
             text += "This menu was made out of boredom, and because I mod too many unity games.\n";
@@ -258,6 +252,8 @@ namespace SupermarketTogetherKacker.menu
             text += "<color=#00FFFF>Also don't worry about getting banned since this game has no anticheat or report system.\n";
             text += "Quick shout out to <color=yellow>4bx9/bxware</color> <color=#00FFFF>for helping out with some of the methods.\n";
             text += "Anyways this is the end of the yap session, have fun.\n";
+            text += "F1 - Show/Hide Menu\n";
+            text += "F2 - Show/Hide Mouse\n";
             text += "Sincerely, TheDiamondOG\n\n";
             
             text += "P.S. If you have any suggestions join the server: <a href='https://discord.gg/n7pbPyTKDU'>https://discord.gg/n7pbPyTKDU</a>\n";
@@ -269,7 +265,7 @@ namespace SupermarketTogetherKacker.menu
         
         void DisplayMarketMods()
         {
-            if (GUILayout.Button("Open Market", GUILayout.Height(30)))
+            if (GUILayout.Button("Open Market", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -287,7 +283,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Close Market", GUILayout.Height(30)))
+            if (GUILayout.Button("Close Market", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -304,7 +300,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Free Expansion (NW)", GUILayout.Height(30)))
+            if (GUILayout.Button("Free Expansion (NW)", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -316,7 +312,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Free Storage (NW)", GUILayout.Height(30)))
+            if (GUILayout.Button("Free Storage (NW)", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -339,7 +335,7 @@ namespace SupermarketTogetherKacker.menu
                 waterBoxSpammerText = "<color=red>OFF</color>: Lots of Water";
             }
 
-            if (GUILayout.Button(waterBoxSpammerText, GUILayout.Height(30)))
+            if (GUILayout.Button(waterBoxSpammerText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (waterBoxSpammer)
                 {
@@ -364,7 +360,7 @@ namespace SupermarketTogetherKacker.menu
                 everyBoxSpamText = "<color=red>OFF</color>: Lots of Everything (Crash)";
             }
 
-            if (GUILayout.Button(everyBoxSpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(everyBoxSpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (everyBoxSpam)
                 {
@@ -397,7 +393,7 @@ namespace SupermarketTogetherKacker.menu
                 speedBoostText = "<color=red>OFF</color>: Speedboost";
             }
 
-            if (GUILayout.Button(speedBoostText, GUILayout.Height(30)))
+            if (GUILayout.Button(speedBoostText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (speedBoost)
                 {
@@ -422,7 +418,7 @@ namespace SupermarketTogetherKacker.menu
                 airJumpText = "<color=red>OFF</color>: Air Jump";
             }
 
-            if (GUILayout.Button(airJumpText, GUILayout.Height(30)))
+            if (GUILayout.Button(airJumpText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (airJump)
                 {
@@ -447,7 +443,7 @@ namespace SupermarketTogetherKacker.menu
                 jumpBoostText = "<color=red>OFF</color>: Jump Boost";
             }
 
-            if (GUILayout.Button(jumpBoostText, GUILayout.Height(30)))
+            if (GUILayout.Button(jumpBoostText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (jumpBoost)
                 {
@@ -472,7 +468,7 @@ namespace SupermarketTogetherKacker.menu
                 noJumpDelayText = "<color=red>OFF</color>: No Jump Delay";
             }
 
-            if (GUILayout.Button(noJumpDelayText, GUILayout.Height(30)))
+            if (GUILayout.Button(noJumpDelayText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (noJumpDelay)
                 {
@@ -486,7 +482,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
             fov = GUILayout.HorizontalSlider(fov, 10, 120);
-            if (GUILayout.Button("FOV "+Mathf.Round(fov), GUILayout.Height(30)))
+            if (GUILayout.Button("FOV "+Mathf.Round(fov), buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (AuxiliarChangeFOV fover in FindObjectsByType<AuxiliarChangeFOV>(FindObjectsSortMode.None))
                 {
@@ -500,7 +496,7 @@ namespace SupermarketTogetherKacker.menu
         {
             string moneyAddStringDisplay = "";
 
-            moneyAddString = GUILayout.TextField(moneyAddString, GUILayout.Height(30));
+            moneyAddString = GUILayout.TextField(moneyAddString, buttonStyle ,GUILayout.Height(25));
 
             try
             {
@@ -520,7 +516,7 @@ namespace SupermarketTogetherKacker.menu
                 moneyAdd = 10000f;
             }
 
-            if (GUILayout.Button(moneyAddStringDisplay, GUILayout.Height(30)))
+            if (GUILayout.Button(moneyAddStringDisplay, buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -549,7 +545,7 @@ namespace SupermarketTogetherKacker.menu
                 moneySpamText = "<color=red>OFF</color>: " + moneyAddStringDisplay + "$";
             }
 
-            if (GUILayout.Button(moneySpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(moneySpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (moneySpam)
                 {
@@ -588,7 +584,7 @@ namespace SupermarketTogetherKacker.menu
                 pointsAdd = 10;
             }
 
-            if (GUILayout.Button(moneyAddStringDisplay + " Points", GUILayout.Height(30)))
+            if (GUILayout.Button(moneyAddStringDisplay + " Points", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -603,7 +599,7 @@ namespace SupermarketTogetherKacker.menu
 
         void DisplayMapMods()
         {
-            if (GUILayout.Button("Disable Barrier", GUILayout.Height(30)))
+            if (GUILayout.Button("Disable Barrier", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject worldBarriers = GameObject.Find("Level_Exterior/Colliders");
 
@@ -623,7 +619,7 @@ namespace SupermarketTogetherKacker.menu
                 
             }
 
-            if (GUILayout.Button("Become Cool", GUILayout.Height(30)))
+            if (GUILayout.Button("Become Cool", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject worldBarriers = GameObject.Find("TheCoolRoom/AddonCollider");
 
@@ -677,7 +673,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("You are now cool", Notify.NotificationType.Success);
             } 
 
-            if (GUILayout.Button("No Jail", GUILayout.Height(30)))
+            if (GUILayout.Button("No Jail", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject worldBarriers = GameObject.Find("TheCoolRoom/Jail");
 
@@ -700,7 +696,7 @@ namespace SupermarketTogetherKacker.menu
 
         void DisplayServerMods()
         {
-            productIDString = GUILayout.TextField(productIDString, GUILayout.Height(30));
+            productIDString = GUILayout.TextField(productIDString, buttonStyle ,GUILayout.Height(25));
 
             try
             {
@@ -711,7 +707,7 @@ namespace SupermarketTogetherKacker.menu
                 
             }
             
-            if (GUILayout.Button("Spawn by ID", GUILayout.Height(30)))
+            if (GUILayout.Button("Spawn by ID", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -743,7 +739,7 @@ namespace SupermarketTogetherKacker.menu
                 idBasedBoxSpamText = "<color=red>OFF</color>: Spawn by ID Spam";
             }
 
-            if (GUILayout.Button(idBasedBoxSpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(idBasedBoxSpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (idBasedBoxSpam)
                 {
@@ -768,7 +764,7 @@ namespace SupermarketTogetherKacker.menu
                 idBasedBoxSpamEverywhereText = "<color=red>OFF</color>: Spawn by ID Spam Everywhere";
             }
 
-            if (GUILayout.Button(idBasedBoxSpamEverywhereText, GUILayout.Height(30)))
+            if (GUILayout.Button(idBasedBoxSpamEverywhereText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (idBasedBoxSpamEverywhere)
                 {
@@ -782,7 +778,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
             
-            if (GUILayout.Button("Add Random Perks", GUILayout.Height(30)))
+            if (GUILayout.Button("Add Random Perks", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
                 
@@ -809,7 +805,7 @@ namespace SupermarketTogetherKacker.menu
                 perkSpamText = "<color=red>OFF</color>: Perk Spam";
             }
 
-            if (GUILayout.Button(perkSpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(perkSpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (perkSpam)
                 {
@@ -823,7 +819,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Add Employee", GUILayout.Height(30)))
+            if (GUILayout.Button("Add Employee", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataManager = GameObject.Find("GameDataManager");
 
@@ -863,7 +859,7 @@ namespace SupermarketTogetherKacker.menu
                 employeeSpamText = "<color=red>OFF</color>: Employee Spam";
             }
 
-            if (GUILayout.Button(employeeSpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(employeeSpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (employeeSpam)
                 {
@@ -877,7 +873,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Push Others", GUILayout.Height(30)))
+            if (GUILayout.Button("Push Others", buttonStyle ,GUILayout.Height(25)))
             {
                 PlayerNetwork[] allPlayers = FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None);
 
@@ -904,7 +900,7 @@ namespace SupermarketTogetherKacker.menu
                 spamPushOthersText = "<color=red>OFF</color>: Spam Push Others";
             }
 
-            if (GUILayout.Button(spamPushOthersText, GUILayout.Height(30)))
+            if (GUILayout.Button(spamPushOthersText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (spamPushOthers)
                 {
@@ -918,7 +914,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Push Everyone", GUILayout.Height(30)))
+            if (GUILayout.Button("Push Everyone", buttonStyle ,GUILayout.Height(25)))
             {
                 // Find all objects with the PlayerNetwork component
                 PlayerNetwork[] allPlayers = FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None);
@@ -943,7 +939,7 @@ namespace SupermarketTogetherKacker.menu
                 spamPushText = "<color=red>OFF</color>: Spam Push";
             }
 
-            if (GUILayout.Button(spamPushText, GUILayout.Height(30)))
+            if (GUILayout.Button(spamPushText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (spamPush)
                 {
@@ -957,7 +953,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            messageString = GUILayout.TextField(messageString, GUILayout.Height(30));
+            messageString = GUILayout.TextField(messageString, buttonStyle ,GUILayout.Height(25));
 
             string messageStringText;
 
@@ -970,7 +966,7 @@ namespace SupermarketTogetherKacker.menu
                 messageStringText = "<color=red>OFF</color>: Message Spammer";
             }
 
-            if (GUILayout.Button(messageStringText, GUILayout.Height(30)))
+            if (GUILayout.Button(messageStringText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (messageSpam)
                 {
@@ -995,7 +991,7 @@ namespace SupermarketTogetherKacker.menu
                 messageCrasherText = "<color=red>OFF</color>: Message Crasher";
             }
 
-            if (GUILayout.Button(messageCrasherText, GUILayout.Height(30)))
+            if (GUILayout.Button(messageCrasherText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (messageCrasher)
                 {
@@ -1014,7 +1010,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Bright Sign", GUILayout.Height(30)))
+            if (GUILayout.Button("Bright Sign", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataObject = GameObject.Find("GameDataManager");
 
@@ -1040,8 +1036,8 @@ namespace SupermarketTogetherKacker.menu
                 
             }
 
-            newSuperMarketName = GUILayout.TextField(newSuperMarketName, GUILayout.Height(30));
-            if (GUILayout.Button("Change Supermarket Name", GUILayout.Height(30)))
+            newSuperMarketName = GUILayout.TextField(newSuperMarketName, buttonStyle ,GUILayout.Height(25));
+            if (GUILayout.Button("Change Supermarket Name", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataObject = GameObject.Find("GameDataManager");
 
@@ -1051,7 +1047,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Supermarket name is now "+newSuperMarketName, Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Max Boxes", GUILayout.Height(30)))
+            if (GUILayout.Button("Max Boxes", buttonStyle ,GUILayout.Height(25)))
             {
                 BoxData[] allBoxes = FindObjectsByType<BoxData>(FindObjectsSortMode.None);
 
@@ -1079,7 +1075,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Water Infection", GUILayout.Height(30)))
+            if (GUILayout.Button("Water Infection", buttonStyle ,GUILayout.Height(25)))
             {
                 BoxData[] allBoxes = FindObjectsByType<BoxData>(FindObjectsSortMode.None);
 
@@ -1106,7 +1102,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("No Product", GUILayout.Height(30)))
+            if (GUILayout.Button("No Product", buttonStyle ,GUILayout.Height(25)))
             {
                 BoxData[] allBoxes = FindObjectsByType<BoxData>(FindObjectsSortMode.None);
 
@@ -1143,7 +1139,7 @@ namespace SupermarketTogetherKacker.menu
                 disableMovementText = "<color=red>OFF</color>: Disable Movement";
             }
 
-            if (GUILayout.Button(disableMovementText, GUILayout.Height(30)))
+            if (GUILayout.Button(disableMovementText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (disableMovement)
                 {
@@ -1170,7 +1166,7 @@ namespace SupermarketTogetherKacker.menu
                 disableOthersMovementText = "<color=red>OFF</color>: Disable Others Movement";
             }
 
-            if (GUILayout.Button(disableOthersMovementText, GUILayout.Height(30)))
+            if (GUILayout.Button(disableOthersMovementText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (disableOthersMovement)
                 {
@@ -1195,7 +1191,7 @@ namespace SupermarketTogetherKacker.menu
                 randomBoxSpamText = "<color=red>OFF</color>: Water Everywhere";
             }
 
-            if (GUILayout.Button(randomBoxSpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(randomBoxSpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (randomBoxSpam)
                 {
@@ -1220,7 +1216,7 @@ namespace SupermarketTogetherKacker.menu
                 instantCrasherText = "<color=red>OFF</color>: Instant Crasher";
             }
 
-            if (GUILayout.Button(instantCrasherText, GUILayout.Height(30)))
+            if (GUILayout.Button(instantCrasherText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (instantCrasher)
                 {
@@ -1250,7 +1246,7 @@ namespace SupermarketTogetherKacker.menu
                 boxLaggerText = "<color=red>OFF</color>: Box Crasher";
             }
 
-            if (GUILayout.Button(boxLaggerText, GUILayout.Height(30)))
+            if (GUILayout.Button(boxLaggerText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (boxLagger)
                 {
@@ -1269,7 +1265,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Bring All Players", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring All Players", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1288,7 +1284,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Brought all player", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("Break + Freeze All Cameras", GUILayout.Height(30)))
+            if (GUILayout.Button("Break + Freeze All Cameras", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(10000000000000000, 10000000000000000, 10000000000000000);      
                             
@@ -1304,7 +1300,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Broke and froze everyone's camera", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("Break All Cameras", GUILayout.Height(30)))
+            if (GUILayout.Button("Break All Cameras", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(100000000000, 100000000000, 100000000000);      
                             
@@ -1320,7 +1316,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Broke everyone's camera", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Fix All Cameras (Not for normal freezer)", GUILayout.Height(30)))
+            if (GUILayout.Button("Fix All Cameras (Not for normal freezer)", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (PlayerNetwork playerNetwork in FindObjectsByType<PlayerNetwork>(FindObjectsSortMode.None))
                 {
@@ -1344,7 +1340,7 @@ namespace SupermarketTogetherKacker.menu
                 
             }
             
-            if (GUILayout.Button("Bring All Players Out of Map", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring All Players Out of Map", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(33, 0,
                     135);
@@ -1358,7 +1354,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Brought all player out of the map", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Bring All Boxes", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring All Boxes", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1374,7 +1370,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Brought all boxes", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Screen Freezer", GUILayout.Height(30)))
+            if (GUILayout.Button("Screen Freezer", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1390,7 +1386,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Froze everyone's screens", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Boxes To Nothing", GUILayout.Height(30)))
+            if (GUILayout.Button("Boxes To Nothing", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1414,7 +1410,7 @@ namespace SupermarketTogetherKacker.menu
                 classicBoxSpamText = "<color=red>OFF</color>: Classic Box Spam";
             }
 
-            if (GUILayout.Button(classicBoxSpamText, GUILayout.Height(30)))
+            if (GUILayout.Button(classicBoxSpamText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (classicBoxSpam)
                 {
@@ -1428,7 +1424,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Destroy Floor Colliders", GUILayout.Height(30)))
+            if (GUILayout.Button("Destroy Floor Colliders", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1441,7 +1437,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Destroyed Floor Colliders", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("Bring all NPCs", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring all NPCs", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1460,7 +1456,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Brought all NPCs", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("NPCs to Nothing", GUILayout.Height(30)))
+            if (GUILayout.Button("NPCs to Nothing", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
                 
@@ -1487,7 +1483,7 @@ namespace SupermarketTogetherKacker.menu
                 becomeHostText = "<color=red>OFF</color>: Become Host (NW)";
             }
 
-            if (GUILayout.Button(becomeHostText, GUILayout.Height(30)))
+            if (GUILayout.Button(becomeHostText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (becomeHost)
                 {
@@ -1500,7 +1496,7 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Become Host Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Enable Voicechat", GUILayout.Height(30)))
+            if (GUILayout.Button("Enable Voicechat", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject gameDataObject = GameObject.Find("GameDataManager");
                 
@@ -1509,7 +1505,7 @@ namespace SupermarketTogetherKacker.menu
                 networkGameBehaviors.CmdServerEnableVoiceChat();
                 Notify.Send("Voice Chat Enabled", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Bring all Debris", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring all Debris", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1524,7 +1520,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Brought all Debris", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Debris to Nothing", GUILayout.Height(30)))
+            if (GUILayout.Button("Debris to Nothing", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1537,7 +1533,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Brought all Debris to Nothing", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("Bring all Store Items", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring all Store Items", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1559,7 +1555,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Brought all Store Items", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Store Items to Nothing", GUILayout.Height(30)))
+            if (GUILayout.Button("Store Items to Nothing", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1579,7 +1575,7 @@ namespace SupermarketTogetherKacker.menu
                 Notify.Send("Brought all Store Items to Nothing", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("Bring all Networked Items", GUILayout.Height(30)))
+            if (GUILayout.Button("Bring all Networked Items", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1595,7 +1591,7 @@ namespace SupermarketTogetherKacker.menu
                 
                 Notify.Send("Brought all Networked Items", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Networked Items to Nothing (Except Players, breaks collisions)", GUILayout.Height(30)))
+            if (GUILayout.Button("Networked Items to Nothing (Except Players, breaks collisions)", buttonStyle ,GUILayout.Height(25)))
             {
                 Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);
 
@@ -1610,14 +1606,14 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Brought all Networked Items to Nothing", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Clear Trash", GUILayout.Height(30)))
+            if (GUILayout.Button("Clear Trash", buttonStyle ,GUILayout.Height(25)))
             {
                 TrashSpawn trashSpawn = FindObjectOfType<TrashSpawn>();
                 
                 trashSpawn.CmdClearTrash();
                 Notify.Send("Cleared Trash", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Unlock Lobby", GUILayout.Height(30)))
+            if (GUILayout.Button("Unlock Lobby", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
                 SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
@@ -1625,7 +1621,7 @@ namespace SupermarketTogetherKacker.menu
                 steamLobby.SetCurrentLobbyJoinable(true);
                 Notify.Send("Unlocked Lobby", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Lock Lobby", GUILayout.Height(30)))
+            if (GUILayout.Button("Lock Lobby", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
                 SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
@@ -1635,7 +1631,7 @@ namespace SupermarketTogetherKacker.menu
             }
 
             
-            if (GUILayout.Button("NaN Prices", GUILayout.Height(30)))
+            if (GUILayout.Button("NaN Prices", buttonStyle ,GUILayout.Height(25)))
             {
                 for (int i = 0; i < 290; i++)
                 {
@@ -1651,7 +1647,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Set all prices to NaN", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Max Prices", GUILayout.Height(30)))
+            if (GUILayout.Button("Max Prices", buttonStyle ,GUILayout.Height(25)))
             {
                 for (int i = 0; i < 290; i++)
                 {
@@ -1667,7 +1663,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Maxed out all prices", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Negative Prices", GUILayout.Height(30)))
+            if (GUILayout.Button("Negative Prices", buttonStyle ,GUILayout.Height(25)))
             {
                 for (int i = 0; i < 290; i++)
                 {
@@ -1695,7 +1691,7 @@ namespace SupermarketTogetherKacker.menu
                 priceSpazText = "<color=red>OFF</color>: Price Spaz";
             }
 
-            if (GUILayout.Button(priceSpazText, GUILayout.Height(30)))
+            if (GUILayout.Button(priceSpazText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (priceSpaz)
                 {
@@ -1709,7 +1705,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
             
-            if (GUILayout.Button("Network Cube Spawn", GUILayout.Height(30)))
+            if (GUILayout.Button("Network Cube Spawn", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayer = GameObject.Find("LocalGamePlayer");
 
@@ -1730,7 +1726,7 @@ namespace SupermarketTogetherKacker.menu
                 ascendAllText = "<color=red>OFF</color>: Ascend All";
             }
 
-            if (GUILayout.Button(ascendAllText, GUILayout.Height(30)))
+            if (GUILayout.Button(ascendAllText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (ascendAll)
                 {
@@ -1755,7 +1751,7 @@ namespace SupermarketTogetherKacker.menu
                 ascendOthersText = "<color=red>OFF</color>: Ascend Others";
             }
 
-            if (GUILayout.Button(ascendOthersText, GUILayout.Height(30)))
+            if (GUILayout.Button(ascendOthersText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (ascendOthers)
                 {
@@ -1768,7 +1764,7 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Ascend Others Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Give Most Perms", GUILayout.Height(30)))
+            if (GUILayout.Button("Give Most Perms", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject localPlayerObject = GameObject.Find("LocalGamePlayer");
                 
@@ -1795,7 +1791,7 @@ namespace SupermarketTogetherKacker.menu
                 theHoldingText = "<color=red>OFF</color>: The Holding";
             }
 
-            if (GUILayout.Button(theHoldingText, GUILayout.Height(30)))
+            if (GUILayout.Button(theHoldingText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (theHolding)
                 {
@@ -1820,7 +1816,7 @@ namespace SupermarketTogetherKacker.menu
                 theHoldingOthersText = "<color=red>OFF</color>: The Holding Others";
             }
 
-            if (GUILayout.Button(theHoldingOthersText, GUILayout.Height(30)))
+            if (GUILayout.Button(theHoldingOthersText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (theHoldingOthers)
                 {
@@ -1834,7 +1830,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
             
-            if (GUILayout.Button("Toggle All Checkouts", GUILayout.Height(30)))
+            if (GUILayout.Button("Toggle All Checkouts", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (Data_Container checkout in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
                 {
@@ -1861,7 +1857,7 @@ namespace SupermarketTogetherKacker.menu
                 checkoutSpazText = "<color=red>OFF</color>: Checkout Spaz";
             }
 
-            if (GUILayout.Button(checkoutSpazText, GUILayout.Height(30)))
+            if (GUILayout.Button(checkoutSpazText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (checkoutSpaz)
                 {
@@ -1874,7 +1870,7 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Checkout Spaz Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Force Close Lobby", GUILayout.Height(30)))
+            if (GUILayout.Button("Force Close Lobby", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (Data_Container dataContainer in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
                 {
@@ -1902,7 +1898,7 @@ namespace SupermarketTogetherKacker.menu
                 freeDestructionText = "<color=red>OFF</color>: Free Destruction";
             }
 
-            if (GUILayout.Button(freeDestructionText, GUILayout.Height(30)))
+            if (GUILayout.Button(freeDestructionText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (freeDestruction)
                 {
@@ -1915,7 +1911,7 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Free Destruction Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Force Close Lobby", GUILayout.Height(30)))
+            if (GUILayout.Button("Force Close Lobby", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (Data_Container dataContainer in FindObjectsByType<Data_Container>(FindObjectsSortMode.None))
                 {
@@ -1942,7 +1938,7 @@ namespace SupermarketTogetherKacker.menu
                 nothingSpammerText = "<color=red>OFF</color>: Nothing Spam";
             }
 
-            if (GUILayout.Button(nothingSpammerText, GUILayout.Height(30)))
+            if (GUILayout.Button(nothingSpammerText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (nothingSpammer)
                 {
@@ -1955,7 +1951,7 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("Nothing Spam Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Delete All Boxes", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete All Boxes", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (BoxData box in FindObjectsByType<BoxData>(FindObjectsSortMode.None))
                 {
@@ -1963,7 +1959,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Destroyed All Boxes", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Delete All Players", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete All Players", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (PlayerNetwork player in Mods.GetAllPlayers())
                 {
@@ -1971,7 +1967,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Destroyed All Players", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Delete All Networked Items", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete All Networked Items", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (NetworkIdentity item in FindObjectsByType<NetworkIdentity>(FindObjectsSortMode.None))
                 {
@@ -1979,7 +1975,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Destroyed All Networked Items", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Delete All Store Items", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete All Store Items", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (BoxData item in FindObjectsByType<BoxData>(FindObjectsSortMode.None))
                 {
@@ -1997,7 +1993,7 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Destroyed All Store Items", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Delete All Networked Items", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete All Networked Items", buttonStyle ,GUILayout.Height(25)))
             {
                 foreach (NetworkIdentity item in FindObjectsByType<NetworkIdentity>(FindObjectsSortMode.None))
                 {
@@ -2005,13 +2001,13 @@ namespace SupermarketTogetherKacker.menu
                 }
                 Notify.Send("Destroyed All Networked Items", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Delete UI", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete UI", buttonStyle ,GUILayout.Height(25)))
             {
                 Mods.DeleteObject(GameObject.Find("GameCanvas"));
                 Notify.Send("Destroyed UI", Notify.NotificationType.Success);
             }
             
-            if (GUILayout.Button("Delete Main Components", GUILayout.Height(30)))
+            if (GUILayout.Button("Delete Main Components", buttonStyle ,GUILayout.Height(25)))
             {
                 Mods.DeleteObject(GameObject.Find("NPC_Manager"));
                 Mods.DeleteObject(GameObject.Find("SceneManager"));
@@ -2031,20 +2027,44 @@ namespace SupermarketTogetherKacker.menu
                 Mods.DeleteObject(GameObject.Find("GameDataManager"));
                 Notify.Send("Destroyed UI", Notify.NotificationType.Success);
             }
+            string gapochanSpammerText;
+
+            if (nothingSpammer)
+            {
+                nothingSpammerText = "<color=green>ON</color>: Gapochan Spammer";
+            }
+            else
+            {
+                nothingSpammerText = "<color=red>OFF</color>: Gapochan Spammer";
+            }
+
+            if (GUILayout.Button(nothingSpammerText, buttonStyle ,GUILayout.Height(25)))
+            {
+                if (nothingSpammer)
+                {
+                    nothingSpammer = false;
+                    Notify.Send("Nothing Spam Disabled", Notify.NotificationType.Success);
+                }
+                else
+                {
+                    nothingSpammer = true;
+                    Notify.Send("Nothing Spam Enabled", Notify.NotificationType.Success);
+                }
+            }
         }
 
         void DisplayExtraMods()
         {
-            if (GUILayout.Button("No Tutorial", GUILayout.Height(30)))
+            if (GUILayout.Button("No Tutorial", buttonStyle, GUILayout.Height(25)))
             {
                 GameObject tutorialObject = GameObject.Find("GameCanvas/Tutorials");
 
                 tutorialObject.SetActive(false);
-                
+
                 Notify.Send("Hid Tutorial", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Scan All", GUILayout.Height(30)))
+            if (GUILayout.Button("Scan All", buttonStyle, GUILayout.Height(25)))
             {
                 ProductCheckoutSpawn[] allProducts = FindObjectsByType<ProductCheckoutSpawn>(FindObjectsSortMode.None);
 
@@ -2052,10 +2072,11 @@ namespace SupermarketTogetherKacker.menu
                 {
                     product.CmdAddProductValueToCheckout();
                 }
+
                 Notify.Send("Scanned All Products", Notify.NotificationType.Success);
             }
 
-            if (GUILayout.Button("Auto Checkout", GUILayout.Height(30)))
+            if (GUILayout.Button("Auto Checkout", buttonStyle, GUILayout.Height(25)))
             {
                 ProductCheckoutSpawn[] allProducts = FindObjectsByType<ProductCheckoutSpawn>(FindObjectsSortMode.None);
 
@@ -2077,9 +2098,13 @@ namespace SupermarketTogetherKacker.menu
                             //checkout.CmdActivateCreditCardMethod();
                             checkout.CmdReceivePayment(checkout.currentAmountToReturn);
                         }
-                    } catch(Exception){}
-                    
+                    }
+                    catch (Exception)
+                    {
+                    }
+
                 }
+
                 Notify.Send("Auto Checked Out", Notify.NotificationType.Success);
             }
 
@@ -2094,7 +2119,7 @@ namespace SupermarketTogetherKacker.menu
                 autoCheckoutText = "<color=red>OFF</color>: Break Checkout";
             }
 
-            if (GUILayout.Button(autoCheckoutText, GUILayout.Height(30)))
+            if (GUILayout.Button(autoCheckoutText, buttonStyle, GUILayout.Height(25)))
             {
                 if (autoCheckout)
                 {
@@ -2108,12 +2133,12 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            newUsername = GUILayout.TextField(newUsername, GUILayout.Height(30));
+            newUsername = GUILayout.TextField(newUsername, buttonStyle, GUILayout.Height(25));
 
-            if (GUILayout.Button("Set Name", GUILayout.Height(30)))
+            if (GUILayout.Button("Set Name", buttonStyle, GUILayout.Height(25)))
             {
                 Mods.SetPlayerName(newUsername);
-                Notify.Send("Player name set to "+newUsername, Notify.NotificationType.Success);
+                Notify.Send("Player name set to " + newUsername, Notify.NotificationType.Success);
             }
 
             string coolHeckerText;
@@ -2127,7 +2152,7 @@ namespace SupermarketTogetherKacker.menu
                 coolHeckerText = "<color=red>OFF</color>: Cool Hecker";
             }
 
-            if (GUILayout.Button(coolHeckerText, GUILayout.Height(30)))
+            if (GUILayout.Button(coolHeckerText, buttonStyle, GUILayout.Height(25)))
             {
                 if (coolHeckerButton)
                 {
@@ -2141,7 +2166,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Grab All Stollen", GUILayout.Height(30)))
+            if (GUILayout.Button("Grab All Stollen", buttonStyle, GUILayout.Height(25)))
             {
                 StolenProductSpawn[] allCheckouts = FindObjectsByType<StolenProductSpawn>(FindObjectsSortMode.None);
 
@@ -2149,6 +2174,7 @@ namespace SupermarketTogetherKacker.menu
                 {
                     checkout.CmdRecoverStolenProduct();
                 }
+
                 Notify.Send("Grabbed all Stolen Productws", Notify.NotificationType.Success);
             }
 
@@ -2163,7 +2189,7 @@ namespace SupermarketTogetherKacker.menu
                 antiCrashText = "<color=red>OFF</color>: Anti Crash";
             }
 
-            if (GUILayout.Button(antiCrashText, GUILayout.Height(30)))
+            if (GUILayout.Button(antiCrashText, buttonStyle, GUILayout.Height(25)))
             {
                 if (antiCrash)
                 {
@@ -2177,24 +2203,24 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Unlock FPS", GUILayout.Height(30)))
+            if (GUILayout.Button("Unlock FPS", buttonStyle, GUILayout.Height(25)))
             {
                 Application.targetFrameRate = 999999999;
                 QualitySettings.vSyncCount = 0;
                 Notify.Send("Unlocked FPS", Notify.NotificationType.Success);
             }
-            
-            if (GUILayout.Button("Force Save", GUILayout.Height(30)))
+
+            if (GUILayout.Button("Force Save", buttonStyle, GUILayout.Height(25)))
             {
                 GameObject SceneManager = GameObject.Find("SceneManager");
-                
+
                 SaveBehaviour saveBehaviour = SceneManager.gameObject.GetComponent<SaveBehaviour>();
-                
+
                 saveBehaviour.SavePersistentValues();
-                
+
                 Notify.Send("Forced Save", Notify.NotificationType.Success);
             }
-            
+
             string fpsBoosterText;
 
             if (FPSBoostCrap.fpsBoost)
@@ -2206,7 +2232,7 @@ namespace SupermarketTogetherKacker.menu
                 fpsBoosterText = "<color=red>OFF</color>: FPS Boost";
             }
 
-            if (GUILayout.Button(fpsBoosterText, GUILayout.Height(30)))
+            if (GUILayout.Button(fpsBoosterText, buttonStyle, GUILayout.Height(25)))
             {
                 if (FPSBoostCrap.fpsBoost)
                 {
@@ -2221,13 +2247,14 @@ namespace SupermarketTogetherKacker.menu
                     Notify.Send("FPS Boost Enabled", Notify.NotificationType.Success);
                 }
             }
-            if (GUILayout.Button("Clear Notifications", GUILayout.Height(30)))
+
+            if (GUILayout.Button("Clear Notifications", buttonStyle, GUILayout.Height(25)))
             {
                 Notify.ClearNotifications();
             }
 
             string toggleNotificationsText;
-            
+
             if (Notify.enabled)
             {
                 toggleNotificationsText = "<color=green>ON</color>: Notifications";
@@ -2237,7 +2264,7 @@ namespace SupermarketTogetherKacker.menu
                 toggleNotificationsText = "<color=red>OFF</color>: Notifications";
             }
 
-            if (GUILayout.Button(toggleNotificationsText, GUILayout.Height(30)))
+            if (GUILayout.Button(toggleNotificationsText, buttonStyle, GUILayout.Height(25)))
             {
                 if (Notify.enabled)
                 {
@@ -2248,6 +2275,14 @@ namespace SupermarketTogetherKacker.menu
                 {
                     Notify.enabled = true;
                     Notify.Send("Notifications Enabled", Notify.NotificationType.Success);
+                }
+            }
+
+            if (GUILayout.Button("Get All Achievements", buttonStyle, GUILayout.Height(25)))
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    Mods.GiveAchievement(i);
                 }
             }
         }
@@ -2265,7 +2300,7 @@ namespace SupermarketTogetherKacker.menu
                 spamHitNPCsText = "<color=red>OFF</color>: Spam Hit NPCs";
             }
 
-            if (GUILayout.Button(spamHitNPCsText, GUILayout.Height(30)))
+            if (GUILayout.Button(spamHitNPCsText, buttonStyle ,GUILayout.Height(25)))
             {
                 if (spamHitNPCs)
                 {
@@ -2279,7 +2314,7 @@ namespace SupermarketTogetherKacker.menu
                 }
             }
 
-            if (GUILayout.Button("Hit NPCs", GUILayout.Height(30)))
+            if (GUILayout.Button("Hit NPCs", buttonStyle ,GUILayout.Height(25)))
             {
                 NPC_Info[] allNPCs = FindObjectsByType<NPC_Info>(FindObjectsSortMode.None);
 
@@ -2305,7 +2340,7 @@ namespace SupermarketTogetherKacker.menu
 
                             if (!playerObjectController.isLocalPlayer)
                             {
-                                if (GUILayout.Button(playerObjectController.NetworkPlayerName, GUILayout.Height(30)))
+                                if (GUILayout.Button(playerObjectController.NetworkPlayerName, buttonStyle ,GUILayout.Height(25)))
                                 {
                                     selectedPlayer = player;
                                     Notify.Send("Targeting "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
@@ -2313,7 +2348,7 @@ namespace SupermarketTogetherKacker.menu
                             }
                             else
                             {
-                                if (GUILayout.Button("Your Self", GUILayout.Height(30)))
+                                if (GUILayout.Button("Your Self", buttonStyle ,GUILayout.Height(25)))
                                 {
                                     selectedPlayer = player;
                                     Notify.Send("Targeting your self", Notify.NotificationType.Success);
@@ -2334,17 +2369,17 @@ namespace SupermarketTogetherKacker.menu
                         PlayerObjectController playerObjectController = selectedPlayer.GetComponent<PlayerObjectController>();
                         PlayerSyncCharacter playerSyncController = selectedPlayer.GetComponent<PlayerSyncCharacter>();
 
-                        if (GUILayout.Button("Go Back", GUILayout.Height(30)))
+                        if (GUILayout.Button("Go Back", buttonStyle ,GUILayout.Height(25)))
                         {
                             selectedPlayer = null;
                         }
                         
-                        if (GUILayout.Button("Open Steam Profile Info", GUILayout.Height(30)))
+                        if (GUILayout.Button("Open Steam Profile Info", buttonStyle ,GUILayout.Height(25)))
                         {
                             Application.OpenURL("https://steamdb.info/calculator/" + selectedPlayer.GetComponent<PlayerObjectController>().NetworkPlayerSteamID);
                         }
                         
-                        if (GUILayout.Button("TP to Player", GUILayout.Height(30)))
+                        if (GUILayout.Button("TP to Player", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(playerObject.transform.position.x, playerObject.transform.position.y, playerObject.transform.position.z+2);      
                             
@@ -2353,7 +2388,7 @@ namespace SupermarketTogetherKacker.menu
                             Notify.Send("TPed to "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
                         }
                         
-                        if (GUILayout.Button("Bring Player", GUILayout.Height(30)))
+                        if (GUILayout.Button("Bring Player", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(localPlayer.transform.position.x, localPlayer.transform.position.y, localPlayer.transform.position.z+2);      
                             
@@ -2362,7 +2397,7 @@ namespace SupermarketTogetherKacker.menu
                             Notify.Send("Brought "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
                         } 
                         
-                        if (GUILayout.Button("Bring Player Out of Map", GUILayout.Height(30)))
+                        if (GUILayout.Button("Bring Player Out of Map", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(33, 0, 135);      
                             
@@ -2371,7 +2406,7 @@ namespace SupermarketTogetherKacker.menu
                             Notify.Send("Brought "+playerObjectController.NetworkPlayerName, Notify.NotificationType.Success);
                         }
                         
-                        if (GUILayout.Button("Break Camera", GUILayout.Height(30)))
+                        if (GUILayout.Button("Break Camera", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(100000000000, 100000000000, 100000000000);      
                             
@@ -2380,7 +2415,7 @@ namespace SupermarketTogetherKacker.menu
                             Notify.Send("Broke "+playerObjectController.NetworkPlayerName+" camera", Notify.NotificationType.Success);
                         }
                         
-                        if (GUILayout.Button("Break + Freeze Camera", GUILayout.Height(30)))
+                        if (GUILayout.Button("Break + Freeze Camera", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(10000000000000000, 10000000000000000, 10000000000000000);      
                             
@@ -2389,7 +2424,7 @@ namespace SupermarketTogetherKacker.menu
                             Notify.Send("Broke + froze "+playerObjectController.NetworkPlayerName+" camera", Notify.NotificationType.Success);
                         }
                         
-                        if (GUILayout.Button("Camera Fixer (Broken for normal freezer)", GUILayout.Height(30)))
+                        if (GUILayout.Button("Camera Fixer (Broken for normal freezer)", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(0, 0, 0);
 
@@ -2407,7 +2442,7 @@ namespace SupermarketTogetherKacker.menu
                             }
                         }
                         
-                        if (GUILayout.Button("Freeze Camera", GUILayout.Height(30)))
+                        if (GUILayout.Button("Freeze Camera", buttonStyle ,GUILayout.Height(25)))
                         {
                             Vector3 SpawnPosition = new Vector3(float.NaN, float.NaN, float.NaN);      
                             
@@ -2416,7 +2451,7 @@ namespace SupermarketTogetherKacker.menu
                             Notify.Send("Froze "+playerObjectController.NetworkPlayerName+"'s camera", Notify.NotificationType.Success);
                         }
                         
-                        if (GUILayout.Button("Destroy Player", GUILayout.Height(30)))
+                        if (GUILayout.Button("Destroy Player", buttonStyle ,GUILayout.Height(25)))
                         {
                             Mods.DestroyObject(selectedPlayer.gameObject);
                         }
@@ -2432,7 +2467,7 @@ namespace SupermarketTogetherKacker.menu
                             ascendTargetText = "<color=red>OFF</color>: Ascend Player";
                         }
 
-                        if (GUILayout.Button(ascendTargetText, GUILayout.Height(30)))
+                        if (GUILayout.Button(ascendTargetText, buttonStyle ,GUILayout.Height(25)))
                         {
                             if (ascentTarget)
                             {
@@ -2457,7 +2492,7 @@ namespace SupermarketTogetherKacker.menu
                             waterSpammerText = "<color=red>OFF</color>: Water Spammer";
                         }
 
-                        if (GUILayout.Button(waterSpammerText, GUILayout.Height(30)))
+                        if (GUILayout.Button(waterSpammerText, buttonStyle ,GUILayout.Height(25)))
                         {
                             if (waterSpammerPlayerSelected)
                             {
@@ -2481,7 +2516,7 @@ namespace SupermarketTogetherKacker.menu
                             theHoldingText = "<color=red>OFF</color>: The Holding";
                         }
 
-                        if (GUILayout.Button(theHoldingText, GUILayout.Height(30)))
+                        if (GUILayout.Button(theHoldingText, buttonStyle ,GUILayout.Height(25)))
                         {
                             if (theHoldingPlayerSelected)
                             {
@@ -2505,7 +2540,7 @@ namespace SupermarketTogetherKacker.menu
                             spamHitText = "<color=red>OFF</color>: Spam Hit";
                         }
 
-                        if (GUILayout.Button(spamHitText, GUILayout.Height(30)))
+                        if (GUILayout.Button(spamHitText, buttonStyle ,GUILayout.Height(25)))
                         {
                             if (spamHitSelected)
                             {
@@ -2529,7 +2564,7 @@ namespace SupermarketTogetherKacker.menu
                             disableMovementText = "<color=red>OFF</color>: Disable Movement";
                         }
 
-                        if (GUILayout.Button(disableMovementText, GUILayout.Height(30)))
+                        if (GUILayout.Button(disableMovementText, buttonStyle ,GUILayout.Height(25)))
                         {
                             if (disableMovementSelected)
                             {
@@ -2645,7 +2680,7 @@ namespace SupermarketTogetherKacker.menu
         
         void DisplayDebugMods()
         {
-            if (GUILayout.Button("Dump Lobby Data", GUILayout.Height(30)))
+            if (GUILayout.Button("Dump Lobby Data", buttonStyle ,GUILayout.Height(25)))
             {
                 GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");
                 SteamLobby steamLobby = onlineNetworkManager.GetComponent<SteamLobby>();
@@ -2669,7 +2704,7 @@ namespace SupermarketTogetherKacker.menu
                 filestuff.WriteToFile("lobby_data_dump_"+steamLobby.CurrentLobbyIDStr+".txt", text);
                 Notify.Send("Dumped Lobby Data", Notify.NotificationType.Success);
             }
-            if (GUILayout.Button("Dump Product IDs", GUILayout.Height(30)))
+            if (GUILayout.Button("Dump Product IDs", buttonStyle ,GUILayout.Height(25)))
             {
                 
                 GameObject onlineNetworkManager = GameObject.Find("OnlineNetworkManager");

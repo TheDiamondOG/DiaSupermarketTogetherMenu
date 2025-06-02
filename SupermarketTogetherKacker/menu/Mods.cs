@@ -157,25 +157,62 @@ namespace SupermarketTogetherKacker.menu
             return playerObject;
         }
         
-        public static bool CheckForUpdates()
+        public static Texture2D MakeTex(int width, int height, Color col)
         {
-            try
-            {
-                using UnityWebRequest webRequest = UnityWebRequest.Get("https://raw.githubusercontent.com/TheDiamondOG/DiaSupermarketTogetherMenu/refs/heads/master/SupermarketTogetherKacker/version.txt");
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
 
-                if (PluginInfo.Version == webRequest.downloadHandler.text)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception)
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
+        
+        public static void GiveAchievement(int index)
+        {
+            Type type = typeof(AchievementsManager);
+
+            MethodInfo privateMethod = type.GetMethod("SetSteamAchievement", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            object[] parameters = { index };
+
+            privateMethod.Invoke(AchievementsManager.Instance, parameters);
+        }
+
+        public static void SpawnPrefab(int index, Vector3 position, Vector3 rotation, PrefabType type)
+        {
+            if (type == PrefabType.Normal)
             {
-                return true;
+                GameObject gameDataObject = GameObject.Find("GameDataManager");
+
+                NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
+            
+                networkSpawner.CmdSpawn(index, position, rotation);
             }
+            if (type == PrefabType.Prop)
+            {
+                GameObject gameDataObject = GameObject.Find("GameDataManager");
+
+                NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
+            
+                networkSpawner.CmdSpawnProp(index, position, rotation);
+            }
+            if (type == PrefabType.Decoration)
+            {
+                GameObject gameDataObject = GameObject.Find("GameDataManager");
+
+                NetworkSpawner networkSpawner = gameDataObject.GetComponent<NetworkSpawner>();
+            
+                networkSpawner.CmdSpawnDecoration(index, position, rotation);
+            }
+        }
+
+        public enum PrefabType
+        {
+            Normal,
+            Prop,
+            Decoration
         }
     }
 }

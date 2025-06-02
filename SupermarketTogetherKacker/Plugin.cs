@@ -18,7 +18,7 @@ namespace SupermarketTogetherKacker
     [BepInPlugin(PluginInfo.GUID, PluginInfo.Name, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
-        private GameObject menuObject = new GameObject();
+        public static GameObject menuObject = new GameObject();
         
         private void Awake()
         {
